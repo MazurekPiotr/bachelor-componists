@@ -13,7 +13,17 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('users', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name')->unique();
+            $table->string('email')->unique();
+            $table->text('avatar')->nullable();
+            $table->enum('role', ['user', 'moderator', 'admin']);
+            $table->string('password');
+            $table->datetime('last_activity')->default(\Carbon\Carbon::now());
+            $table->rememberToken();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -23,6 +33,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('users');
     }
 }

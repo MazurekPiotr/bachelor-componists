@@ -13,7 +13,17 @@ class CreateMessagesTable extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('messages', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('sender_id')->unsigned();
+            $table->integer('recipient_id')->unsigned();
+            $table->boolean('read')->default(0);
+            $table->text('content');
+            $table->timestamps();
+
+            $table->foreign('sender_id')->references('id')->on('users');
+            $table->foreign('recipient_id')->references('id')->on('users');
+        });
     }
 
     /**
@@ -23,6 +33,6 @@ class CreateMessagesTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('messages');
     }
 }

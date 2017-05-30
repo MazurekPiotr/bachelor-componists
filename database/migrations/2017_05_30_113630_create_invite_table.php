@@ -13,7 +13,13 @@ class CreateInviteTable extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('invites', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('email');
+            $table->enum('role', ['user', 'moderator', 'admin']);
+            $table->text('code');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -23,6 +29,6 @@ class CreateInviteTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('invites');
     }
 }
