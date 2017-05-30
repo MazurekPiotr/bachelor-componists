@@ -13,8 +13,32 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\Event' => [
-            'App\Listeners\EventListener',
+        'App\Events\UserPostedOnTopic' => [
+            'App\Listeners\SendTopicSubscribersPostEmail',
+        ],
+        'App\Events\UserSubscribedToTopic' => [
+            'App\Listeners\SendTopicOwnerSubscriptionCreatedEmail',
+        ],
+        'App\Events\TopicReported' => [
+            'App\Listeners\SendModeratorsTopicReportedEmail',
+        ],
+        'App\Events\PostReported' => [
+            'App\Listeners\SendModeratorsPostReportedEmail',
+        ],
+        'App\Events\TopicDeleted' => [
+            'App\Listeners\SendTopicOwnerTopicDeletedEmail',
+        ],
+        'App\Events\PostDeleted' => [
+            'App\Listeners\SendPostOwnerPostDeletedEmail',
+        ],
+        'App\Events\UserRoleModified' => [
+            'App\Listeners\SendUserRoleModifiedEmail',
+        ],
+        'App\Events\UsersMentioned' => [
+            'App\Listeners\SendUsersMentionedEmail',
+        ],
+        'App\Events\UserHasViewedMessagesFromSender' => [
+            'App\Listeners\UpdateReadFlagOnMessagesForGivenSender',
         ],
     ];
 

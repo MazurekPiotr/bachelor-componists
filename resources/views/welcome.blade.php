@@ -1,5 +1,5 @@
-<!doctype html>
-<html lang="{{ config('app.locale') }}">
+<!DOCTYPE html>
+<html lang="en">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -79,15 +79,11 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    Componists
                 </div>
 
                 <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                    <a href="{{ route('forum.topics.index') }}">Get Started</a>
                 </div>
             </div>
         </div>

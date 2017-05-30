@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
-use JavaScript;
+use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -20,13 +19,17 @@ class HomeController extends Controller
     /**
      * Show the application dashboard.
      *
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index (Request $request)
     {
-        Javascript::put([
-            'name' => Auth::user()->name
+        $user = $request->user();
+
+        $topics = $user->topics()->orderBy('created_at', 'desc')->get();
+
+        return view('home', [
+            'topics' => $topics,
         ]);
-        return view('home');
     }
 }
