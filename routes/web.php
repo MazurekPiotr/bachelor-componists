@@ -29,29 +29,24 @@ Route::group(['middleware' => ['log.activity']], function() {
         // general auth routing
         Route::get('/home', 'HomeController@index')->name('home.index');
 
-        Route::group(['prefix' => 'forum'], function() {
-            // auth forum routes
-            // topics
-            Route::get('/topics/create', 'TopicsController@showCreateForm')->name('forum.topics.create.form');
-            Route::post('/topics/create', 'TopicsController@create')->name('forum.topics.create.submit');
+        Route::group(['prefix' => 'componists'], function() {
+            Route::get('/projects/create', 'ProjectsController@showCreateForm')->name('componists.projects.create.form');
+            Route::post('/projects/create', 'ProjectsController@create')->name('componists.projects.create.submit');
 
-            // subscriptions
-            Route::get('/topics/{topic}/subscription/status', 'SubscriptionsController@getSubscriptionStatus')->name('forum.topics.topic.subscription.status');
-            Route::post('/topics/{topic}/subscription', 'SubscriptionsController@handleSubscription')->name('forum.topics.topic.subscription.submit');
+            Route::get('/projects/{project}/subscription/status', 'SubscriptionsController@getSubscriptionStatus')->name('componists.projects.project.subscription.status');
+            Route::post('/projects/{project}/subscription', 'SubscriptionsController@handleSubscription')->name('componists.projects.project.subscription.submit');
 
-            // posts
-            Route::post('/topics/{topic}/posts/create', 'PostsController@create')->name('forum.topics.posts.create.submit');
-            Route::get('/topics/{topic}/posts/{post}/edit', 'PostsController@edit')->name('forum.topics.topic.posts.post.edit');
-            Route::post('/topics/{topic}/posts/{post}/update', 'PostsController@update')->name('forum.topics.topic.posts.post.update');
-            Route::delete('/topics/{topic}/posts/{post}/delete', 'PostsController@destroy')->name('forum.topics.topic.posts.post.delete');
+            Route::post('/projects/{project}/fragments/create', 'FragmentsController@create')->name('componists.projects.fragments.create.submit');
+            Route::get('/projects/{project}/fragments/{fragment}/edit', 'FragmentsController@edit')->name('componists.projects.project.fragments.post.edit');
+            Route::post('/projects/{project}/fragments/{fragment}/update', 'FragmentsController@update')->name('componists.projects.project.fragments.post.update');
+            Route::delete('/projects/{project}/fragments/{fragment}/delete', 'FragmentsController@destroy')->name('componists.projects.project.fragments.post.delete');
 
-            // reports
-            Route::post('/topics/{topic}/report', 'TopicsReportController@report')->name('forum.topics.topic.report.report');
-            Route::post('/topics/{topic}/posts/{post}/report', 'PostsReportController@report')->name('forum.topics.topic.posts.post.report.report');
+            Route::post('/projects/{project}/report', 'ProjectsReportController@report')->name('componists.projects.project.report.report');
+            Route::post('/projects/{project}/fragments/{fragment}/report', 'FragmentsReportController@report')->name('componists.projects.project.fragments.post.report.report');
 
             // auth.elevated refers to moderator || admin roles
             Route::group(['middleware' => ['auth.elevated']], function() {
-                Route::delete('/topics/{topic}', 'TopicsController@destroy')->name('forum.topics.topic.delete');
+                Route::post('/projects/{project}', 'ProjectsController@destroy')->name('componists.projects.project.delete');
             });
         });
 
@@ -94,15 +89,12 @@ Route::group(['middleware' => ['log.activity']], function() {
 
     });
 
-    // public forum routing
-    Route::group(['prefix' => 'forum'], function() {
-        // view topics and topic posts
-        Route::get('/', 'TopicsController@index')->name('forum.topics.index');
-        Route::get('/topics/{topic}', 'TopicsController@show')->name('forum.topics.topic.show');
+    Route::group(['prefix' => 'projects'], function() {
+        Route::get('/', 'ProjectsController@index')->name('componists.projects.index');
+        Route::get('/{project}', 'ProjectsController@show')->name('componists.projects.project.show');
 
-        // check status of content, in relation to reporting
-        Route::get('/topics/{topic}/report/status', 'TopicsReportController@status')->name('forum.topics.topic.report.status');
-        Route::get('/topics/{topic}/posts/{post}/report/status', 'PostsReportController@status')->name('forum.topics.topic.posts.post.report.status');
+        Route::get('/{project}/report/status', 'ProjectsReportController@status')->name('componists.projects.project.report.status');
+        Route::get('/{project}/fragments/{fragment}/report/status', 'FragmentsReportController@status')->name('componists.projects.project.fragments.post.report.status');
     });
 
 });

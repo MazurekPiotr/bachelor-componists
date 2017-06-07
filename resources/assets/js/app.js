@@ -16,8 +16,8 @@ var VueResource = require('vue-resource');
 
 Vue.component('modify-users', require('./components/AdminModifyUsersComponent.vue'));
 Vue.component('subscribe-button', require('./components/SubscribeButtonComponent.vue'));
-Vue.component('report-topic-button', require('./components/ReportTopicComponent.vue'));
-Vue.component('report-post-button', require('./components/ReportPostComponent.vue'));
+Vue.component('report-project-button', require('./components/ReportProjectComponent.vue'));
+Vue.component('report-fragment-button', require('./components/ReportFragmentComponent.vue'));
 Vue.component('delete-report', require('./components/ModeratorDeleteReportButtonComponent.vue'));
 Vue.component('messaging', require('./components/UserMessagingComponent.vue'));
 

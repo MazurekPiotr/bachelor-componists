@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
-use App\Post;
-use App\Topic;
-use App\Policies\PostPolicy;
-use App\Policies\TopicPolicy;
+use App\Fragment;
+use App\Project;
+use App\Policies\ProjectPolicy;
+use App\Policies\FragmentPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -18,8 +18,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         'App\Model' => 'App\Policies\ModelPolicy',
-        Topic::class => TopicPolicy::class,
-        Post::class => PostPolicy::class,
+        Project::class => FragmentPolicy::class,
+        Fragment::class => ProjectPolicy::class,
     ];
 
     /**

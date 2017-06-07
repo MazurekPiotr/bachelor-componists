@@ -17,13 +17,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class ProfileSettingsController extends Controller
 {
-    /**
-     * Display's User profile.
-     *
-     * @param  Illuminate\Http\Request  $request
-     * @param  App\User                 $user
-     * @return Illuminate\Http\Response
-     */
+
     public function index (Request $request, User $user)
     {
         // if it's not the current user's profile, let's abort!
@@ -37,13 +31,6 @@ class ProfileSettingsController extends Controller
         ]);
     }
 
-    /**
-     * Update user's avatar and/ or password.
-     *
-     * @param  App\Http\Requests\ProfileSettingsFormRequest $request
-     * @param  App\User                                     $user
-     * @return Illuminate\Http\Response
-     */
     public function update (ProfileSettingsFormRequest $request, User $user)
     {
         // if it's not the current user's profile, let's abort!
@@ -67,7 +54,6 @@ class ProfileSettingsController extends Controller
             $uploadImg = $img->stream()->detach();
 
             Storage::disk('s3')->put('/avatars/'. $user->id .'/avatar.jpg', $uploadImg, 'public');
-                    //File::delete($path); -- not working
 
             $user->avatar = $fileName;
             $user->save();

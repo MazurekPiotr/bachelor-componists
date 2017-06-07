@@ -31,7 +31,7 @@ class UserSubscribedToTopic extends Mailable
     public function build()
     {
         return $this->view('mail.subscribed', [
-            'topic' => $this->topic,
+            'project' => $this->topic,
         ]);
     }
 }

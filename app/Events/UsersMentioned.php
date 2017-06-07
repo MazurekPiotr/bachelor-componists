@@ -2,8 +2,8 @@
 
 namespace App\Events;
 
-use App\Post;
-use App\Topic;
+use App\Fragment;
+use App\Project;
 use Illuminate\Support\Collection;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
@@ -17,18 +17,18 @@ class UsersMentioned
     use InteractsWithSockets, SerializesModels;
 
     public $users;
-    public $topic;
-    public $post;
+    public $project;
+    public $fragment;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Collection $users, Topic $topic, Post $post)
+    public function __construct(Collection $users, Project $project, Fragment $fragment)
     {
         $this->users = $users;
-        $this->topic = $topic;
-        $this->post = $post;
+        $this->project = $project;
+        $this->fragment = $fragment;
     }
 
     /**

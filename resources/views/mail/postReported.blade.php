@@ -1,5 +1,5 @@
 <p>
-    The following post has been reported on the {{ env('APP_NAME') }}: <a href="{{ env('APP_URL') . '/forum/topics/' . $topic->slug . '#post-' . $post->id }}">{{ (strlen($post->body) > 25) ? str_limit($post->body, 24) . '&hellip;' : $post->body }}</a>
+    The following post has been reported on the {{ env('APP_NAME') }}: <a href="{{ env('APP_URL') . 'componists' . $topic->slug . '#post-' . $post->id }}">{{ (strlen($post->body) > 25) ? str_limit($post->body, 24) . '&hellip;' : $post->body }}</a>
 </p>
 <p>
     Please moderate the above post by editing it or deleting it. Make sure you also check your moderator dashboard: <a href="{{ env('APP_URL') . '/moderator/dashboard/' }}">Moderator Dashboard</a> for any other topics or posts that need moderating and to clear the moderation related to this email.

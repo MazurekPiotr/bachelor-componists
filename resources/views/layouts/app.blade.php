@@ -51,7 +51,7 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        <li><a href="{{ route('forum.topics.index') }}">All Topics</a></li>
+                        <li><a href="{{ route('componists.projects.index') }}">All Topics</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->

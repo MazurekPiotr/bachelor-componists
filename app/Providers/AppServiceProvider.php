@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
+use App\Project;
 use Hash;
 use App\User;
-use App\Topic;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Validator;
 
@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
         });
         Validator::extend('unique_slug_title', function($attributes, $value, $parameters) {
             // checks if slug'ified version of the title is unique, compared to existing slugs
-            return ! Topic::where('slug', str_slug(mb_strimwidth($value, 0, 255), '-'))->first();
+            return ! Project::where('slug', str_slug(mb_strimwidth($value, 0, 255), '-'))->first();
         });
         Validator::extend('user_exists', function($attributes, $value, $parameters) {
             // gets the 1st @username in the value being checked and returns the user, if it exists

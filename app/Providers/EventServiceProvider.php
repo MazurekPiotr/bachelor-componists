@@ -13,23 +13,20 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\UserPostedOnTopic' => [
-            'App\Listeners\SendTopicSubscribersPostEmail',
+        'App\Events\UserPostedOnProject' => [
+            'App\Listeners\SendProjectSubscribersPostEmail',
         ],
         'App\Events\UserSubscribedToTopic' => [
-            'App\Listeners\SendTopicOwnerSubscriptionCreatedEmail',
+            'App\Listeners\SendProjectOwnerSubscriptionCreatedEmail',
         ],
-        'App\Events\TopicReported' => [
-            'App\Listeners\SendModeratorsTopicReportedEmail',
+        'App\Events\ProjectReported' => [
+            'App\Listeners\SendModeratorsProjectReportedEmail',
         ],
-        'App\Events\PostReported' => [
-            'App\Listeners\SendModeratorsPostReportedEmail',
+        'App\Events\FragmentReported' => [
+            'App\Listeners\SendModeratorsFragmentReportedEmail',
         ],
-        'App\Events\TopicDeleted' => [
-            'App\Listeners\SendTopicOwnerTopicDeletedEmail',
-        ],
-        'App\Events\PostDeleted' => [
-            'App\Listeners\SendPostOwnerPostDeletedEmail',
+        'App\Events\FragmentDeleted' => [
+            'App\Listeners\SendFragmentOwnerFragmentDeletedEmail',
         ],
         'App\Events\UserRoleModified' => [
             'App\Listeners\SendUserRoleModifiedEmail',

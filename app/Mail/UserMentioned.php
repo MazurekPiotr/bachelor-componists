@@ -35,7 +35,7 @@ class UserMentioned extends Mailable
     public function build()
     {
         return $this->view('mail.userMentioned', [
-            'topic' => $this->topic,
+            'project' => $this->topic,
             'post' => $this->post,
         ]);
     }

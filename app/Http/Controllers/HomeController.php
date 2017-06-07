@@ -26,10 +26,10 @@ class HomeController extends Controller
     {
         $user = $request->user();
 
-        $topics = $user->topics()->orderBy('created_at', 'desc')->get();
+        $projects = $user->projects()->orderBy('created_at', 'desc')->get();
 
         return view('home', [
-            'topics' => $topics,
+            'projects' => $projects,
         ]);
     }
 }

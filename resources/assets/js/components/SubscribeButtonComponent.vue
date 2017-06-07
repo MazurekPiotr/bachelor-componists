@@ -15,12 +15,13 @@
         },
         methods: {
             update() {
-                return this.$http.post('/forum/topics/' + this.topicSlug + '/subscription').then((response) => {
+                console.log('update');
+                return this.$http.post('/componists/projects/' + this.topicSlug + '/subscription').then((response) => {
                     this.getStatus();
                 });
             },
             getStatus() {
-                return this.$http.get('/forum/topics/' + this.topicSlug + '/subscription/status').then((response) => {
+                return this.$http.get('/componists/projects/' + this.topicSlug + '/subscription/status').then((response) => {
                     if (response !== null) {
                         if (response.body === '1') {
                             // subscribed

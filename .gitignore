@@ -10,3 +10,5 @@ Homestead.yaml
 npm-debug.log
 .env
 .idea
+storage/ff/*
+storage/fragments/*

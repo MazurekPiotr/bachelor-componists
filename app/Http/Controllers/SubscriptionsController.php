@@ -2,27 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Project;
 use App\User;
-use App\Topic;
 use App\Subscription;
-use App\Events\UserSubscribedToTopic;
+use App\Events\UserSubscribedToProject;
 use Illuminate\Http\Request;
 
 class SubscriptionsController extends Controller
 {
 
-    /**
-     * Returns a user's subscription status, regarding a given Topic.
-     * Utilized by SubscribeButtonComponent Vue component.
-     *
-     * @param  Illuminate\Http\Request  $request
-     * @param  App\Topic                $topic
-     * @return Illuminate\Http\Response
-     */
-    public function getSubscriptionStatus (Request $request, Topic $topic)
+    public function getSubscriptionStatus (Request $request, Project $project)
     {
         $user = $request->user();
-        $subscription = $user->isSubscribedTo($topic);
+        $subscription = $user->isSubscribedTo($project);
 
         if ($subscription !== null) {
             // was already a subscription, send back the subscription status
@@ -33,17 +25,10 @@ class SubscriptionsController extends Controller
         return null;
     }
 
-    /**
-     * Subscribes or unsubscribes a User from a Topic (SubscribeButtonComponent Vue component).
-     *
-     * @param  Illuminate\Http\Request  $request
-     * @param  App\Topic                $topic
-     * @return Illuminate\Http\Response
-     */
-    public function handleSubscription (Request $request, Topic $topic)
+    public function handleSubscription (Request $request, Project $project)
     {
         $user = $request->user();
-        $subscription = $user->isSubscribedTo($topic);
+        $subscription = $user->isSubscribedTo($project);
 
         if ($subscription !== null) {
             // subscription exists, but can be either subscribed or unsubscribed
@@ -55,14 +40,14 @@ class SubscriptionsController extends Controller
         } else {
             // wasn't subscribed
             $subscription = new Subscription();
-            $subscription->topic_id = $topic->id;
+            $subscription->project_id = $project->id;
             $subscription->user_id = $user->id;
             $subscription->subscribed = 1;
         }
         $subscription->save();
 
         if ($subscription->subscribed === 1) {
-            event(new UserSubscribedToTopic($topic));
+            event(new UserSubscribedToProject($project));
         }
 
         return response()->json(null, 200);

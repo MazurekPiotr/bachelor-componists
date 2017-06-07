@@ -83,7 +83,7 @@
                 </div>
 
                 <div class="links">
-                    <a href="{{ route('forum.topics.index') }}">Get Started</a>
+                    <a href="{{ route('componists.projects.index') }}">Get Started</a>
                 </div>
             </div>
         </div>

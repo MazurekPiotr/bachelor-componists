@@ -13,19 +13,19 @@
             <div class="panel panel-default">
                 <div class="panel-heading">My topics</div>
                 <div class="panel-body" style="text-align: center">
-                    <a href="{{ route('forum.topics.create.form') }}" class="btn btn-primary btn-block">Create a topic</a>
+                    <a href="{{ route('componists.projects.create.form') }}" class="btn btn-primary btn-block">Create a topic</a>
                     <br />
                     <ul class="list-group">
-                        @if (count($topics))
-                            @foreach ($topics as $topic)
+                        @if (count($projects))
+                            @foreach ($projects as $project)
                                 <li class="list-group-item">
-                                    <a href="/forum/topics/{{ $topic->slug }}">{{ $topic->title }} <span class="badge">{{ $topic->postCount() }}</span></a>
+                                    <a href="/projects/{{ $project->slug }}">{{ $project->title }} <span class="badge">{{ $project->postCount() }}</span></a>
                                     <br />
-                                    <strong>Created</strong> {{ Carbon\Carbon::createFromTimeStamp(strtotime($topic->created_at))->diffForHumans() }}
+                                    <strong>Created</strong> {{ Carbon\Carbon::createFromTimeStamp(strtotime($project->created_at))->diffForHumans() }}
                                     <br />
-                                    <strong>Last post</strong> {{ Carbon\Carbon::createFromTimeStamp(strtotime($topic->updated_at))->diffForHumans() }}
-                                    @can ('delete', $topic)
-                                        <form action="{{ route('forum.topics.topic.delete', $topic) }}" method="post">
+                                    <strong>Last post</strong> {{ Carbon\Carbon::createFromTimeStamp(strtotime($project->updated_at))->diffForHumans() }}
+                                    @can ('delete', $project)
+                                        <form action="{{ route('componists.projects.project.delete', $project) }}" method="post">
                                             {{ method_field('DELETE') }}
                                             {{ csrf_field() }}
                                             <button type="submit" class="btn btn-link danger-link"><span class="glyphicon glyphicon-remove"></span> Delete</button>

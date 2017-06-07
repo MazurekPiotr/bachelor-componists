@@ -15,17 +15,6 @@ use App\Http\Requests\UpdateDashboardFormRequest;
 class AdministratorDashboardController extends Controller
 {
 
-    /**
-     * no authorization here, all taken care of by auth.admin middleware
-     */
-
-    /**
-     * Returns all users (except current User) as a Collection.
-     * Used by index (Request $request).
-     *
-     * @param  Illuminate\Http\Request $request
-     * @return Illuminate\Database\Eloquent\Collection
-     */
     protected function getUsers (Request $request)
     {
         return User::where('id', '!=', $request->user()->id)->orderBy('id', 'asc')->get();

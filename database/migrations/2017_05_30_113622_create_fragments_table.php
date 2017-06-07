@@ -18,10 +18,11 @@ class CreateFragmentsTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->integer('project_id')->unsigned();
             $table->text('body');
+            $table->text('link');
             $table->softDeletes();
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
         });
     }
