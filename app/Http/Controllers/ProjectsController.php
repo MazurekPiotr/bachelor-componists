@@ -6,11 +6,13 @@ use App\Events\ProjectDeleted;
 use App\Http\Requests\CreateProjectFormRequest;
 use App\Project;
 use Auth;
+use Illuminate\Http\File;
 use ClassPreloader\Config;
-use Folour\Flavy\Flavy;
+use FFMpeg\Format\Audio\Mp3;
+use FFMpeg\Format\Audio\Vorbis;
 use Illuminate\Support\Facades\Storage;
 use App\User;
-use FFMpeg\FFMpeg as FFMpeg;
+use FFMpeg\FFMpeg;
 use App\Fragment;
 use App\Subscription;
 use App\GetMentionedUsers;
@@ -62,10 +64,12 @@ class ProjectsController extends Controller
         $timeName = $music_file->getClientOriginalName();
 
         $extension = $music_file->getClientOriginalExtension();
-        $fileName = $timeName . $extension;
-        $location = storage_path() . '/fragments/' . $project->slug;
+        $time = time();
+        $fileName = $timeName . '.' .  $extension;
+        $location = storage_path() . '/fragments/' . $project->slug . '/' . $time;
         $music_file->move($location,$fileName);
-        /*
+
+
         $ffmpeg = FFMpeg::create([
             'ffmpeg.binaries'  => storage_path() . '/ff/ffmpeg',
             'ffprobe.binaries' => storage_path() . '/ff/ffprobe',
@@ -76,45 +80,26 @@ class ProjectsController extends Controller
         $audio = $ffmpeg->open( $location . '/' . $fileName );
 
         $audio_format = new Mp3();
-        $audio->save($audio, $fileName . '.mp3');
+        $audio->save($audio_format, $location . '/' . $timeName . '.mp3');
 
-        $audio_format = new FFMpeg/Format/Audio/Ogg();
-        $audio->save($fileName . '.mp3');
+        $audio_format = new Vorbis();
+        $audio->save($audio_format, $location . '/' . $timeName . '.ogg');
+
         // Create the waveform
         $waveform = $audio->waveform();
-        $waveform_link = time() .'.png';
-        $waveform->save( $location . '/' . $waveform_link );
-        */
-        $flavy = new Flavy([
-            'ffmpeg_path' => storage_path() . '/ff/ffmpeg',
-            'ffprobe_path' => storage_path() . '/ff/ffprobe',
-        ]);
-
-        $flavy->from($location . '/' . $fileName)
-            ->to($location . '/' . $timeName . '.mp3')
-            ->aBitrate(128)
-            ->aCodec('libmp3lame')
-            ->overwrite()
-            ->run();
-
-        $flavy->from($location . '/' . $fileName)
-            ->to($location . '/' . $timeName . '.ogg')
-            ->aBitrate(128)
-            ->aCodec('libvorbis')
-            ->overwrite()
-            ->run();
+        $waveform->save( $location . '/' . $timeName . '.png' );
 
 
         $disk = Storage::disk('s3');
-        $disk->getDriver()->put('/fragments/'. $project->slug . '/' . $timeName . '.mp3', fopen($location . '/' . $timeName . '.mp3', 'r+'));
-        $disk->getDriver()->put('/fragments/'. $project->slug . '/' . $timeName . '.ogg', fopen($location . '/' . $timeName . '.ogg', 'r+'));
+        $disk->getDriver()->put('/fragments/'. $project->slug . '/' . $time . '/' . $timeName . '.mp3', fopen($location . '/' . $timeName . '.mp3', 'r+'));
+        $disk->getDriver()->put('/fragments/'. $project->slug . '/' . $time . '/' . $timeName . '.ogg', fopen($location . '/' . $timeName . '.ogg', 'r+'));
 
-        //$disk->getDriver()->put('/fragments/'. $project->slug . '/'. $waveform_link .'png', fopen($location . '/' . $waveform_link, 'r+'));
+        $disk->getDriver()->put('/fragments/'. $project->slug . '/' . $time . '/'. $timeName .'png', fopen($location . '/' . $timeName . '.png', 'r+'));
 
         $fragment->project_id = $project->id;
         $fragment->user_id = $request->user()->id;
         $fragment->body = $request->fragmentText;
-        $fragment->link = $timeName;
+        $fragment->link = $time . '/' . $timeName;
         $url = env('APP_URL');
         $fragment->body = preg_replace('/\@\w+/', "[\\0]($url/user/profile/\\0)", $request->fragmentText);
 

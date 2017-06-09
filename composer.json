@@ -12,7 +12,8 @@
         "aws/aws-sdk-php": "^3.19",
         "graham-campbell/markdown": "^7.0",
         "pusher/pusher-PHP-server": "^2.6",
-        "folour/flavy": "^1.0"
+        "folour/flavy": "^1.0",
+        "php-ffmpeg/php-ffmpeg": "^0.9.3"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

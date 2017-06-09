@@ -2,8 +2,8 @@
 
 namespace App\Mail;
 
-use App\Post;
-use App\Topic;
+use App\Fragment;
+use App\Project;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -13,17 +13,17 @@ class UserPostedOnProject extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $topic;
-    public $post;
+    public $project;
+    public $fragment;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Topic $topic, Post $post)
+    public function __construct(Project $project, Fragment $fragment)
     {
-        $this->topic = $topic;
-        $this->post = $post;
+        $this->project = $project;
+        $this->fragment = $fragment;
     }
 
     /**

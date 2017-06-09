@@ -29,14 +29,14 @@ class SendProjectSubscribersPostEmail implements ShouldQueue
     public function handle(UserPostedOnProject $event)
     {
         // get subscriptions where a subscription both exists and has a subscribed field of 1
-        $subscriptions = $event->topic->subscriptions()->where('subscribed', 1)->get();
+        $subscriptions = $event->project->subscriptions()->where('subscribed', 1)->get();
         $current_user = $event->user;
         if (count($subscriptions)) {
             foreach ($subscriptions as $subscription) {
                 $user = $subscription->user()->first();
                 if ($user->id !== $current_user->id) {
                     // only send an email to a user if they are subscribed AND are not the current user
-                    Mail::to($user)->queue(new UserPostedOnTopicEmail($event->topic, $event->post));
+                    Mail::to($user)->queue(new UserPostedOnTopicEmail($event->project, $event->fragment));
                 }
             }
         }

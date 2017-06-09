@@ -71,13 +71,22 @@
 
                     <br />
                     @if (Auth::check())
-                        <form action="{{ route('componists.projects.fragments.create.submit', $project) }}" method="post">
-                            <div class="form-group{{ $errors->has('fragment') ? ' has-error' : '' }}">
+                        <form action="{{ route('componists.projects.fragments.create.submit', $project) }}" method="post" enctype="multipart/form-data">
+                            <div class="form-group{{ $errors->has('fragmentText') ? ' has-error' : '' }}">
                                 <label for="post" class="control-label">Your Reply</label>
-                                <textarea name="fragment" id="fragment" class="form-control" placeholder="Your reply to {{ $project->title }}" rows="8" required></textarea>
-                                @if ($errors->has('fragment'))
+                                <textarea name="fragmentText" id="fragmentText" class="form-control" placeholder="Your reply to {{ $project->title }}" rows="8" required></textarea>
+                                @if ($errors->has('fragmentText'))
                                     <div class="help-block danger">
-                                        {{ $errors->first('fragment') }}
+                                        {{ $errors->first('fragmentText') }}
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="form-group{{ $errors->has('fragmentSong') ? ' has-error' : '' }}">
+                                <label for="fragmentSong" class="control-label">Your fragment</label>
+                                <input type="file" id="fragmentSong" name="fragmentSong">
+                                @if ($errors->has('fragmentSong'))
+                                    <div class="help-block danger">
+                                        {{ $errors->first('fragmentSong') }}
                                     </div>
                                 @endif
                             </div>
