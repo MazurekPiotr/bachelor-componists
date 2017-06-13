@@ -19,6 +19,7 @@ use App\GetMentionedUsers;
 use Illuminate\Http\Request;
 use App\Events\UsersMentioned;
 use Illuminate\Support\Collection;
+use PhpParser\Node\Expr\Cast\Int_;
 
 class ProjectsController extends Controller
 {
@@ -67,39 +68,27 @@ class ProjectsController extends Controller
         $time = time();
         $fileName = $timeName . '.' .  $extension;
         $location = storage_path() . '/fragments/' . $project->slug . '/' . $time;
-        $music_file->move($location,$fileName);
+        $music_file->move($location,$timeName);
 
 
         $ffmpeg = FFMpeg::create([
             'ffmpeg.binaries'  => storage_path() . '/ff/ffmpeg',
             'ffprobe.binaries' => storage_path() . '/ff/ffprobe',
-            'timeout'          => 3600, // The timeout for the underlying process
-            'ffmpeg.threads'   => 12,   // The number of threads that FFMpeg should use
         ]);
 
-        $audio = $ffmpeg->open( $location . '/' . $fileName );
+        $audio = $ffmpeg->open( $location . '/' . $timeName);
 
         $audio_format = new Mp3();
-        $audio->save($audio_format, $location . '/' . $timeName . '.mp3');
-
-        $audio_format = new Vorbis();
-        $audio->save($audio_format, $location . '/' . $timeName . '.ogg');
-
-        // Create the waveform
-        $waveform = $audio->waveform();
-        $waveform->save( $location . '/' . $timeName . '.png' );
+        $audio->save($audio_format, $location . '/' . $timeName .'.mp3');
 
 
         $disk = Storage::disk('s3');
-        $disk->getDriver()->put('/fragments/'. $project->slug . '/' . $time . '/' . $timeName . '.mp3', fopen($location . '/' . $timeName . '.mp3', 'r+'));
-        $disk->getDriver()->put('/fragments/'. $project->slug . '/' . $time . '/' . $timeName . '.ogg', fopen($location . '/' . $timeName . '.ogg', 'r+'));
-
-        $disk->getDriver()->put('/fragments/'. $project->slug . '/' . $time . '/'. $timeName .'png', fopen($location . '/' . $timeName . '.png', 'r+'));
+        $disk->getDriver()->put('/fragments/'. $project->slug . '/' . $time . '/' . $timeName . '.mp3', fopen($location . '/' . $timeName. '.mp3', 'r+'));
 
         $fragment->project_id = $project->id;
         $fragment->user_id = $request->user()->id;
         $fragment->body = $request->fragmentText;
-        $fragment->link = $time . '/' . $timeName;
+        $fragment->link = 'https://tracks-bachelor.s3.eu-west-2.amazonaws.com/fragments/'. $project->slug . '/' . $time . '/' . $timeName . '.mp3';
         $url = env('APP_URL');
         $fragment->body = preg_replace('/\@\w+/', "[\\0]($url/user/profile/\\0)", $request->fragmentText);
 
@@ -134,5 +123,11 @@ class ProjectsController extends Controller
         }
 
         return redirect()->route('componists.projects.index');
+    }
+
+    public function getFragmentSlugsFromProject($projectId) {
+        $fragments = Fragment::where('project_id', $projectId)->select('link')->get();
+
+        return $fragments->toJson();
     }
 }

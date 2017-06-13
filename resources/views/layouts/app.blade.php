@@ -20,7 +20,7 @@
         ]); ?>
     </script>
     <script>
-        window.Forum = <?php echo json_encode([
+        window.Componists = <?php echo json_encode([
             'auth' => Auth::check(),
             'user_id' => Auth::check() ? Auth::user()->id : -1,
             'roles' => Config::get('enums.roles')
@@ -100,5 +100,8 @@
 
     <!-- Scripts -->
     <script src="/js/app.js"></script>
+    <script src="/js/waveform.js"></script>
+    <script src="/js/multitrack.js"></script>
+    <script src="/js/emitter.js"></script>
 </body>
 </html>

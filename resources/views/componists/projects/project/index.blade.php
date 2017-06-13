@@ -3,12 +3,12 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="">
             <p><a href="{{ route('home.index') }}">&laquo; Back to your topics</a></p>
             <report-project-button project-slug="{{ $project->slug }}" class="pull-right report-text report-topic"></report-project-button>
             <div class="panel panel-default">
                 <div class="panel-heading" style="text-align: center">
-                    <h4>{{ $project->title }}</h4>
+                    <h4 id="projectId" data-project-id="{{ $project->id }}">{{ $project->title }}</h4>
                     {{ Carbon\Carbon::createFromTimeStamp(strtotime($project->created_at))->diffForHumans() }} by <a href="/user/profile/{{ '@' . App\User::findOrFail($project->user_id)->name }}">{{ '@' . App\User::findOrFail($project->user_id)->name }}</a>
                     <br />
                     @can ('delete', $project)
@@ -68,6 +68,62 @@
                     @else
                         <p>The are currently no posts for this topic.</p>
                     @endif
+                        <div id="top-bar" class="playlist-top-bar">
+                            <div class="playlist-toolbar">
+                                <div class="btn-group">
+                                  <span class="btn-pause btn btn-warning">
+                                    <i class="fa fa-pause"></i>
+                                  </span>
+                                                                <span class="btn-play btn btn-success">
+                                    <i class="fa fa-play"></i>
+                                  </span>
+                                                                <span class="btn-stop btn btn-danger">
+                                    <i class="fa fa-stop"></i>
+                                  </span>
+                                                                <span class="btn-rewind btn btn-success">
+                                    <i class="fa fa-fast-backward"></i>
+                                  </span>
+                                                                <span class="btn-fast-forward btn btn-success">
+                                    <i class="fa fa-fast-forward"></i>
+                                  </span>
+                                </div>
+                                <div class="btn-group">
+                                    <span title="zoom in" class="btn-zoom-in btn btn-default">
+                                        <i class="fa fa-search-plus"></i>
+                                    </span>
+                                    <span title="zoom out" class="btn-zoom-out btn btn-default">
+                                        <i class="fa fa-search-minus"></i>
+                                    </span>
+                                </div>
+                                <div class="btn-group btn-playlist-state-group">
+                                  <span class="btn-cursor btn btn-default active" title="select cursor">
+                                    <i class="fa fa-headphones"></i>
+                                  </span>
+                                                                <span class="btn-select btn btn-default" title="select audio region">
+                                    <i class="fa fa-italic"></i>
+                                  </span>
+                                                                <span class="btn-shift btn btn-default" title="shift audio in time">
+                                    <i class="fa fa-arrows-h"></i>
+                                  </span>
+                                                                <span class="btn-fadein btn btn-default" title="set audio fade in">
+                                    <i class="fa fa-long-arrow-left"></i>
+                                  </span>
+                                                                <span class="btn-fadeout btn btn-default" title="set audio fade out">
+                                    <i class="fa fa-long-arrow-right"></i>
+                                  </span>
+                                </div>
+                                <div class="btn-group">
+                                    <span title="Prints playlist info to console" class="btn btn-info">Print</span>
+                                    <span title="Clear the playlist's tracks" class="btn btn-clear btn-danger">Clear</span>
+                                </div>
+                                <div class="btn-group">
+                                  <span title="Download the current work as Wav file" class="btn btn-download btn-primary">
+                                    <i class="fa fa-download"></i>
+                                  </span>
+                                </div>
+                            </div>
+                        </div>
+                    <div id="playlist" ></div>
 
                     <br />
                     @if (Auth::check())
