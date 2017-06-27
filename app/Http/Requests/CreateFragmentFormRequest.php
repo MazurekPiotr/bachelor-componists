@@ -25,7 +25,8 @@ class CreateFragmentFormRequest extends FormRequest
     {
         return [
             'fragmentText' => 'max:255',
-            'fragmentSong' => 'required'
+            'fragmentSong' => 'required|mimes:mpga',
+            'fragmentInstrument' => 'required|max:15'
         ];
     }
 }

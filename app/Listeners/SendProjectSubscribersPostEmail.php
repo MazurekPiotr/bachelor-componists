@@ -3,7 +3,7 @@
 namespace App\Listeners;
 
 use Mail;
-use App\Mail\UserPostedOnProject as UserPostedOnTopicEmail;
+use App\Mail\UserPostedOnProject as UserPostedOnProjectEmail;
 use App\Events\UserPostedOnProject;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -36,7 +36,7 @@ class SendProjectSubscribersPostEmail implements ShouldQueue
                 $user = $subscription->user()->first();
                 if ($user->id !== $current_user->id) {
                     // only send an email to a user if they are subscribed AND are not the current user
-                    Mail::to($user)->queue(new UserPostedOnTopicEmail($event->project, $event->fragment));
+                    Mail::to($user)->queue(new UserPostedOnProjectEmail($event->project, $event->fragment));
                 }
             }
         }

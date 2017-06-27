@@ -2,8 +2,8 @@
 
 namespace App;
 
-use App\Post;
-use App\Topic;
+use App\Fragment;
+use App\Project;
 use Illuminate\Database\Eloquent\Model;
 
 class Report extends Model
@@ -29,68 +29,68 @@ class Report extends Model
     }
 
     /**
-     * Returns true if a Report belongs to a Post.
+     * Returns true if a Report belongs to a Fragment.
      *
      * @return boolean
      */
-    public function isPost()
+    public function isFragment()
     {
-        return (str_replace('App\\', '', $this->type) === 'Post') ? true : false;
+        return (str_replace('App\\', '', $this->type) === 'Fragment') ? true : false;
     }
 
     /**
-     * Returns a Post, based on its id.
+     * Returns a Fragment, based on its id.
      *
-     * @param  int    $postId
-     * @return App\Post
+     * @param  int    $fragmentId
+     * @return App\Fragment
      */
-    protected function getPost(int $postId)
+    protected function getPost(int $fragmentId)
     {
-        return Post::where('id', $postId)->first();
+        return Fragment::where('id', $fragmentId)->first();
     }
 
     /**
-     * Returns a the slug of a Topic, that a Post belongs to.
+     * Returns a the slug of a Project, that a Fragment belongs to.
      *
      * @return string
      */
-    public function getTopicForPost(int $postId)
+    public function getProjectForFragment(int $fragmentId)
     {
-        $post = $this->getPost($postId);
-        return $post->topic->slug;
+        $post = $this->getPost($fragmentId);
+        return $post->project->slug;
     }
 
     /**
-     * Returns the slug of a Topic.
+     * Returns the slug of a Project.
      *
      * @return string
      */
-    public function getTopicSlug()
+    public function getProjectSlug()
     {
-        return Topic::where('id', $this->content_id)->first()->slug;
+        return Project::where('id', $this->content_id)->first()->slug;
     }
 
     /**
-     * Returns the body of a Post.
+     * Returns the body of a Fragment.
      *
      * @return string
      */
-    public function getPostBody(int $postId)
+    public function getFragmentBody(int $fragmentId)
     {
-        return $this->getPost($postId)->body;
+        return $this->getPost($fragmentId)->body;
     }
 
     /**
-     * Returns whether a Topic or Post exists.
+     * Returns whether a Project or Fragment exists.
      *
-     * @return mixed App\Post | App\Topic
+     * @return mixed App\Fragment | App\Projec
      */
     public function contentExists()
     {
-        if ($this->isPost()) {
-            return Post::where('id', $this->content_id)->first();
+        if ($this->isFragment()) {
+            return Fragment::where('id', $this->content_id)->first();
         } else {
-            return Topic::where('id', $this->content_id)->first();
+            return Project::where('id', $this->content_id)->first();
         }
     }
 

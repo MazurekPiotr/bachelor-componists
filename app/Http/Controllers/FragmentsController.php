@@ -26,49 +26,34 @@ class FragmentsController extends Controller
 
     public function create (CreateFragmentFormRequest $request, Project $project)
     {
+
         $fragment = new Fragment();
 
         $music_file = $request->file('fragmentSong');
 
         $timeName = $music_file->getClientOriginalName();
-        $time = time();
         $extension = $music_file->getClientOriginalExtension();
-        $fileName = $timeName . $extension;
+        if(strpos($timeName, '#') || strpos($timeName, ' ') || strpos($timeName, '#') || strpos($timeName, '#')){
+            return view('componists.projects.project.fragments.fragment.edit', [
+                'project' => $project,
+                'fragment' => $fragment
+            ]);
+        }
+        $time = time();
+        $fileName = $timeName . '.' .  $extension;
         $location = storage_path() . '/fragments/' . $project->slug . '/' . $time;
-        $music_file->move($location,$fileName);
-
-        $ffmpeg = FFMpeg::create([
-            'ffmpeg.binaries'  => storage_path() . '/ff/ffmpeg',
-            'ffprobe.binaries' => storage_path() . '/ff/ffprobe',
-            'timeout'          => 3600, // The timeout for the underlying process
-            'ffmpeg.threads'   => 12,   // The number of threads that FFMpeg should use
-        ]);
-
-        $audio = $ffmpeg->open( $location . '/' . $fileName );
-
-        $audio_format = new Mp3();
-        $audio->save($audio_format, $location . '/' . $timeName . '.mp3');
-
-        $audio_format = new Vorbis();
-        $audio->save($audio_format, $location . '/' . $timeName . '.ogg');
-
-        // Create the waveform
-        $waveform = $audio->waveform();
-        $waveform_link = $timeName .'.png';
-        $waveform->save( $location . '/' . $timeName . '.png' );
+        $music_file->move($location,$timeName);
 
         $disk = Storage::disk('s3');
-        $disk->getDriver()->put('/fragments/'. $project->slug . '/' . $time . '/' . $timeName . '.mp3', fopen($location . '/' . $timeName . '.mp3', 'r+'));
-        $disk->getDriver()->put('/fragments/'. $project->slug . '/' . $time . '/' . $timeName . '.ogg', fopen($location . '/' . $timeName . '.ogg', 'r+'));
-
-        $disk->getDriver()->put('/fragments/'. $project->slug . '/' . $time . '/'. $timeName  .'.png', fopen($location . '/' . $timeName . '.png', 'r+'));
+        $disk->getDriver()->put('/fragments/'. $project->slug . '/' . $time . '/' . $timeName . '.mp3', fopen($location . '/' . $timeName, 'r+'));
 
         $fragment->project_id = $project->id;
         $fragment->user_id = $request->user()->id;
         $fragment->body = $request->fragmentText;
-        $fragment->link = $time . '/' . $timeName;
+        $fragment->link = 'https://tracks-bachelor.s3.eu-west-2.amazonaws.com/fragments/'. $project->slug . '/' . $time . '/' . $timeName . '.mp3';
         $url = env('APP_URL');
         $fragment->body = preg_replace('/\@\w+/', "[\\0]($url/user/profile/\\0)", $request->fragmentText);
+        $fragment->name = $request->fragmentInstrument;
 
         $fragment->save();
 
@@ -90,7 +75,7 @@ class FragmentsController extends Controller
     {
         $this->authorize('edit', $fragment);
 
-        return view('componists.projects.project.fragments.post.edit', [
+        return view('componists.projects.project.fragments.fragment.edit', [
             'project' => $project,
             'fragment' => $fragment,
         ]);
@@ -101,7 +86,29 @@ class FragmentsController extends Controller
     {
         $this->authorize('update', $fragment);
 
+        $music_file = $request->file('fragmentSong');
+
+        $timeName = $music_file->getClientOriginalName();
+        $extension = $music_file->getClientOriginalExtension();
+        if(strpos($timeName, '#') || strpos($timeName, ' ') || strpos($timeName, '#') || strpos($timeName, '#')){
+            return view('componists.projects.project.fragments.fragment.edit', [
+                'project' => $project,
+                'fragment' => $fragment
+            ]);
+        }
+        $time = time();
+        $fileName = $timeName . '.' .  $extension;
+        $location = storage_path() . '/fragments/' . $project->slug . '/' . $time;
+        $music_file->move($location,$timeName);
+
+        $disk = Storage::disk('s3');
+        $disk->getDriver()->put('/fragments/'. $project->slug . '/' . $time . '/' . $timeName . '.mp3', fopen($location . '/' . $timeName, 'r+'));
+
         $fragment->body = $request->fragmentText;
+        $fragment->link = 'https://tracks-bachelor.s3.eu-west-2.amazonaws.com/fragments/'. $project->slug . '/' . $time . '/' . $timeName . '.mp3';
+        $url = env('APP_URL');
+        $fragment->name = $request->fragmentInstrument;
+
         $fragment->save();
 
         $mentioned_users = GetMentionedUsers::handle($request->fragmentText);

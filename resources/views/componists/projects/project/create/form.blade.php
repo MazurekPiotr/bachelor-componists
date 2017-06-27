@@ -30,8 +30,18 @@
                                 </div>
                             @endif
                         </div>
+                        <div class="form-group{{ $errors->has('fragmentInstrument') ? ' has-error' : '' }}">
+                            <label for="fragmentInstrument" class="control-label">The name of your instrument</label>
+                            <input type="fragmentInstrument" name="fragmentInstrument" id="fragmentInstrument" class="form-control" value="{{ (old('fragmentInstrument') ? old('fragmentInstrument') : '' ) }}" placeholder="The name of your instrument">
+                            @if ($errors->has('fragmentInstrument'))
+                                <div class="help-block danger">
+                                    {{ $errors->first('fragmentInstrument') }}
+                                </div>
+                            @endif
+                        </div>
                         <div class="form-group{{ $errors->has('fragmentSong') ? ' has-error' : '' }}">
-                            <label for="fragmentSong" class="control-label">Your fragment</label>
+                            <label for="fragmentSong" class="control-label">Your fragment (must be of filetype .mp3)</label>
+                            <p>No spaces or special characters in the name of the file!</p>
                             <input type="file" id="fragmentSong" name="fragmentSong">
                             @if ($errors->has('fragmentSong'))
                                 <div class="help-block danger">

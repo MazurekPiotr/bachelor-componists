@@ -16,7 +16,7 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\UserPostedOnProject' => [
             'App\Listeners\SendProjectSubscribersPostEmail',
         ],
-        'App\Events\UserSubscribedToTopic' => [
+        'App\Events\UserSubscribedToProject' => [
             'App\Listeners\SendProjectOwnerSubscriptionCreatedEmail',
         ],
         'App\Events\ProjectReported' => [

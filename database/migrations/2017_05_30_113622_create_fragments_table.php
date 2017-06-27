@@ -18,6 +18,7 @@ class CreateFragmentsTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->integer('project_id')->unsigned();
             $table->text('body');
+            $table->text('name');
             $table->text('link');
             $table->softDeletes();
             $table->timestamps();

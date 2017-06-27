@@ -63,27 +63,20 @@ class ProjectsController extends Controller
         $music_file = $request->file('fragmentSong');
 
         $timeName = $music_file->getClientOriginalName();
-
+        if(strpos($timeName, '#') || strpos($timeName, ' ')){
+            return view('componists.projects.project.fragments.fragment.edit', [
+                'project' => $project,
+                'fragment' => $fragment
+            ]);
+        }
         $extension = $music_file->getClientOriginalExtension();
         $time = time();
         $fileName = $timeName . '.' .  $extension;
         $location = storage_path() . '/fragments/' . $project->slug . '/' . $time;
         $music_file->move($location,$timeName);
 
-
-        $ffmpeg = FFMpeg::create([
-            'ffmpeg.binaries'  => storage_path() . '/ff/ffmpeg',
-            'ffprobe.binaries' => storage_path() . '/ff/ffprobe',
-        ]);
-
-        $audio = $ffmpeg->open( $location . '/' . $timeName);
-
-        $audio_format = new Mp3();
-        $audio->save($audio_format, $location . '/' . $timeName .'.mp3');
-
-
         $disk = Storage::disk('s3');
-        $disk->getDriver()->put('/fragments/'. $project->slug . '/' . $time . '/' . $timeName . '.mp3', fopen($location . '/' . $timeName. '.mp3', 'r+'));
+        $disk->getDriver()->put('/fragments/'. $project->slug . '/' . $time . '/' . $timeName . '.mp3', fopen($location . '/' . $timeName, 'r+'));
 
         $fragment->project_id = $project->id;
         $fragment->user_id = $request->user()->id;
@@ -91,7 +84,7 @@ class ProjectsController extends Controller
         $fragment->link = 'https://tracks-bachelor.s3.eu-west-2.amazonaws.com/fragments/'. $project->slug . '/' . $time . '/' . $timeName . '.mp3';
         $url = env('APP_URL');
         $fragment->body = preg_replace('/\@\w+/', "[\\0]($url/user/profile/\\0)", $request->fragmentText);
-
+        $fragment->name = $request->fragmentInstrument;
         $fragment->save();
 
         // do @mention functionality
@@ -126,8 +119,33 @@ class ProjectsController extends Controller
     }
 
     public function getFragmentSlugsFromProject($projectId) {
-        $fragments = Fragment::where('project_id', $projectId)->select('link')->get();
+        $fragments = Fragment::where('project_id', $projectId)->select('link', 'name')->get();
 
         return $fragments->toJson();
     }
+
+    public function getMapData($projectId) {
+        $fragments = Fragment::where('project_id', $projectId)->select('user_id')->get();
+
+        $users = [];
+        foreach ($fragments as $key => $fragment) {
+            $user = User::where('id', $fragment->user_id)->select('id', 'country', 'imageURL', 'longitude', 'latitude')->first();
+            $users[$key] = $user;
+        }
+
+        return $users;
+    }
+
+    public function getUserData() {
+        $projects = Project::all();
+
+        $users = [];
+        foreach ($projects as $key => $project) {
+            $user = User::where('id', $project->user_id)->select('id', 'country', 'imageURL', 'longitude', 'latitude')->first();
+            $users[$key] = $user;
+        }
+
+        return $users;
+    }
+
 }

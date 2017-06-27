@@ -36,6 +36,23 @@
                                 </div>
                             @endif
                         </div>
+                        <div class="form-group{{ $errors->has('country') ? ' has-error' : '' }}">
+                            <label for="country" class="control-label">Avatar Image</label>
+                            <select type="text" name="country" id="country" class="form-control">
+                                @foreach ($countries as $country)
+                                    @if(Auth::user()->country() == $country)
+                                        <option value="{{$country}}" selected>{{ $country }}</option>
+                                    @else
+                                        <option value="{{$country}}" >{{ $country }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                            @if ($errors->has('country'))
+                                <div class="help-block danger">
+                                    {{ $errors->first('country') }}
+                                </div>
+                            @endif
+                        </div>
 
                         <br />
 

@@ -61,12 +61,7 @@
                             <li><a href="{{ url('/login') }}">Login</a></li>
                             <li><a href="{{ url('/register') }}">Register</a></li>
                         @else
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    {{ Auth::user()->name }} <span class="caret"></span>
-                                </a>
-
-                                <ul class="dropdown-menu" role="menu">
+                            <li>
                                     @if (Auth::user()->role === 'admin')
                                         <li><a href="{{ route('admin.dashboard.index') }}">Admin Dashboard</a></li>
                                     @endif
@@ -75,7 +70,7 @@
                                     @endif
                                     <li><a href="{{ route('home.index') }}">My Topics</a></li>
                                     <li><a href="{{ route('user.chat.threads.index') }}">My Messages {!! Auth::user()->hasUnreadMessages() ? '<span class="badge">' . Auth::user()->unreadMessageCount(). '</span>' : '' !!}</span></a></li>
-                                    <li><a href="{{ route('user.profile.index', Auth::user()->name) }}">My Profile</a></li>
+                                    <li><a href="{{ route('user.profile.index', Auth::user()->name) }}">{{ Auth::user()->name }}'s profile</a></li>
                                     <li>
                                         <a href="{{ url('/logout') }}"
                                             onclick="event.preventDefault();
@@ -87,21 +82,35 @@
                                             {{ csrf_field() }}
                                         </form>
                                     </li>
-                                </ul>
                             </li>
                         @endif
                     </ul>
                 </div>
             </div>
         </nav>
-
         @yield('content')
     </div>
 
     <!-- Scripts -->
     <script src="/js/app.js"></script>
-    <script src="/js/waveform.js"></script>
-    <script src="/js/multitrack.js"></script>
-    <script src="/js/emitter.js"></script>
+    @if( Route::getCurrentRoute()->getPath() == 'projects/{project}')
+        <script src="/js/waveform.js"></script>
+        <script src="/js/multitrack.js"></script>
+        <script src="/js/emitter.js"></script>
+        <script src="https://www.amcharts.com/lib/3/ammap.js"></script>
+        <script src="https://www.amcharts.com/lib/3/maps/js/worldLow.js"></script>
+        <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+        <script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+        <script src="/js/responsive.min.js" type="text/javascript"></script>
+        <script src="/js/chart.js"></script>
+    @endif
+    @if( Route::getCurrentRoute()->getPath() == 'projects')
+        <script src="https://www.amcharts.com/lib/3/ammap.js"></script>
+        <script src="https://www.amcharts.com/lib/3/maps/js/worldLow.js"></script>
+        <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+        <script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+        <script src="/js/responsive.min.js" type="text/javascript"></script>
+        <script src="/js/chart.js"></script>
+    @endif
 </body>
 </html>

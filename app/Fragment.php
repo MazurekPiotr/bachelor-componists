@@ -15,14 +15,14 @@ class Fragment extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'topic_id', 'body',
+        'user_id', 'project_id', 'body',
     ];
 
     /**
      *
      * @return Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function topic ()
+    public function project ()
     {
         return $this->belongsTo(Project::class);
     }

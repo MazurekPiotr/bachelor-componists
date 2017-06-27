@@ -3,8 +3,8 @@
 namespace App\Listeners;
 
 use Mail;
-use App\Mail\UserSubscribedToTopic as UserSubscribedToTopicEmail;
-use App\Events\UserSubscribedToTopic;
+use App\Mail\UserSubscribedToProject as UserSubscribedToProjectEmail;
+use App\Events\UserSubscribedToProject;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -23,11 +23,11 @@ class SendProjectOwnerSubscriptionCreatedEmail implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param  UserSubscribedToTopic  $event
+     * @param  UserSubscribedToProject  $event
      * @return void
      */
-    public function handle(UserSubscribedToTopic $event)
+    public function handle(UserSubscribedToProject $event)
     {
-        Mail::to($event->topic->user()->first())->queue(new UserSubscribedToTopicEmail($event->topic));
+        Mail::to($event->project->user()->first())->queue(new UserSubscribedToProjectEmail($event->project));
     }
 }

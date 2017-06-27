@@ -34,8 +34,8 @@ class UserPostedOnProject extends Mailable
     public function build()
     {
         return $this->view('mail.posted', [
-            'project' => $this->topic,
-            'post' => $this->post,
+            'project' => $this->project,
+            'fragment' => $this->fragment,
         ]);
     }
 }

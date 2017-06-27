@@ -1,7 +1,7 @@
 <p>
-    A user subscribed to '{{ $topic->title }}'. We thought you would like to know.
+    A user subscribed to '{{ $project->title }}'. We thought you would like to know.
     <br />
-    Check it out <a href="{{ env('APP_URL') . '/forum/topics/' . $topic->slug }}">here</a>.
+    Check it out <a href="{{ env('APP_URL') . '/componists/projects/' . $project->slug }}">here</a>.
 </p>
 <p>
     Regards,

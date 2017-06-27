@@ -7,7 +7,7 @@ use App\User;
 use App\Events\ProjectReported;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use App\Mail\ProjectReported as TopicReportedEmail;
+use App\Mail\ProjectReported as ProjectReportedEmail;
 
 class SendModeratorsProjectReportedEmail implements ShouldQueue
 {
@@ -31,11 +31,12 @@ class SendModeratorsProjectReportedEmail implements ShouldQueue
     {
         $moderators = User::where('role', 'moderator')->get();
         $user = $event->user;
+
         if (count($moderators)) {
             foreach ($moderators as $moderator) {
                 if ($moderator->id !== $user->id) {
                     // only send email notification to moderator if they aren't the user who 'reported' the content
-                    Mail::to($moderator)->queue(new TopicReportedEmail($event->topic));
+                    Mail::to($moderator)->queue(new ProjectReportedEmail($event->project));
                 }
             }
         }

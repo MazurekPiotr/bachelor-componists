@@ -19,6 +19,11 @@
                         @if (count($projects))
                             @foreach ($projects as $project)
                                 <li class="list-group-item">
+                                    @if( Storage::disk('s3')->exists('avatars/'. $project->user_id . '/avatar.jpg')  )
+                                        <img src="{{ Storage::disk('s3')->url('avatars/'. project->user_id . '/') . 'avatar.jpg' }}" alt="{{ App\User::findOrFail($project->user_id)->name }}-avatar">
+                                    @else
+                                        <img src="{{ Storage::disk('s3')->url('avatars/'. 'no-avatar.png') }}" alt="blank-avatar">
+                                    @endif
                                     <a href="/projects/{{ $project->slug }}">{{ $project->title }} <span class="badge">{{ $project->postCount() }}</span></a>
                                     <br />
                                     <strong>Created</strong> {{ Carbon\Carbon::createFromTimeStamp(strtotime($project->created_at))->diffForHumans() }}

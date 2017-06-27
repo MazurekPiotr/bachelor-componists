@@ -2,25 +2,25 @@
 
 namespace App\Mail;
 
-use App\Topic;
+use App\Project;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class UserSubscribedToTopic extends Mailable
+class UserSubscribedToProject extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $topic;
+    public $project;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Topic $topic)
+    public function __construct(Project $project)
     {
-        $this->topic = $topic;
+        $this->project = $project;
     }
 
     /**
@@ -31,7 +31,7 @@ class UserSubscribedToTopic extends Mailable
     public function build()
     {
         return $this->view('mail.subscribed', [
-            'project' => $this->topic,
+            'project' => $this->project,
         ]);
     }
 }

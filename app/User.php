@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'avatar', 'role', 'password', 'last_activity',
+        'name', 'email', 'avatar', 'country', 'imageURL', 'role', 'password', 'last_activity',
     ];
 
     /**
@@ -42,6 +42,11 @@ class User extends Authenticatable
     public function fragments()
     {
         return $this->hasManyThrough(Fragment::class, Project::class);
+    }
+
+    public function country()
+    {
+        return $this->country;
     }
 
     public function reports()

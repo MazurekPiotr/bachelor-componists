@@ -88,7 +88,7 @@
                 modifySuccess: false,
 
                 // available roles
-                roles: Forum.roles,
+                roles: Componists.roles,
 
                 // used to track status of requests for modification of User
                 requestSent: false,

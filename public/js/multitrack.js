@@ -3,21 +3,22 @@
 
 
  var playlist = WaveformPlaylist.init({
-     samplesPerPixel: 3000,
+     samplesPerPixel: 2000,
      mono: true,
-     waveHeight: 100,
+     waveHeight: 200,
      container: document.getElementById('playlist'),
      state: 'cursor',
      colors: {
-         waveOutlineColor: '#E0EFF1',
-         timeColor: 'grey',
-         fadeColor: 'black'
+         waveOutlineColor: 'black',
+         timeColor: 'white',
+         fadeColor: 'blue'
      },
      controls: {
          show: true,
-         width: 200
+         width: 100
      },
-     zoomLevels: [500, 1000, 3000, 10000]
+     zoomLevels: [500, 1000, 2000, 3000, 5000],
+     automaticscroll: true
  });
 
 

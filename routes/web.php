@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'ProjectsController@index')->name('componists.projects.index');
 
 Auth::routes();
 
@@ -37,17 +35,13 @@ Route::group(['middleware' => ['log.activity']], function() {
             Route::post('/projects/{project}/subscription', 'SubscriptionsController@handleSubscription')->name('componists.projects.project.subscription.submit');
 
             Route::post('/projects/{project}/fragments/create', 'FragmentsController@create')->name('componists.projects.fragments.create.submit');
-            Route::get('/projects/{project}/fragments/{fragment}/edit', 'FragmentsController@edit')->name('componists.projects.project.fragments.post.edit');
+            Route::get('/projects/{project}/fragments/{fragment}/edit', 'FragmentsController@edit')->name('componists.projects.project.fragments.fragment.edit');
             Route::post('/projects/{project}/fragments/{fragment}/update', 'FragmentsController@update')->name('componists.projects.project.fragments.post.update');
             Route::delete('/projects/{project}/fragments/{fragment}/delete', 'FragmentsController@destroy')->name('componists.projects.project.fragments.post.delete');
 
             Route::post('/projects/{project}/report', 'ProjectsReportController@report')->name('componists.projects.project.report.report');
             Route::post('/projects/{project}/fragments/{fragment}/report', 'FragmentsReportController@report')->name('componists.projects.project.fragments.post.report.report');
 
-            // auth.elevated refers to moderator || admin roles
-            Route::group(['middleware' => ['auth.elevated']], function() {
-                Route::post('/projects/{project}', 'ProjectsController@destroy')->name('componists.projects.project.delete');
-            });
         });
 
         // user routing
@@ -77,6 +71,7 @@ Route::group(['middleware' => ['log.activity']], function() {
             Route::get('/dashboard', 'AdministratorDashboardController@index')->name('admin.dashboard.index');
             Route::post('/dashboard/update', 'AdministratorDashboardController@update')->name('admin.dashboard.update');
             Route::post('/dashboard/invite', 'AdministratorDashboardController@invite')->name('admin.dashboard.invite');
+            Route::delete('/projects/{project}', 'ProjectsController@destroy')->name('componists.projects.project.delete');
 
             Route::delete('/dashboard/users/{user}', 'AdministratorDashboardController@destroy')->name('admin.dashboard.user.destroy');
         });

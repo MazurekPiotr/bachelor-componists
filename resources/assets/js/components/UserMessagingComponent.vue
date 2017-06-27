@@ -28,7 +28,7 @@
                     id: Number,
                     name: String
                 },
-                user_id: Forum.user_id,
+                user_id: Componists.user_id,
                 messageInput: null
             }
         },

@@ -13,7 +13,8 @@
         "graham-campbell/markdown": "^7.0",
         "pusher/pusher-PHP-server": "^2.6",
         "folour/flavy": "^1.0",
-        "php-ffmpeg/php-ffmpeg": "^0.9.3"
+        "php-ffmpeg/php-ffmpeg": "^0.9.3",
+        "monarobase/country-list": "^2.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

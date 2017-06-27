@@ -14,6 +14,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Monarobase\CountryList\CountryList;
 
 class ProfileSettingsController extends Controller
 {
@@ -24,13 +25,21 @@ class ProfileSettingsController extends Controller
         if ($user->id !== \Auth::user()->id) {
             abort(403);
         }
+        $countryList = new CountryList();
+        $countries = $countryList->getList('en', 'php');
 
         return view('user.profile.settings.index', [
             'user' => $user,
+            'countries' => $countries,
             'password_update_success' => Session::get('password_update_success'),
         ]);
     }
 
+    /**
+     * @param ProfileSettingsFormRequest $request
+     * @param User $user
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update (ProfileSettingsFormRequest $request, User $user)
     {
         // if it's not the current user's profile, let's abort!
@@ -47,7 +56,7 @@ class ProfileSettingsController extends Controller
             $path = storage_path() . '/avatars/' . $fileId ;
             $fileName = $fileId . '.png';
 
-            $img = Image::make($path)->encode('png')->fit(100, 100, function ($constraint) {
+            $img = Image::make($path)->encode('png')->fit(300, 300, function ($constraint) {
                 $constraint->upsize();
             });
 
@@ -56,6 +65,7 @@ class ProfileSettingsController extends Controller
             Storage::disk('s3')->put('/avatars/'. $user->id .'/avatar.jpg', $uploadImg, 'public');
 
             $user->avatar = $fileName;
+            $user->imageURL = 'https://tracks-bachelor.s3.eu-west-2.amazonaws.com/avatars/'. $user->id .'/avatar.jpg';
             $user->save();
 
 
@@ -66,6 +76,23 @@ class ProfileSettingsController extends Controller
         // used in combination with old('oldPassword'), to check if the password has actually been sunbmitted.
         // not the best design, but logic is fine for now..
         $password_update_success = false;
+
+        if($request->has('country')) {
+            $user = $request->user();
+            $user->country = $request->country;
+
+            $address = $request->country; // Google HQ
+            $prepAddr = str_replace(' ','+',$address);
+            $ch = curl_init();
+            curl_setopt ($ch, CURLOPT_URL, 'https://maps.google.com/maps/api/geocode/json?address='.$prepAddr.'&sensor=false');
+            curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
+            $geocode=curl_exec($ch);
+            $output= json_decode($geocode);
+            $user->longitude = $output->results[0]->geometry->location->lng;
+            $user->latitude = $output->results[0]->geometry->location->lat;
+
+            $user->save();
+        }
 
         if ($request->has('oldPassword')) {
             // wants to change password

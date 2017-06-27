@@ -11,17 +11,16 @@
             }
         },
         props: {
-            topicSlug: null
+            projectSlug: null
         },
         methods: {
             update() {
-                console.log('update');
-                return this.$http.post('/componists/projects/' + this.topicSlug + '/subscription').then((response) => {
+                return this.$http.post('/componists/projects/' + this.projectSlug + '/subscription').then((response) => {
                     this.getStatus();
                 });
             },
             getStatus() {
-                return this.$http.get('/componists/projects/' + this.topicSlug + '/subscription/status').then((response) => {
+                return this.$http.get('/componists/projects/' + this.projectSlug + '/subscription/status').then((response) => {
                     if (response !== null) {
                         if (response.body === '1') {
                             // subscribed

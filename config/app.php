@@ -168,7 +168,7 @@ return [
          */
         Intervention\Image\ImageServiceProvider::class,
         GrahamCampbell\Markdown\MarkdownServiceProvider::class,
-        Folour\Flavy\Provider\FlavyServiceProvider::class,
+        Monarobase\CountryList\CountryListServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -231,7 +231,7 @@ return [
         'Markdown' => GrahamCampbell\Markdown\Facades\Markdown::class,
         'GetMentionedUsers' => App\Facades\GetMentionedUsers::class,
 
-        'Flavy' => Folour\Flavy\FlavyFacade::class,
+        'Countries' => Monarobase\CountryList\CountryListFacade::class,
 
     ],
 
