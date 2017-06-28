@@ -29,7 +29,8 @@
                     @if (count($fragments))
                         @foreach ($fragments as $fragment)
                             <div class="pin" id="post-{{ $fragment->id }}">
-                                @if( Storage::disk('s3')->exists('avatars/'. $fragment->user_id . '/avatar.jpg')  )
+                                <report-fragment-button project-slug="{{ $project->slug }}" fragment-id="{{ $fragment->id }}" class="pull-right report-text"></report-fragment-button>
+                            @if( Storage::disk('s3')->exists('avatars/'. $fragment->user_id . '/avatar.jpg')  )
                                     <img src="{{ Storage::disk('s3')->url('avatars/'. $fragment->user_id . '/') . 'avatar.jpg' }}" alt="{{ App\User::findOrFail($fragment->user_id)->name }}-avatar">
                                 @else
                                     <img src="{{ Storage::disk('s3')->url('avatars/no-avatar.png') }}" alt="blank-avatar">

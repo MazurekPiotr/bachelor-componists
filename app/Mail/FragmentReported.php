@@ -34,7 +34,7 @@ class FragmentReported extends Mailable
      */
     public function build()
     {
-        return $this->view('mail.postReported', [
+        return $this->view('mail.fragmentReported', [
             'project' => $this->project,
             'fragment' => $this->fragment,
         ]);

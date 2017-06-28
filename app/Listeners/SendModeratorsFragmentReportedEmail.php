@@ -30,7 +30,11 @@ class SendModeratorsFragmentReportedEmail implements ShouldQueue
     public function handle(FragmentReported $event)
     {
         $moderators = User::where('role', 'moderator')->get();
+        $admin = User::where('role', 'admin')->first();
         $user = $event->user;
+        if ($admin) {
+            Mail::to($admin)->queue(new FragmentReportedEmail($event->project, $event->fragment));
+        }
         if (count($moderators)) {
             foreach ($moderators as $moderator) {
                 if ($moderator->id !== $user->id) {

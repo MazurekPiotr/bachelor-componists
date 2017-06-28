@@ -30,7 +30,11 @@ class SendModeratorsProjectReportedEmail implements ShouldQueue
     public function handle(ProjectReported $event)
     {
         $moderators = User::where('role', 'moderator')->get();
+        $admin = User::where('role', 'admin')->first();
         $user = $event->user;
+        if ($admin) {
+            Mail::to($admin)->queue(new ProjectReportedEmail($event->project));
+        }
 
         if (count($moderators)) {
             foreach ($moderators as $moderator) {
