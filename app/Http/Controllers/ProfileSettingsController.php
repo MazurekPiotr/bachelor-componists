@@ -81,16 +81,6 @@ class ProfileSettingsController extends Controller
             $user = $request->user();
             $user->country = $request->country;
 
-            $address = $request->country; // Google HQ
-            $prepAddr = str_replace(' ','+',$address);
-            $ch = curl_init();
-            curl_setopt ($ch, CURLOPT_URL, 'https://maps.google.com/maps/api/geocode/json?address='.$prepAddr.'&sensor=false');
-            curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
-            $geocode=curl_exec($ch);
-            $output= json_decode($geocode);
-            $user->longitude = $output->results[0]->geometry->location->lng;
-            $user->latitude = $output->results[0]->geometry->location->lat;
-
             $user->save();
         }
 

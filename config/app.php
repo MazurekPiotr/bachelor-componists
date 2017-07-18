@@ -168,7 +168,7 @@ return [
          */
         Intervention\Image\ImageServiceProvider::class,
         GrahamCampbell\Markdown\MarkdownServiceProvider::class,
-        Monarobase\CountryList\CountryListServiceProvider::class,
+        'Webpatser\Countries\CountriesServiceProvider',
         /*
          * Application Service Providers...
          */
@@ -231,7 +231,7 @@ return [
         'Markdown' => GrahamCampbell\Markdown\Facades\Markdown::class,
         'GetMentionedUsers' => App\Facades\GetMentionedUsers::class,
 
-        'Countries' => Monarobase\CountryList\CountryListFacade::class,
+        'Countries' => 'Webpatser\Countries\CountriesFacade',
 
     ],
 

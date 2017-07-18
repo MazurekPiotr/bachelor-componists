@@ -97,19 +97,19 @@
         <script src="/js/waveform.js"></script>
         <script src="/js/multitrack.js"></script>
         <script src="/js/emitter.js"></script>
-        <script src="https://www.amcharts.com/lib/3/ammap.js"></script>
         <script src="https://www.amcharts.com/lib/3/maps/js/worldLow.js"></script>
         <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
         <script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
         <script src="/js/responsive.min.js" type="text/javascript"></script>
         <script src="/js/chart.js"></script>
     @endif
     @if( Route::getCurrentRoute()->getPath() == 'projects')
-        <script src="https://www.amcharts.com/lib/3/ammap.js"></script>
         <script src="https://www.amcharts.com/lib/3/maps/js/worldLow.js"></script>
         <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
         <script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
         <script src="/js/responsive.min.js" type="text/javascript"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
         <script src="/js/chart.js"></script>
     @endif
 </body>

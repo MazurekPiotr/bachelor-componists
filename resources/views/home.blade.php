@@ -1,4 +1,4 @@
-@extends('layouts.app')
+    @extends('layouts.app')
 
 @section('content')
 <div class="container">
@@ -20,7 +20,7 @@
                             @foreach ($projects as $project)
                                 <li class="list-group-item">
                                     @if( Storage::disk('s3')->exists('avatars/'. $project->user_id . '/avatar.jpg')  )
-                                        <img src="{{ Storage::disk('s3')->url('avatars/'. project->user_id . '/') . 'avatar.jpg' }}" alt="{{ App\User::findOrFail($project->user_id)->name }}-avatar">
+                                        <img src="{{ Storage::disk('s3')->url('avatars/'. $project->user_id . '/' . 'avatar.jpg') }}" alt="{{ App\User::findOrFail($project->user_id)->name }}-avatar">
                                     @else
                                         <img src="{{ Storage::disk('s3')->url('avatars/'. 'no-avatar.png') }}" alt="blank-avatar">
                                     @endif

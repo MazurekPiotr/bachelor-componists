@@ -7,6 +7,7 @@
 require('./bootstrap');
 
 var VueResource = require('vue-resource');
+require('ammap3');
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
