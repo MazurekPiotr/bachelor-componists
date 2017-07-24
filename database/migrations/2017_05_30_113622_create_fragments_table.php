@@ -20,6 +20,7 @@ class CreateFragmentsTable extends Migration
             $table->text('body');
             $table->text('name');
             $table->text('link');
+            $table->integer('volume');
             $table->softDeletes();
             $table->timestamps();
 

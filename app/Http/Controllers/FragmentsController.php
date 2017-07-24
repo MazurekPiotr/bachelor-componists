@@ -137,4 +137,20 @@ class FragmentsController extends Controller
         ]);
     }
 
+    public function getVolume ($id)
+    {
+        $volume = Fragment::where('id', $id)->select('volume')->first();
+
+        return response()->json($volume, 200);
+    }
+
+    public function setVolume ($id, $volume)
+    {
+        $fragment = Fragment::where('id', $id)->first();
+        $fragment->volume = $volume;
+        $fragment->save();
+
+        return response()->json(null, 200);
+    }
+
 }

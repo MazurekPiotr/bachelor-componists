@@ -18,10 +18,10 @@
                                 @foreach ($reports as $report)
                                     <tr>
                                         <td><a href="{{ route('user.profile.index', $report->user->name) }}">{{ '@' . $report->user->name }}</a></td>
-                                        <td>{{ $report->isPost() ? 'Post' : 'Topic' }}</td>
+                                        <td>{{ $report->isFragment() ? 'Fragment' : 'Project' }}</td>
                                         @if ($report->contentExists())
-                                            <td>"{{ $report->isPost() ? ((strlen($report->getPostBody($report->content_id)) >= 25) ? str_limit($report->getPostBody($report->content_id), 24) . '&hellip;' : $report->getPostBody($report->content_id)) : $report->getTopicSlug() }}"</td>
-                                            <td><a href="/forum/topics/{{ $report->isPost() ? $report->getTopicForPost($report->content_id) . '#post-' . $report->content_id : $report->getTopicSlug() }}">Link</a></td>
+                                            <td>"{{ $report->isFragment() ? ((strlen($report->getFragmentBody($report->content_id)) >= 25) ? str_limit($report->getFragmentBody($report->content_id), 24) . '&hellip;' : $report->getFragmentBody($report->content_id)) : $report->getProjectSlug() }}"</td>
+                                            <td><a href="/projects/{{ $report->isFragment() ? $report->getProjectForFragment($report->content_id) . '#post-' . $report->content_id : $report->getProjectSlug() }}">Link</a></td>
                                         @else
                                             <td>Unavailable</td>
                                             <td>Unavailable</td>

@@ -44,7 +44,7 @@ class Report extends Model
      * @param  int    $fragmentId
      * @return App\Fragment
      */
-    protected function getPost(int $fragmentId)
+    protected function getFragment(int $fragmentId)
     {
         return Fragment::where('id', $fragmentId)->first();
     }
@@ -56,8 +56,8 @@ class Report extends Model
      */
     public function getProjectForFragment(int $fragmentId)
     {
-        $post = $this->getPost($fragmentId);
-        return $post->project->slug;
+        $fragment = $this->getFragment($fragmentId);
+        return $fragment->project->slug;
     }
 
     /**
@@ -77,7 +77,7 @@ class Report extends Model
      */
     public function getFragmentBody(int $fragmentId)
     {
-        return $this->getPost($fragmentId)->body;
+        return $this->getFragment($fragmentId)->body;
     }
 
     /**

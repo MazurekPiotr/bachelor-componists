@@ -5,6 +5,7 @@
 <div class="container">
     <div class="row">
         <div class="">
+            <div id="chartdiv" class="large"></div>
             <a href="{{ route('home.index') }}">&laquo; Back to your projects</a>
             <div class="">
                 <div class="panel-heading" style="text-align: center">
@@ -23,40 +24,70 @@
                         <subscribe-button project-slug="{{ $project->slug }}"></subscribe-button>
                     @endif
                 </div>
-                <div id="chartdiv"></div>
-                <div class="panel-body wrapper" >
-                    <div id="columns">
-                    @if (count($fragments))
-                        @foreach ($fragments as $fragment)
-                            <div class="pin" id="post-{{ $fragment->id }}">
-                                <report-fragment-button project-slug="{{ $project->slug }}" fragment-id="{{ $fragment->id }}" class="pull-right report-text"></report-fragment-button>
-                            @if( Storage::disk('s3')->exists('avatars/'. $fragment->user_id . '/avatar.jpg')  )
-                                    <img src="{{ Storage::disk('s3')->url('avatars/'. $fragment->user_id . '/') . 'avatar.jpg' }}" alt="{{ App\User::findOrFail($fragment->user_id)->name }}-avatar">
-                                @else
-                                    <img src="{{ Storage::disk('s3')->url('avatars/no-avatar.png') }}" alt="blank-avatar">
-                                @endif
-                                <p>
-                                    {!! GrahamCampbell\Markdown\Facades\Markdown::convertToHtml(
-                                        $fragment->body
-                                    ) !!}
-                                </p>
-                                @can ('edit', $fragment)
-                                    <a href="{{ route('componists.projects.project.fragments.fragment.edit', [$project, $fragment]) }}"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
-                                @endcan
-                                @can ('delete', $fragment)
-                                    <form class="inline" action="{{ route('componists.projects.project.fragments.post.delete', [$project, $fragment]) }}" method="post">
-                                        {{ method_field('DELETE') }}
-                                        {{ csrf_field() }}
-                                        <button type="submit" class="btn btn-link danger-link"><span class="glyphicon glyphicon-remove"></span> Delete</button>
-                                    </form>
-                                @endcan
-                            </div>
-                        @endforeach
+                Contributors
+                @if (count($users))
+                    @foreach ($users as $user)
+                        <div id="user-{{ $user->id }}">
+                            <p>{{ $user->name }}</p>
+                            <a href="">
+                            @if( Storage::disk('s3')->exists('avatars/'. $user->id . '/avatar.jpg')  )
+                                <img src="{{ Storage::disk('s3')->url('avatars/'. $user->id . '/') . 'avatar.jpg' }}" alt="{{ App\User::findOrFail($user->id)->name }}-avatar">
+                            @else
+                                <img src="{{ Storage::disk('s3')->url('avatars/no-avatar.png') }}" alt="blank-avatar">
+                            @endif
+                            </a>
+                        </div>
+                    @endforeach
+                @endif
+                @if(Auth::check())
+                    @if(Auth::user()->isElevated() || Auth::user()->id == $project->user_id)
+                    <div class="panel-body wrapper" >
+                        Edit panel
+                        <div id="columns">
+                        @if (count($fragments))
+                            @foreach ($fragments as $fragment)
+                                <div id="post-{{ $fragment->id }}">
+                                    <report-fragment-button project-slug="{{ $project->slug }}" fragment-id="{{ $fragment->id }}" class="pull-right report-text"></report-fragment-button>
+                                    <p>
+                                        {!! GrahamCampbell\Markdown\Facades\Markdown::convertToHtml(
+                                            $fragment->body
+                                        ) !!}
+                                    </p>
+                                    <div id="volume-message-{{ $fragment->id }}"></div>
+                                    <set-volume-fragment volume="{{ $fragment->volume }}" fragment-id="{{ $fragment->id }}"></set-volume-fragment>
+                                    @can ('edit', $fragment)
+                                        <a href="{{ route('componists.projects.project.fragments.fragment.edit', [$project, $fragment]) }}"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+                                    @endcan
+                                    @can ('delete', $fragment)
+                                        <form class="inline" action="{{ route('componists.projects.project.fragments.post.delete', [$project, $fragment]) }}" method="post">
+                                            {{ method_field('DELETE') }}
+                                            {{ csrf_field() }}
+                                            <button type="submit" class="btn btn-link danger-link"><span class="glyphicon glyphicon-remove"></span> Delete</button>
+                                        </form>
+                                    @endcan
+                                </div>
+                            @endforeach
+                        @endif
+                    </div>
                     @else
-                        <p>The are currently no posts for this topic.</p>
+                        Edit panel
+                        @if (count($fragments))
+                            @foreach ($fragments as $fragment)
+                                @if(Auth::user()->id == $fragment->user_id)
+                                    <div id="post-{{ $fragment->id }}">
+                                        <a href="{{ route('componists.projects.project.fragments.fragment.edit', [$project, $fragment]) }}"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+
+                                        <form class="inline" action="{{ route('componists.projects.project.fragments.post.delete', [$project, $fragment]) }}" method="post">
+                                            {{ method_field('DELETE') }}
+                                            {{ csrf_field() }}
+                                            <button type="submit" class="btn btn-link danger-link"><span class="glyphicon glyphicon-remove"></span> Delete</button>
+                                        </form>
+                                    </div>
+                                @endif
+                            @endforeach
+                        @endif
                     @endif
-                        <br>
-                </div>
+                @endif
                     <div class="playlist-toolbar">
                         <div class="btn-group">
                             <span class="btn-pause btn btn-warning">

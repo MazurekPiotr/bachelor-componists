@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', 'ProjectsController@index')->name('componists.projects.index');
+Route::get('/', 'ProjectsController@home');
 
 Auth::routes();
 
@@ -41,6 +41,8 @@ Route::group(['middleware' => ['log.activity']], function() {
 
             Route::post('/projects/{project}/report', 'ProjectsReportController@report')->name('componists.projects.project.report.report');
             Route::post('/projects/{project}/fragments/{fragment}/report', 'FragmentsReportController@report')->name('componists.projects.project.fragments.post.report.report');
+            Route::post('/fragments/{fragment}/setVolume/{volume}', 'FragmentsController@setVolume');
+
 
         });
 
@@ -90,6 +92,8 @@ Route::group(['middleware' => ['log.activity']], function() {
 
         Route::get('/{project}/report/status', 'ProjectsReportController@status')->name('componists.projects.project.report.status');
         Route::get('/{project}/fragments/{fragment}/report/status', 'FragmentsReportController@status')->name('componists.projects.project.fragments.post.report.status');
+        Route::get('/fragments/{fragment}/getVolume', 'FragmentsController@getVolume');
+
     });
 
 });

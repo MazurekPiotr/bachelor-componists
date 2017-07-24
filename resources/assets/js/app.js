@@ -21,6 +21,8 @@ Vue.component('report-project-button', require('./components/ReportProjectCompon
 Vue.component('report-fragment-button', require('./components/ReportFragmentComponent.vue'));
 Vue.component('delete-report', require('./components/ModeratorDeleteReportButtonComponent.vue'));
 Vue.component('messaging', require('./components/UserMessagingComponent.vue'));
+Vue.component('set-volume-fragment', require('./components/SetVolumeFragmentComponent.vue'));
+Vue.component('vue-slider', require('vue-slider-component'));
 
 Vue.use(VueResource);
 

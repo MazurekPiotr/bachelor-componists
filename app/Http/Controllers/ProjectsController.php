@@ -23,6 +23,13 @@ use PhpParser\Node\Expr\Cast\Int_;
 
 class ProjectsController extends Controller
 {
+    public function home() {
+        $projects = Project::orderBy('created_at', 'desc')->get();
+
+        return view('welcome', [
+            'projects' => $projects,
+        ]);
+    }
 
     public function index ()
     {
@@ -35,11 +42,18 @@ class ProjectsController extends Controller
 
     public function show (Request $request, Project $project)
     {
-        $fragments = $project->fragments()->get();
+        $fragments = Fragment::where('project_id', $project->id)->get();
+
+        $users = [];
+        foreach ($fragments as $key => $fragment) {
+            $user = User::where('id', $fragment->user_id)->first();
+            $users[$key] = $user;
+        }
 
         return view('componists.projects.project.index', [
             'project' => $project,
             'fragments' => $fragments,
+            'users' => array_unique($users)
         ]);
     }
 
@@ -119,7 +133,7 @@ class ProjectsController extends Controller
     }
 
     public function getFragmentSlugsFromProject($projectId) {
-        $fragments = Fragment::where('project_id', $projectId)->select('link', 'name')->get();
+        $fragments = Fragment::where('project_id', $projectId)->select('link', 'name', 'volume')->get();
 
         return $fragments->toJson();
     }
@@ -129,7 +143,7 @@ class ProjectsController extends Controller
 
         $users = [];
         foreach ($fragments as $key => $fragment) {
-            $user = User::where('id', $fragment->user_id)->select('id', 'country', 'imageURL', 'longitude', 'latitude')->first();
+            $user = User::where('id', $fragment->user_id)->select('id', 'country')->first();
             $users[$key] = $user;
         }
 
@@ -141,7 +155,7 @@ class ProjectsController extends Controller
 
         $users = [];
         foreach ($projects as $key => $project) {
-            $user = User::where('id', $project->user_id)->select('id', 'country', 'imageURL', 'longitude', 'latitude')->first();
+            $user = User::where('id', $project->user_id)->select('id', 'country')->first();
             $users[$key] = $user;
         }
 

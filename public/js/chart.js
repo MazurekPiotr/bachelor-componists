@@ -16,73 +16,74 @@ else {
 }
 
 function generate(response) {
+    var users = response;
     var countries = [];
-    console.log(response);
     for (index = 0; index < response.length; ++index) {
         var valuesToPush = [];
         valuesToPush["id"] = response[index].country;
         valuesToPush["customData"] = response[index].title;
         valuesToPush["selectable"] = true;
-        valuesToPush["modalUrl"] = "http://localhost:8888/user/profile/@rat";
+        valuesToPush["user_id"] = response[index].id;
         countries.push(valuesToPush);
     }
 
-    map = AmCharts.makeChart( "chartdiv", {
+    var map = AmCharts.makeChart( "chartdiv", {
         "type": "map",
         "theme": "light",
         "projection": "miller",
-        dragMap: true,
+        dragMap: false,
 
         zoomControl: {
             zoomControlEnabled: false,
             panControlEnabled: false
         },
-
-        "imagesSettings": {
-            "rollOverScale": 5,
-            "selectedScale": 3,
-            "selectedColor": "#d8a911",
-            "color": "#FFF9C6",
-        },
-        "responsive": {
+        responsive: {
             "enabled": true
         },
 
-        "areasSettings": {
+        areasSettings: {
             "unlistedAreasColor": "#d8a911",
-            "autoZoom" : true,
+            "autoZoom" : false,
         },
-        "dataProvider": {
+        dataProvider: {
             "map": "worldLow",
             "areas" : countries
         },
-        "listeners": [{
-            "event": "clickMapObject",
-            "method": function(event) {
-                $.fancybox({
-                    "href": event.mapObject.modalUrl,
-                    "title": event.mapObject.title,
-                    "type": "iframe"
-                });
-            }
-        }]
     } );
 
-    var zoomToAreasIds = [];
+    map.addListener("rendered", function (event) {
 
-    for(var i = 0; i < countries.length; i++) {
-        zoomToAreasIds.push(countries[i].id);
-    }
-
-    var zoomToAreas = [];
-    var area;
-    for(var i = 0; i < zoomToAreasIds.length; i++) {
-        if (area = map.getObjectById(zoomToAreasIds[i])){
-            zoomToAreas.push(area);
+        var zoomToAreasIds = [];
+        for(var i = 0; i < countries.length; i++) {
+            zoomToAreasIds.push(countries[i].id);
         }
-    }
 
-    map.zoomToGroup(zoomToAreas);
+        var zoomToAreas = [];
+        var area;
+        for(var i = 0; i < zoomToAreasIds.length; i++) {
+            if (area = map.getObjectById(zoomToAreasIds[i])){
+                zoomToAreas.push(area);
+            }
+        }
 
+        map.zoomToGroup(zoomToAreas);
+    });
+
+    map.addListener("rollOverMapObject", function(event) {
+        for(i = 0; i < users.length; i++) {
+            if(event.mapObject.id == users[i].country) {
+                $('#user-' + users[i].id).css('width', '21%');
+            }
+        }
+    });
+
+    map.addListener("rollOutMapObject", function(event) {
+        for(i = 0; i < users.length; i++) {
+            if(event.mapObject.id == users[i].country) {
+                $('#user-' + users[i].id).css('width', '20%');
+            }
+        }
+    });
+    map.validateNow();
 }
 
