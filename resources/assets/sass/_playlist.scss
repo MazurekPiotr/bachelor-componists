@@ -1,25 +1,35 @@
+.player {
+  display: none;
+}
 #playlist {
   clear: both;
 }
+#addTrack {
+  display: none;
+}
+.playermodal {
+  width: 80%;
+  margin-left: 10%;
+  margin-top: 10%;
+}
 .playlist {
-  box-shadow: 2px 2px 2px 2px grey;
   margin: 2em 0;
   -webkit-border-radius:5px;
   -moz-border-radius:5px;
   border-radius:5px;
   clear: both;
-  width: 100%;
 
   .playlist-time-scale {
     height: 30px;
   }
 
   .playlist-tracks {
-    background: #000000;
+    overflow: hidden !important;
     -webkit-border-radius:5px;
     -moz-border-radius:5px;
     border-radius:5px;
     display: block;
+    margin-bottom: 5px;
   }
 
   .channel {
@@ -29,6 +39,10 @@
 
   .channel-progress {
     background: #ffa500;
+  }
+
+  .channel-wrapper {
+    margin-bottom: 10px;
   }
 
   .cursor {
@@ -49,7 +63,7 @@
   }
 
   .selection.point {
-    background: blue;
+    background: red;
   }
 
   .selection.segment {
@@ -58,16 +72,21 @@
 
   .waveform {
     border-bottom: #ffa500 1px;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-left: 2px;
   }
 
 
   .channel-wrapper.silent .channel {
     opacity: 0.3;
-  }
+  }&
 
   .controls {
     background: white;
     text-align: center;
+    border-radius: 5px;
+    overflow: hidden;
 
     input[type=range] {
       -webkit-appearance: none;
@@ -233,8 +252,7 @@
   }
 }
 
-.playlist-tool-bar {
+.playlist-toolbar {
   clear: both;
-  margin-top: 1em;
-  margin-bottom: 1em;
 }
+

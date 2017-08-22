@@ -1,16 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<div id="chartdiv"></div>
 <div class="container">
     <div class="row">
         <div class="col-md-12">
             <div style="text-align: center">
                 <h1 id="projectId" data-project-id="all">Componists</h1>
-                <br>
-
-
-                <br>
                 <ul class="list-group container">
                     @if (count($projects))
                         @foreach ($projects as $project)
@@ -18,9 +13,7 @@
                                     <a href="/projects/{{ $project->slug }}" style="text-decoration: none; text-decoration-color: #0d0d0d">
                                         <li class="list-group-item">
                                             <span class="badge">{{ $project->fragmentCount() }} tracks</span>
-                                            <br>
                                             <h1>{{ $project->title }}</h1>
-                                            <br>
                                             @if( Storage::disk('s3')->exists('avatars/'. $project->user_id . '/avatar.jpg')  )
                                                 <img src="{{ Storage::disk('s3')->url('avatars/'. $project->user_id . '/') . 'avatar.jpg' }}" alt="{{ App\User::findOrFail($project->user_id)->name }}-avatar">
                                             @else
@@ -29,7 +22,7 @@
                                             <br>
                                             <strong>Created</strong> {{ Carbon\Carbon::createFromTimeStamp(strtotime($project->created_at))->diffForHumans() }}
                                             <br>
-                                            <strong>Last post</strong> {{ Carbon\Carbon::createFromTimeStamp(strtotime($project->updated_at))->diffForHumans() }}
+                                            <strong>Last add fragment</strong> {{ Carbon\Carbon::createFromTimeStamp(strtotime($project->updated_at))->diffForHumans() }}
                                             @can ('delete', $project)
                                                 <br>
                                                 <form action="{{ route('componists.projects.project.delete', $project) }}" method="post">
@@ -44,7 +37,6 @@
                         @endforeach
                     @endif
                 </ul>
-                <a href="{{ route('componists.projects.create.form') }}" class="btn btn-primary btn-block">Create a new project</a>
             </div>
         </div>
     </div>

@@ -52,7 +52,7 @@
                 <div class="collapse navbar-collapse" id="navbar">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        <li><a href="{{ route('componists.projects.index') }}">All Topics</a></li>
+                        <li><a href="{{ route('componists.projects.index') }}">All Projects</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -91,6 +91,32 @@
         </nav>
         @yield('content')
     </div>
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="list-inline">
+                        <li>
+                            <a href="#">Home</a>
+                        </li>
+                        <li class="footer-menu-divider">&sdot;</li>
+                        <li>
+                            <a href="#about">About</a>
+                        </li>
+                        <li class="footer-menu-divider">&sdot;</li>
+                        <li>
+                            <a href="#services">Services</a>
+                        </li>
+                        <li class="footer-menu-divider">&sdot;</li>
+                        <li>
+                            <a href="#contact">Contact</a>
+                        </li>
+                    </ul>
+                    <p class="copyright text-muted small">Copyright &copy; Componists 2017. All Rights Reserved</p>
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <!-- Scripts -->
     <script src="/js/app.js"></script>

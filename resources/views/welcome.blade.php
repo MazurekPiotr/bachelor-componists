@@ -30,12 +30,13 @@
             <div class="col-lg-5 col-sm-6">
                 <hr class="section-heading-spacer">
                 <div class="clearfix"></div>
-                <h2 class="section-heading">Choose a project you like!</h2>
-                <p class="lead">A special thanks to <a target="_blank" href="">Death to the Stock Photo</a> for providing the photographs that you see in this template. Visit their website to become a member.</p>
+                <h1 class="section-heading">Start your own project!</h1>
+                <p class="lead">At Componists you will find music projects that you can contribute to!</p>
+                <p class="lead">Or start you own project!</p>
             </div>
             @desktop
             <div class="col-lg-5 col-lg-offset-2 col-sm-6">
-                <img class="img-responsive" src="assets/img/header.jpg" alt="">
+                <img class="img-responsive" src="assets/img/pexels-photo.jpg" alt="">
             </div>
             @enddesktop
         </div>
@@ -54,8 +55,8 @@
             <div class="col-lg-5 col-lg-offset-1 col-sm-push-6  col-sm-6">
                 <hr class="section-heading-spacer">
                 <div class="clearfix"></div>
-                <h2 class="section-heading">Download the song!</h2>
-                <p class="lead">Turn your 2D designs into high quality, 3D product shots in seconds using free Photoshop actions by <a target="_blank" href="http://www.psdcovers.com/">PSDCovers</a>! Visit their website to download some of their awesome, free photoshop actions!</p>
+                <h2 class="section-heading">Contribute to a project!</h2>
+                <p class="lead">Find a project you like and add a </p>
             </div>
             @desktop
             <div class="col-lg-5 col-sm-pull-6  col-sm-6">
@@ -92,51 +93,6 @@
     <!-- /.container -->
 
 </div>
-<!-- /.content-section-a -->
 
-<a  name="contact"></a>
-<div class="banner">
-
-    <div class="container">
-
-        <div class="row">
-            <div class="col-lg-6">
-                <h2>Connect to Start Bootstrap:</h2>
-            </div>
-        </div>
-
-    </div>
-    <!-- /.container -->
-
-</div>
-<!-- /.banner -->
-
-<!-- Footer -->
-<footer>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <ul class="list-inline">
-                    <li>
-                        <a href="#">Home</a>
-                    </li>
-                    <li class="footer-menu-divider">&sdot;</li>
-                    <li>
-                        <a href="#about">About</a>
-                    </li>
-                    <li class="footer-menu-divider">&sdot;</li>
-                    <li>
-                        <a href="#services">Services</a>
-                    </li>
-                    <li class="footer-menu-divider">&sdot;</li>
-                    <li>
-                        <a href="#contact">Contact</a>
-                    </li>
-                </ul>
-                <p class="copyright text-muted small">Copyright &copy; Your Company 2014. All Rights Reserved</p>
-            </div>
-        </div>
-    </div>
-</footer>
 
 @endsection

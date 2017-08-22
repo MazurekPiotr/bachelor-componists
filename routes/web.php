@@ -46,6 +46,8 @@ Route::group(['middleware' => ['log.activity']], function() {
             Route::post('/projects/{project}/fragments/{fragment}/report', 'FragmentsReportController@report')->name('componists.projects.project.fragments.post.report.report');
             Route::post('/fragments/{fragment}/setVolume/{volume}', 'FragmentsController@setVolume');
 
+            Route::post('/projects/{project}/addPost', 'ProjectsController@addPost')->name('componists.projects.posts.create.submit');
+
 
         });
 

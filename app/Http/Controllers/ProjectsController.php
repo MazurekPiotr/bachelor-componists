@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\ProjectDeleted;
 use App\Http\Requests\CreateProjectFormRequest;
+use App\Http\Requests\CreatePostRequest;
 use App\Project;
 use App\Post;
 use Auth;
@@ -104,14 +105,6 @@ class ProjectsController extends Controller
         $fragment->name = $request->fragmentInstrument;
         $fragment->save();
 
-        // do @mention functionality
-        $mentioned_users = GetMentionedUsers::handle($request->fragmentText);
-
-        if (count($mentioned_users)) {
-            event(new UsersMentioned($mentioned_users, $project, $fragment));
-        }
-
-        // create the subscription
         $subscription = new Subscription();
         $subscription->project_id = $project->id;
         $subscription->user_id = $request->user()->id;
@@ -183,8 +176,29 @@ class ProjectsController extends Controller
         return $users;
     }
 
-    public function addPost($projectId) {
+    public function addPost(CreatePostRequest $request, Project $project) {
 
+        $post = new Post();
+        $post->body = $request->body;
+        $post->project_id = $project->id;
+        $post->user_id = $request->user()->id;
+        $post->save();
+
+        $fragments = Fragment::where('project_id', $project->id)->get();
+        $posts = Post::where('project_id', $project->id)->get();
+
+        $users = [];
+        foreach ($fragments as $key => $fragment) {
+            $user = User::where('id', $fragment->user_id)->first();
+            $users[$key] = $user;
+        }
+
+        return view('componists.projects.project.index', [
+            'project' => $project,
+            'fragments' => $fragments,
+            'posts' => $posts,
+            'users' => array_unique($users)
+        ]);
     }
 
 }

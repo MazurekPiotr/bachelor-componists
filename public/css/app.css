@@ -7674,11 +7674,6 @@ h1, h2, h3, h4 {
   font-family: 'Amatic SC', serif;
 }
 
-h1 {
-  font-size: 80px;
-  font-weight: bold;
-}
-
 @media (min-width: 992px) {
   form.custom-horizontal .btn {
     margin-top: 26px;
@@ -7784,6 +7779,20 @@ img.img-thumbnail {
 .wrapper {
   width: 100%;
   margin: 50px auto;
+}
+
+.register {
+  background-color: white;
+  border-radius: 5px;
+  box-sizing: border-box;
+  padding: 20px;
+  width: 50%;
+  margin-left: 25%;
+  margin-top: 10%;
+}
+
+.register p {
+  margin: 0;
 }
 
 input[type="text"],
@@ -7913,31 +7922,34 @@ button.btn:active:focus, button.btn.active:focus {
 
 .playlist-toolbar {
   clear: both;
-  width: 166px;
   margin-top: 2em;
 }
 
 /*
-* Style tweaks
-* --------------------------------------------------
-*/
+  * Style tweaks
+  * --------------------------------------------------
+  */
 html,
 body {
   overflow-x: hidden;
-  /* Prevent scroll on narrow devices */
+  /* PrFaevent scroll on narrow devices */
+  min-height: 100%;
+  position: relative;
 }
 
 body {
+  position: absolute;
   padding-top: 100px;
+  width: 100%;
 }
 
-footer {
-  padding: 30px 0;
+#app {
+  margin-bottom: 60px;
 }
 
 /*
- * Custom styles
- */
+   * Custom styles
+   */
 .navbar-brand {
   font-size: 24px;
 }
@@ -7976,18 +7988,8 @@ footer {
 }
 
 .intro-header {
-  padding-top: 50px;
-  padding-bottom: 50px;
   text-align: center;
   color: #f8f8f8;
-  background: url("/assets/img/header.jpg") no-repeat center center;
-  background-size: cover;
-}
-
-.intro-message {
-  position: relative;
-  padding-top: 20%;
-  padding-bottom: 20%;
 }
 
 @media (max-width: 767px) {
@@ -8047,13 +8049,6 @@ footer {
   border-top: 3px solid #e7e7e7;
 }
 
-.banner {
-  padding: 100px 0;
-  color: #f8f8f8;
-  background: url(../img/banner-bg.jpg) no-repeat center center;
-  background-size: cover;
-}
-
 .banner h2 {
   margin: 0;
   text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.6);
@@ -8077,6 +8072,9 @@ footer {
 }
 
 @media (max-width: 767px) {
+  .intro-message h1 {
+    font-size: 7em;
+  }
   .banner h2 {
     margin: 0;
     text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.6);
@@ -8151,16 +8149,67 @@ p.copyright {
   margin: 0;
 }
 
+input[type="text"], textarea {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  margin: 0;
+  outline: 0;
+  padding: 7px;
+  width: 100%;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  background-color: #e8eeef;
+  color: #8a97a0;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03) inset;
+  margin-bottom: 30px;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  padding: 2rem;
+  background-color: #efefef;
+  text-align: center;
+  height: 100px;
+  width: 100%;
+}
+
+#edit .wrapper {
+  background-color: white;
+  width: 80%;
+  margin-left: 10%;
+  margin-top: 20%;
+}
+
+.pin {
+  margin-bottom: 2%;
+}
+
+.player {
+  display: none;
+}
+
 #playlist {
   clear: both;
 }
 
+#addTrack {
+  display: none;
+}
+
+.playermodal {
+  width: 80%;
+  margin-left: 10%;
+  margin-top: 10%;
+}
+
 .playlist {
-  box-shadow: 2px 2px 2px 2px grey;
   margin: 2em 0;
   border-radius: 5px;
   clear: both;
-  width: 100%;
 }
 
 .playlist .playlist-time-scale {
@@ -8168,9 +8217,10 @@ p.copyright {
 }
 
 .playlist .playlist-tracks {
-  background: #000000;
+  overflow: hidden !important;
   border-radius: 5px;
   display: block;
+  margin-bottom: 5px;
 }
 
 .playlist .channel {
@@ -8180,6 +8230,10 @@ p.copyright {
 
 .playlist .channel-progress {
   background: #ffa500;
+}
+
+.playlist .channel-wrapper {
+  margin-bottom: 10px;
 }
 
 .playlist .cursor {
@@ -8200,7 +8254,7 @@ p.copyright {
 }
 
 .playlist .selection.point {
-  background: blue;
+  background: red;
 }
 
 .playlist .selection.segment {
@@ -8209,6 +8263,9 @@ p.copyright {
 
 .playlist .waveform {
   border-bottom: #ffa500 1px;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-left: 2px;
 }
 
 .playlist .channel-wrapper.silent .channel {
@@ -8218,6 +8275,8 @@ p.copyright {
 .playlist .controls {
   background: white;
   text-align: center;
+  border-radius: 5px;
+  overflow: hidden;
 }
 
 .playlist .controls input[type=range] {
@@ -8385,10 +8444,8 @@ p.copyright {
   background-color: #195ef6;
 }
 
-.playlist-tool-bar {
+.playlist-toolbar {
   clear: both;
-  margin-top: 1em;
-  margin-bottom: 1em;
 }
 
 /*# sourceMappingURL=app.css.map */

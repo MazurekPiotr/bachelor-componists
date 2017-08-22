@@ -11,19 +11,13 @@
                 </div>
             @endif
             <div class="panel panel-default">
-                <div class="panel-heading">My topics</div>
+                <div class="panel-heading">My projects</div>
                 <div class="panel-body" style="text-align: center">
-                    <a href="{{ route('componists.projects.create.form') }}" class="btn btn-primary btn-block">Create a topic</a>
-                    <br />
+                    <a href="{{ route('componists.projects.create.form') }}" class="btn btn-primary btn-block">Create a new project</a>
                     <ul class="list-group">
                         @if (count($projects))
                             @foreach ($projects as $project)
                                 <li class="list-group-item">
-                                    @if( Storage::disk('s3')->exists('avatars/'. $project->user_id . '/avatar.jpg')  )
-                                        <img src="{{ Storage::disk('s3')->url('avatars/'. $project->user_id . '/' . 'avatar.jpg') }}" alt="{{ App\User::findOrFail($project->user_id)->name }}-avatar">
-                                    @else
-                                        <img src="{{ Storage::disk('s3')->url('avatars/'. 'no-avatar.png') }}" alt="blank-avatar">
-                                    @endif
                                     <a href="/projects/{{ $project->slug }}">{{ $project->title }} <span class="badge">{{ $project->fragmentCount() }}</span></a>
                                     <br />
                                     <strong>Created</strong> {{ Carbon\Carbon::createFromTimeStamp(strtotime($project->created_at))->diffForHumans() }}
@@ -39,7 +33,7 @@
                                 </li>
                             @endforeach
                         @else
-                            <p>You haven't created any topics yet.</p>
+                            <p>You haven't created any projects yet.</p>
                         @endif
                     </ul>
                 </div>

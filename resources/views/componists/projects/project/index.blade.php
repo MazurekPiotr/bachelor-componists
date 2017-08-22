@@ -41,43 +41,56 @@
                         @endforeach
                     @endif
                 </div>
+
                 @if(Auth::check())
-                    <div class="panel-body wrapper" >
-                        <h3>Edit panel</h3>
                     @if(Auth::user()->isElevated() || Auth::user()->id == $project->user_id)
+                        <button type="button"
+                                class="btn btn-primary btn-lg"
+                                data-toggle="modal"
+                                data-target="#edit">
+                            Edit
+                        </button>
                         @if (count($fragments))
-                            @foreach ($fragments as $fragment)
-                                <div id="fragment-{{ $fragment->id }}">
-                                    <h4>{{ $fragment->name }}</h4>
-                                    <report-fragment-button project-slug="{{ $project->slug }}" fragment-id="{{ $fragment->id }}" class="pull-right report-text"></report-fragment-button>
-                                    <div id="volume-message-{{ $fragment->id }}"></div>
-                                    <set-volume-fragment volume="{{ $fragment->volume }}" fragment-id="{{ $fragment->id }}"></set-volume-fragment>
-                                    @can ('edit', $fragment)
-                                        <a href="{{ route('componists.projects.project.fragments.fragment.edit', [$project, $fragment]) }}"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
-                                    @endcan
-                                    @can ('delete', $fragment)
-                                        <form class="inline" action="{{ route('componists.projects.project.fragments.post.delete', [$project, $fragment]) }}" method="post">
-                                            {{ method_field('DELETE') }}
-                                            {{ csrf_field() }}
-                                            <button type="submit" class="btn btn-link danger-link"><span class="glyphicon glyphicon-remove"></span> Delete</button>
-                                        </form>
-                                    @endcan
+                            <div  id="edit" class="modal fade">
+                                <div class="panel-body wrapper">
+                                <h3>Edit panel</h3>
+
+                                @foreach ($fragments as $fragment)
+                                    <div id="fragment-{{ $fragment->id }}">
+                                        <h4>{{ $fragment->name }}</h4>
+                                        <report-fragment-button project-slug="{{ $project->slug }}" fragment-id="{{ $fragment->id }}" class="pull-right report-text"></report-fragment-button>
+                                        <div id="volume-message-{{ $fragment->id }}"></div>
+                                        <set-volume-fragment volume="{{ $fragment->volume }}" fragment-id="{{ $fragment->id }}"></set-volume-fragment>
+                                        @can ('edit', $fragment)
+                                            <a href="{{ route('componists.projects.project.fragments.fragment.edit', [$project, $fragment]) }}"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+                                        @endcan
+                                        @can ('delete', $fragment)
+                                            <form class="inline" action="{{ route('componists.projects.project.fragments.post.delete', [$project, $fragment]) }}" method="post">
+                                                {{ method_field('DELETE') }}
+                                                {{ csrf_field() }}
+                                                <button type="submit" class="btn btn-link danger-link"><span class="glyphicon glyphicon-remove"></span> Delete</button>
+                                            </form>
+                                        @endcan
+                                    </div>
+                                @endforeach
                                 </div>
-                            @endforeach
+                            </div>
                         @endif
                     @else
                         @if (count($fragments))
                             @foreach ($fragments as $fragment)
                                 @if(Auth::user()->id == $fragment->user_id)
-                                    <div id="fragment-{{ $fragment->id }}">
-                                        <h4>{{ $fragment->name }}</h4>
-                                        <a href="{{ route('componists.projects.project.fragments.fragment.edit', [$project, $fragment]) }}"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
-                                        <form class="inline" action="{{ route('componists.projects.project.fragments.post.delete', [$project, $fragment]) }}" method="post">
-                                            {{ method_field('DELETE') }}
-                                            {{ csrf_field() }}
-                                            <button type="submit" class="btn btn-link danger-link"><span class="glyphicon glyphicon-remove"></span> Delete</button>
-                                        </form>
-                                        <set-volume-fragment volume="{{ $fragment->volume }}" fragment-id="{{ $fragment->id }}"></set-volume-fragment>
+                                    <div id="edit" class="modal fade">
+                                        <div id="fragment-{{ $fragment->id }}">
+                                            <h4>{{ $fragment->name }}</h4>
+                                            <a href="{{ route('componists.projects.project.fragments.fragment.edit', [$project, $fragment]) }}"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+                                            <form class="inline" action="{{ route('componists.projects.project.fragments.post.delete', [$project, $fragment]) }}" method="post">
+                                                {{ method_field('DELETE') }}
+                                                {{ csrf_field() }}
+                                                <button type="submit" class="btn btn-link danger-link"><span class="glyphicon glyphicon-remove"></span> Delete</button>
+                                            </form>
+                                            <set-volume-fragment volume="{{ $fragment->volume }}" fragment-id="{{ $fragment->id }}"></set-volume-fragment>
+                                        </div>
                                     </div>
                                 @endif
                             @endforeach
@@ -85,34 +98,59 @@
                     @endif
                     </div>
                 @endif
-                    <div class="playlist-toolbar">
-                        <div class="btn-group">
-                            <span class="btn-pause btn btn-warning">
-                                <i class="glyphicon glyphicon-pause"></i>
-                            </span>
-                            <span class="btn-play btn btn-success">
-                                <i class="glyphicon glyphicon-play"></i>
-                            </span>
-                            <span class="btn-stop btn btn-danger">
-                                <i class="glyphicon glyphicon-stop"></i>
-                            </span>
+                <button type="button"
+                        class="btn btn-primary btn-lg"
+                        data-toggle="modal"
+                        data-target="#player">
+                    Show player
+                </button>
+                <div class="player modal fade " id="player">
+                    <div class="playermodal">
+                        <div class="playlist-toolbar">
+                            <h2>Controls</h2>
+                            <div class="btn-group">
+                                <span class="btn-pause btn btn-warning">
+                                    <i class="glyphicon glyphicon-pause"></i>
+                                </span>
+                                <span class="btn-play btn btn-success">
+                                    <i class="glyphicon glyphicon-play"></i>
+                                </span>
+                                <span class="btn-stop btn btn-danger">
+                                    <i class="glyphicon glyphicon-stop"></i>
+                                </span>
+                            </div>
+                            <div class="btn-group">
+                                <span title="zoom in" class="btn-zoom-in btn btn-default">
+                                <i class="fa fa-search-plus"></i>
+                                </span>
+                                                    <span title="zoom out" class="btn-zoom-out btn btn-default">
+                                <i class="fa fa-search-minus"></i>
+                                </span>
+                            </div>
+
+                            @if(Auth::check())
+                            <div class="btn-group">
+                                <span title="Download the current work as Wav file" class="btn btn-download btn-primary">
+                                    <i class="glyphicon glyphicon-download-alt"></i>
+                                </span>
+                            </div>
+                            @else
+                                Please <a href="{{ url('/register') }}">register</a> and <a href="{{ url('/login') }}">login</a> to download the mix.
+                            @endif
                         </div>
-                        @if(Auth::check())
-                        <div class="btn-group">
-                            <span title="Download the current work as Wav file" class="btn btn-download btn-primary">
-                                <i class="glyphicon glyphicon-download-alt"></i>
-                            </span>
-                        </div>
-                        @else
-                            <p style="text-align: center">Please <a href="{{ url('/register') }}">register</a> and <a href="{{ url('/login') }}">login</a> to download the mix.</p>
-                        @endif
+                        <div id="playlist"></div>
                     </div>
-                <div id="playlist" ></div>
-
+                </div>
                     <h1 style="text-align: center">Upload your own track for this project!</h1>
-
+                <button type="button"
+                        class="btn btn-primary btn-lg"
+                        data-toggle="modal"
+                        data-target="#addTrack">
+                    Add track
+                </button>
+                <div id="addTrack" class="modal fade">
                 @if (Auth::check())
-                    <div class="col-sm-12 col-md-6 col-md-offset-3 pin">
+                    <div class="col-sm-12 col-md-6 col-md-offset-3">
                         <form action="{{ route('componists.projects.fragments.create.submit', $project) }}" method="post" enctype="multipart/form-data">
                             <div class="form-group{{ $errors->has('fragmentText') ? ' has-error' : '' }}">
                                 <label for="fragmentText" class="control-label">Your Reply</label>
@@ -147,8 +185,11 @@
                         </form>
                     </div>
                     @else
-                        <p style="text-align: center">Please <a href="{{ url('/register') }}">register</a> and <a href="{{ url('/login') }}">login</a> to add a track to this project.</p>
+                        <div class="col-sm-12 col-md-6 col-md-offset-3 register">
+                            <p style="text-align: center">Please <a href="{{ url('/register') }}">register</a> and <a href="{{ url('/login') }}">login</a> to add a track to this project.</p>
+                        </div>
                     @endif
+                </div>
                         @foreach ($posts as $post)
                         <div class="post" id="post-{{ $post->id }}">
                             @if( Storage::disk('s3')->exists('avatars/'. $user->id . '/avatar.jpg')  )
@@ -166,12 +207,12 @@
                 @if (Auth::check())
                     <div class="col-sm-12 col-md-6 col-md-offset-3">
                         <form action="{{ route('componists.projects.posts.create.submit', $project) }}" method="post" enctype="multipart/form-data">
-                            <div class="form-group{{ $errors->has('bodt') ? ' has-error' : '' }}">
-                                <label for="fragmentText" class="control-label">Your Reply</label>
-                                <textarea name="fragmentText" id="fragmentText" class="form-control" placeholder="Your reply to {{ $project->title }}" rows="8" required></textarea>
-                                @if ($errors->has('fragmentText'))
+                            <div class="form-group{{ $errors->has('body') ? ' has-error' : '' }}">
+                                <label for="body" class="control-label">Your Reply</label>
+                                <textarea name="body" id="body" class="form-control" placeholder="Your comment on {{ $project->title }}" rows="8" required></textarea>
+                                @if ($errors->has('body'))
                                     <div class="help-block danger">
-                                        {{ $errors->first('fragmentText') }}
+                                        {{ $errors->first('body') }}
                                     </div>
                                 @endif
                             </div>
