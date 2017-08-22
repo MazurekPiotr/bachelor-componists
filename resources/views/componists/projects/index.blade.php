@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+<div id="chartdiv"></div>
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -8,7 +9,7 @@
                 <h1 id="projectId" data-project-id="all">Componists</h1>
                 <br>
 
-                    <div id="chartdiv"></div>
+
                 <br>
                 <ul class="list-group container">
                     @if (count($projects))
@@ -16,7 +17,7 @@
                                 <div class="col-sm-1 col-md-4 col-lg-3 pin">
                                     <a href="/projects/{{ $project->slug }}" style="text-decoration: none; text-decoration-color: #0d0d0d">
                                         <li class="list-group-item">
-                                            <span class="badge">{{ $project->postCount() }} tracks</span>
+                                            <span class="badge">{{ $project->fragmentCount() }} tracks</span>
                                             <br>
                                             <h1>{{ $project->title }}</h1>
                                             <br>

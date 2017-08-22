@@ -11,9 +11,12 @@
 |
 */
 
-Route::get('/', 'ProjectsController@home');
+Route::get('/', 'ProjectsController@home')->name('home');
 
 Auth::routes();
+
+Route::get('auth/{provider}', 'SocialController@redirectToProvider');
+Route::get('auth/{provider}/callback', 'SocialController@handleProviderCallback');
 
 // log.activity middleware logs the time of user activity that any inclusive routes are hit
 Route::group(['middleware' => ['log.activity']], function() {

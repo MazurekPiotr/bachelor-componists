@@ -58,7 +58,7 @@ class Project extends Model
      *
      * @return int
      */
-    public function postCount()
+    public function fragmentCount()
     {
         return count($this->fragments()->get());
     }

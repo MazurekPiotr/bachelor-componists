@@ -168,7 +168,8 @@ return [
          */
         Intervention\Image\ImageServiceProvider::class,
         GrahamCampbell\Markdown\MarkdownServiceProvider::class,
-        'Webpatser\Countries\CountriesServiceProvider',
+        Riverskies\Laravel\MobileDetect\MobileDetectServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -230,8 +231,7 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
         'Markdown' => GrahamCampbell\Markdown\Facades\Markdown::class,
         'GetMentionedUsers' => App\Facades\GetMentionedUsers::class,
-
-        'Countries' => 'Webpatser\Countries\CountriesFacade',
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
 
     ],
 

@@ -54,6 +54,11 @@ class User extends Authenticatable
         return $this->hasMany(Report::class);
     }
 
+    public function facebook()
+    {
+        return $this->hasOne(Social_Account::class);
+    }
+
     public function sentMessages()
     {
         return $this->hasMany(Message::class, 'sender_id');

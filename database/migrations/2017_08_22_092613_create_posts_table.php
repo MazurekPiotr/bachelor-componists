@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFragmentsTable extends Migration
+class CreatePostsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,14 @@ class CreateFragmentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('fragments', function (Blueprint $table) {
+        Schema::create('posts', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('project_id')->unsigned();
             $table->text('body');
-            $table->text('name');
-            $table->text('time');
-            $table->float('volume')->default(50);
             $table->softDeletes();
             $table->timestamps();
-
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
         });
     }
@@ -36,6 +32,6 @@ class CreateFragmentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('fragments');
+        Schema:dropIfExists('posts');
     }
 }

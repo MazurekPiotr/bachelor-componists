@@ -5,6 +5,14 @@ $grey : #ccc;
 $blue : #3498db;
 $green : #2ecc71;
 
+h1, h2, h3, h4 {
+  font-family: 'Amatic SC', serif;
+}
+
+h1 {
+  font-size: 80px;
+  font-weight: bold;
+}
 form.custom-horizontal {
     .btn {
         @media (min-width: 992px) {
@@ -86,10 +94,10 @@ img.img-thumbnail {
 @media screen and (min-width: 1024px) {
     #chartdiv {
         width: 100%;
-        height: 500px;
+        height: 600px;
     }
 }
-@media screen and (min-width: 480px) {
+@media screen and (max-width: 1024px) {
     #chartdiv {
         width: 100%;
         height: 400px;
@@ -103,55 +111,105 @@ img.img-thumbnail {
     }
 }
 
-body {
-    background: url(//subtlepatterns.com/patterns/scribble_light.png);
-}
-
 .wrapper {
     width: 100%;
     margin: 50px auto;
 }
 
+//login en register css
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea,
+textarea.form-control {
+  height: 50px;
+  margin: 0;
+  padding: 0 20px;
+  vertical-align: middle;
+  background: #fff;
+  border: 3px solid #fff;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 50px;
+  color: #888;
+  -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;
+  -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none;
+  -o-transition: all .3s; -moz-transition: all .3s; -webkit-transition: all .3s; -ms-transition: all .3s; transition: all .3s;
+}
 
-.form-signin {
-    max-width: 380px;
-    padding: 35px 45px;
-    margin: 0 auto;
-    margin-top: 22%;
-    background-color: #fff;
-    border: 1px solid rgba(0,0,0,0.1);
+textarea,
+textarea.form-control {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  line-height: 30px;
+}
 
-    .form-signin-heading {
-        margin-bottom: 30px;
-    }
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+textarea.form-control:focus {
+  outline: 0;
+  background: #fff;
+  border: 3px solid #fff;
+  -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none;
+}
 
-    .checkbox {
-        font-weight: normal;
-    }
+input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder,
+textarea:-moz-placeholder, textarea.form-control:-moz-placeholder { color: #888; }
 
-    .form-control {
-        position: relative;
-        font-size: 16px;
-        height: auto;
-        padding: 10px;
-        @include box-sizing(border-box);
+input[type="text"]:-ms-input-placeholder, input[type="password"]:-ms-input-placeholder,
+textarea:-ms-input-placeholder, textarea.form-control:-ms-input-placeholder { color: #888; }
 
-        &:focus {
-            z-index: 2;
-        }
-    }
+input[type="text"]::-webkit-input-placeholder, input[type="password"]::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder, textarea.form-control::-webkit-input-placeholder { color: #888; }
 
-    input[type="text"] {
-        margin-bottom: -1px;
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
-    }
 
-    input[type="password"] {
-        margin-bottom: 20px;
-        border-top-left-radius: 0;
-        border-top-right-radius: 0;
-    }
+
+button.btn {
+  height: 50px;
+  margin: 0;
+  padding: 0 20px;
+  vertical-align: middle;
+  background: #de615e;
+  border: 0;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 50px;
+  color: #fff;
+  -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;
+  text-shadow: none;
+  -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none;
+  -o-transition: all .3s; -moz-transition: all .3s; -webkit-transition: all .3s; -ms-transition: all .3s; transition: all .3s;
+}
+
+button.btn:hover { opacity: 0.6; color: #fff; }
+
+button.btn:active { outline: 0; opacity: 0.6; color: #fff; -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; }
+
+button.btn:focus { outline: 0; opacity: 0.6; background: #de615e; color: #fff; }
+
+button.btn:active:focus, button.btn.active:focus { outline: 0; opacity: 0.6; background: #de615e; color: #fff; }
+
+.form-bottom {
+  padding: 25px 25px 30px 25px;
+  background: #444;
+  background: rgba(0, 0, 0, 0.3);
+  -moz-border-radius: 0 0 4px 4px; -webkit-border-radius: 0 0 4px 4px; border-radius: 0 0 4px 4px;
+  text-align: left;
+}
+
+.social-login {
+  margin-top: 35px;
+}
+
+.social-login h3 {
+  color: #fff;
+}
+
+.social-login-buttons {
+  margin-top: 25px;
 }
 
 .no-margin {
@@ -166,4 +224,241 @@ body {
     clear: both;
     width: 166px;
     margin-top: 2em;
+}
+/*
+* Style tweaks
+* --------------------------------------------------
+*/
+html,
+body {
+  overflow-x: hidden; /* Prevent scroll on narrow devices */
+}
+body {
+  padding-top: 100px;
+}
+footer {
+  padding: 30px 0;
+}
+
+/*
+ * Custom styles
+ */
+.navbar-brand {
+  font-size: 24px;
+}
+
+.navbar-container {
+  padding: 25px 0 25px 0;
+}
+
+.navbar.navbar-fixed-top.fixed-theme {
+  background-color: #222;
+  border-color: #080808;
+  box-shadow: 0 0 5px rgba(0,0,0,.8);
+}
+
+.navbar-brand.fixed-theme {
+  font-size: 18px;
+}
+
+.navbar-container.fixed-theme {
+  padding: 10px 0 10px 0;
+}
+
+.navbar-brand.fixed-theme,
+.navbar-container.fixed-theme,
+.navbar.navbar-fixed-top.fixed-theme,
+.navbar-brand,
+.navbar-container{
+  transition: 0.8s;
+  -webkit-transition:  0.8s;
+}
+
+#brand {
+  font-family: "Amatic SC", serif;
+  font-weight: bold;
+  font-size: 50px;
+}
+.intro-header {
+  padding-top: 50px;
+  padding-bottom: 50px;
+  text-align: center;
+  color: #f8f8f8;
+  background: url('/assets/img/header.jpg') no-repeat center center;
+  background-size: cover;
+}
+.intro-message {
+  position: relative;
+  padding-top: 20%;
+  padding-bottom: 20%;
+}
+
+@media(max-width:767px) {
+  .intro-message {
+    padding-bottom: 15%;
+  }
+
+  .intro-message > h1 {
+    font-size: 3em;
+  }
+
+  ul.intro-social-buttons > li {
+    display: block;
+    margin-bottom: 20px;
+    padding: 0;
+  }
+
+  ul.intro-social-buttons > li:last-child {
+    margin-bottom: 0;
+  }
+
+  .intro-divider {
+    width: 100%;
+  }
+}
+
+.intro-message {
+  position: relative;
+  padding-top: 20%;
+  padding-bottom: 20%;
+  h1 {
+    font-size: 15em;
+    text-shadow:
+            -2px -2px 0 #000,
+            2px -2px 0 #000,
+            -2px 2px 0 #000,
+            2px 2px 0 #000;
+  }
+  h3 {
+    font-size: 60px;
+    text-shadow:
+            -2px -2px 0 #000,
+            2px -2px 0 #000,
+            -2px 2px 0 #000,
+            2px 2px 0 #000;
+  }
+}
+
+.content-section-a {
+  padding: 50px 0;
+  background-color: #f8f8f8;
+}
+
+.content-section-b {
+  padding: 50px 0;
+  border-top: 1px solid #e7e7e7;
+  border-bottom: 1px solid #e7e7e7;
+}
+
+.section-heading {
+  margin-bottom: 30px;
+}
+
+.section-heading-spacer {
+  float: left;
+  width: 200px;
+  border-top: 3px solid #e7e7e7;
+}
+
+.banner {
+  padding: 100px 0;
+  color: #f8f8f8;
+  background: url(../img/banner-bg.jpg) no-repeat center center;
+  background-size: cover;
+}
+
+.banner h2 {
+  margin: 0;
+  text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
+  font-size: 3em;
+}
+
+.banner ul {
+  margin-bottom: 0;
+}
+
+.banner-social-buttons {
+  float: right;
+  margin-top: 0;
+}
+
+@media(max-width:1199px) {
+  ul.banner-social-buttons {
+    float: left;
+    margin-top: 15px;
+  }
+}
+
+@media(max-width:767px) {
+  .banner h2 {
+    margin: 0;
+    text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
+    font-size: 3em;
+  }
+
+  ul.banner-social-buttons > li {
+    display: block;
+    margin-bottom: 20px;
+    padding: 0;
+  }
+
+  ul.banner-social-buttons > li:last-child {
+    margin-bottom: 0;
+  }
+}
+
+footer {
+  padding: 50px 0;
+  background-color: #f8f8f8;
+}
+
+p.copyright {
+  margin: 15px 0 0;
+}
+
+.info-index {
+  margin-bottom: 20px;
+  max-height: 400px;
+  overflow: hidden;
+  background-color: black;
+  height: 100%;
+  .info-text {
+    h2{
+      margin: 0 !important;
+    }
+    box-sizing: border-box;
+    padding: 62px;
+    color: white;
+  }
+  .info-img {
+    overflow: hidden;
+    padding-right: 0;
+    padding-left: 0;
+    .img {
+      width: 100%;
+    }
+  }
+}
+
+.contributors {
+  clear: both;
+  .contributor {
+    width: 25%;
+    display: inline-block;
+    background-color: black;
+    text-align: center;
+    .user-img {
+      box-sizing: border-box;
+      width: 100%;
+      padding: 30px;
+      h3 {
+        color: white;
+        margin: 0;
+      }
+
+      img {
+
+      }
+    }
+  }
 }

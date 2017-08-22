@@ -24,7 +24,7 @@
                                     @else
                                         <img src="{{ Storage::disk('s3')->url('avatars/'. 'no-avatar.png') }}" alt="blank-avatar">
                                     @endif
-                                    <a href="/projects/{{ $project->slug }}">{{ $project->title }} <span class="badge">{{ $project->postCount() }}</span></a>
+                                    <a href="/projects/{{ $project->slug }}">{{ $project->title }} <span class="badge">{{ $project->fragmentCount() }}</span></a>
                                     <br />
                                     <strong>Created</strong> {{ Carbon\Carbon::createFromTimeStamp(strtotime($project->created_at))->diffForHumans() }}
                                     <br />

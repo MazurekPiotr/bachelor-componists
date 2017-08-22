@@ -1,50 +1,142 @@
 @extends('layouts.app')
 
 @section('content')
+<!-- Header -->
+<a name="about"></a>
+<div class="intro-header">
     <div class="container">
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                @if (Session::get('register_using_code') !== null)
-                    <div class="alert alert-{{ (Session::get('register_using_code') ? 'success' : 'danger' ) }} alert-dismissible" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        {!! (Session::pull('register_using_code') ? '<strong>Awesome!</strong> You have successfully signed up with a valid registration code.' : '<strong>Bugger!</strong> Your registration code was not able to be used during signup, so you only have base user privileges.' ) !!}
-                    </div>
-                @endif
-                <div class="panel panel-default">
-                    <div class="panel-heading">My topics</div>
-                    <div class="panel-body" style="text-align: center">
-                        <a href="{{ route('componists.projects.create.form') }}" class="btn btn-primary btn-block">Create a topic</a>
-                        <br />
-                        <ul class="list-group">
-                            @if (count($projects))
-                                @foreach ($projects as $project)
-                                    <li class="list-group-item">
-                                        @if( Storage::disk('s3')->exists('avatars/'. $project->user_id . '/avatar.jpg')  )
-                                            <img src="{{ Storage::disk('s3')->url('avatars/'. $project->user_id . '/' . 'avatar.jpg') }}" alt="{{ App\User::findOrFail($project->user_id)->name }}-avatar">
-                                        @else
-                                            <img src="{{ Storage::disk('s3')->url('avatars/'. 'no-avatar.png') }}" alt="blank-avatar">
-                                        @endif
-                                        <a href="/projects/{{ $project->slug }}">{{ $project->title }} <span class="badge">{{ $project->postCount() }}</span></a>
-                                        <br />
-                                        <strong>Created</strong> {{ Carbon\Carbon::createFromTimeStamp(strtotime($project->created_at))->diffForHumans() }}
-                                        <br />
-                                        <strong>Last post</strong> {{ Carbon\Carbon::createFromTimeStamp(strtotime($project->updated_at))->diffForHumans() }}
-                                        @can ('delete', $project)
-                                            <form action="{{ route('componists.projects.project.delete', $project) }}" method="post">
-                                                {{ method_field('DELETE') }}
-                                                {{ csrf_field() }}
-                                                <button type="submit" class="btn btn-link danger-link"><span class="glyphicon glyphicon-remove"></span> Delete</button>
-                                            </form>
-                                        @endcan
-                                    </li>
-                                @endforeach
-                            @else
-                                <p>You haven't created any topics yet.</p>
-                            @endif
-                        </ul>
-                    </div>
+            <div class="col-lg-12">
+                <div class="intro-message">
+                    <h1>Componists</h1>
+                    <h3>For musicians all over the world!</h3>
                 </div>
             </div>
         </div>
+
     </div>
+    <!-- /.container -->
+
+</div>
+<!-- /.intro-header -->
+
+<!-- Page Content -->
+
+<a  name="services"></a>
+<div class="content-section-a">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5 col-sm-6">
+                <hr class="section-heading-spacer">
+                <div class="clearfix"></div>
+                <h2 class="section-heading">Choose a project you like!</h2>
+                <p class="lead">A special thanks to <a target="_blank" href="">Death to the Stock Photo</a> for providing the photographs that you see in this template. Visit their website to become a member.</p>
+            </div>
+            @desktop
+            <div class="col-lg-5 col-lg-offset-2 col-sm-6">
+                <img class="img-responsive" src="assets/img/header.jpg" alt="">
+            </div>
+            @enddesktop
+        </div>
+
+    </div>
+    <!-- /.container -->
+
+</div>
+<!-- /.content-section-a -->
+
+<div class="content-section-b">
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-5 col-lg-offset-1 col-sm-push-6  col-sm-6">
+                <hr class="section-heading-spacer">
+                <div class="clearfix"></div>
+                <h2 class="section-heading">Download the song!</h2>
+                <p class="lead">Turn your 2D designs into high quality, 3D product shots in seconds using free Photoshop actions by <a target="_blank" href="http://www.psdcovers.com/">PSDCovers</a>! Visit their website to download some of their awesome, free photoshop actions!</p>
+            </div>
+            @desktop
+            <div class="col-lg-5 col-sm-pull-6  col-sm-6">
+                <img class="img-responsive" src="assets/img/header.jpg" alt="">
+            </div>
+            @enddesktop
+        </div>
+
+    </div>
+    <!-- /.container -->
+
+</div>
+<!-- /.content-section-b -->
+
+<div class="content-section-a">
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-5 col-sm-6">
+                <hr class="section-heading-spacer">
+                <div class="clearfix"></div>
+                <h2 class="section-heading">Upload your newly recorded track!</h2>
+                <p class="lead">This template features the 'Lato' font, part of the <a target="_blank" href="http://www.google.com/fonts">Google Web Font library</a>, as well as <a target="_blank" href="http://fontawesome.io">icons from Font Awesome</a>.</p>
+            </div>
+            @desktop
+            <div class="col-lg-5 col-lg-offset-2 col-sm-6">
+                <img class="img-responsive" src="assets/img/header.jpg" alt="">
+            </div>
+            @enddesktop
+        </div>
+
+    </div>
+    <!-- /.container -->
+
+</div>
+<!-- /.content-section-a -->
+
+<a  name="contact"></a>
+<div class="banner">
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-6">
+                <h2>Connect to Start Bootstrap:</h2>
+            </div>
+        </div>
+
+    </div>
+    <!-- /.container -->
+
+</div>
+<!-- /.banner -->
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <ul class="list-inline">
+                    <li>
+                        <a href="#">Home</a>
+                    </li>
+                    <li class="footer-menu-divider">&sdot;</li>
+                    <li>
+                        <a href="#about">About</a>
+                    </li>
+                    <li class="footer-menu-divider">&sdot;</li>
+                    <li>
+                        <a href="#services">Services</a>
+                    </li>
+                    <li class="footer-menu-divider">&sdot;</li>
+                    <li>
+                        <a href="#contact">Contact</a>
+                    </li>
+                </ul>
+                <p class="copyright text-muted small">Copyright &copy; Your Company 2014. All Rights Reserved</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
 @endsection

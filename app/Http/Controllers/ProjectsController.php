@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\ProjectDeleted;
 use App\Http\Requests\CreateProjectFormRequest;
 use App\Project;
+use App\Post;
 use Auth;
 use Illuminate\Http\File;
 use ClassPreloader\Config;
@@ -43,6 +44,7 @@ class ProjectsController extends Controller
     public function show (Request $request, Project $project)
     {
         $fragments = Fragment::where('project_id', $project->id)->get();
+        $posts = Post::where('project_id', $project->id)->get();
 
         $users = [];
         foreach ($fragments as $key => $fragment) {
@@ -53,6 +55,7 @@ class ProjectsController extends Controller
         return view('componists.projects.project.index', [
             'project' => $project,
             'fragments' => $fragments,
+            'posts' => $posts,
             'users' => array_unique($users)
         ]);
     }
@@ -78,7 +81,7 @@ class ProjectsController extends Controller
 
         $timeName = $music_file->getClientOriginalName();
         if(strpos($timeName, '#') || strpos($timeName, ' ')){
-            return view('componists.projects.project.fragments.fragment.edit', [
+            return view('componists.projects.project.create.form', [
                 'project' => $project,
                 'fragment' => $fragment
             ]);
@@ -90,12 +93,12 @@ class ProjectsController extends Controller
         $music_file->move($location,$timeName);
 
         $disk = Storage::disk('s3');
-        $disk->getDriver()->put('/fragments/'. $project->slug . '/' . $time . '/' . $timeName . '.mp3', fopen($location . '/' . $timeName, 'r+'));
+        $disk->getDriver()->put('/fragments/'. $project->slug . '/' . $time . '/' . $request->fragmentInstrument . '.mp3' , fopen($location . '/' . $timeName, 'r+'));
 
         $fragment->project_id = $project->id;
         $fragment->user_id = $request->user()->id;
         $fragment->body = $request->fragmentText;
-        $fragment->link = 'https://tracks-bachelor.s3.eu-west-2.amazonaws.com/fragments/'. $project->slug . '/' . $time . '/' . $timeName . '.mp3';
+        $fragment->time = $time;
         $url = env('APP_URL');
         $fragment->body = preg_replace('/\@\w+/', "[\\0]($url/user/profile/\\0)", $request->fragmentText);
         $fragment->name = $request->fragmentInstrument;
@@ -133,9 +136,27 @@ class ProjectsController extends Controller
     }
 
     public function getFragmentSlugsFromProject($projectId) {
-        $fragments = Fragment::where('project_id', $projectId)->select('link', 'name', 'volume')->get();
+        $project = Project::where('id', $projectId)->first();
 
-        return $fragments->toJson();
+        $fragments = Fragment::where('project_id', $projectId)->get();
+
+        $s3 = \Storage::disk('s3');
+        $client = $s3->getDriver()->getAdapter()->getClient();
+        $expiry = "+30 seconds";
+        $response = [];
+        foreach ($fragments as $key => $fragment) {
+            $command = $client->getCommand('GetObject', [
+                'Bucket' => \Config::get('filesystems.disks.s3.bucket'),
+                'Key'    => 'fragments/' . $project->slug . '/' . $fragment->time . '/' . $fragment->name . '.mp3'
+            ]);
+
+            $request = $client->createPresignedRequest($command, $expiry);
+            $src = (string) $request->getUri();
+            $valuesToPush = [ 'gain' => $fragment->volume, 'src' => $src, 'name' => $fragment->name];
+            array_push($response, $valuesToPush);
+        }
+
+        return $response;
     }
 
     public function getMapData($projectId) {
@@ -160,6 +181,10 @@ class ProjectsController extends Controller
         }
 
         return $users;
+    }
+
+    public function addPost($projectId) {
+
     }
 
 }

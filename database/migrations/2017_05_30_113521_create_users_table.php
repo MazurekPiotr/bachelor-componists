@@ -20,10 +20,8 @@ class CreateUsersTable extends Migration
             $table->text('avatar')->nullable();
             $table->enum('role', ['user', 'moderator', 'admin']);
             $table->string('country')->nullable();
-            $table->float('longitude')->nullable();
-            $table->float('latitude')->nullable();
             $table->string('imageURL')->nullable();
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->datetime('last_activity')->default(\Carbon\Carbon::now());
             $table->rememberToken();
             $table->timestamps();

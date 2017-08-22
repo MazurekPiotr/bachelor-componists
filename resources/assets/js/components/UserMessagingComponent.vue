@@ -66,7 +66,7 @@
                 this.messages.push({
                     // pushing a Message to the array.
                     // The sender of the message is the 'other user', not us,
-                    // so the sender_id must be the curerent recipient of our messages.
+                    // so the sender_id must be the current recipient of our messages.
                     sender_id: this.data_recipient.id,
                     // then, the recipient of the message is actually us.
                     recipient_id: this.user_id,

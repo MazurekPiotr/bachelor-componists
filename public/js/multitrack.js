@@ -25,12 +25,8 @@
 
 
  $.get('/api/getSlugsFromProject/' + id, function (response) {
-     var stuff = response.replace(/\"link\"/g, "\"src\"");
-     var step = stuff.replace(/\\/g, "");
-     var gainSet = step.replace(/\"volume\"/g, "\"gain\"");
-     links = gainSet.replace(/ /g, "+");
-     console.log(JSON.parse(links));
-     playlist.load(JSON.parse(links));
+     console.log(response);
+     playlist.load(response);
      playlist.initExporter();
  });
 

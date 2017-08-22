@@ -26,7 +26,6 @@ class FragmentsController extends Controller
 
     public function create (CreateFragmentFormRequest $request, Project $project)
     {
-
         $fragment = new Fragment();
 
         $music_file = $request->file('fragmentSong');
@@ -45,12 +44,12 @@ class FragmentsController extends Controller
         $music_file->move($location,$timeName);
 
         $disk = Storage::disk('s3');
-        $disk->getDriver()->put('/fragments/'. $project->slug . '/' . $time . '/' . $timeName . '.mp3', fopen($location . '/' . $timeName, 'r+'));
+        $disk->getDriver()->put('/fragments/'. $project->slug . '/' . $time . '/' . $request->fragmentInstrument . '.mp3', fopen($location . '/' . $timeName, 'r+'));
 
         $fragment->project_id = $project->id;
         $fragment->user_id = $request->user()->id;
         $fragment->body = $request->fragmentText;
-        $fragment->link = 'https://tracks-bachelor.s3.eu-west-2.amazonaws.com/fragments/'. $project->slug . '/' . $time . '/' . $timeName . '.mp3';
+        $fragment->time = $time;
         $url = env('APP_URL');
         $fragment->body = preg_replace('/\@\w+/', "[\\0]($url/user/profile/\\0)", $request->fragmentText);
         $fragment->name = $request->fragmentInstrument;
@@ -105,7 +104,7 @@ class FragmentsController extends Controller
         $disk->getDriver()->put('/fragments/'. $project->slug . '/' . $time . '/' . $timeName . '.mp3', fopen($location . '/' . $timeName, 'r+'));
 
         $fragment->body = $request->fragmentText;
-        $fragment->link = 'https://tracks-bachelor.s3.eu-west-2.amazonaws.com/fragments/'. $project->slug . '/' . $time . '/' . $timeName . '.mp3';
+        $fragment->time = $time;
         $url = env('APP_URL');
         $fragment->name = $request->fragmentInstrument;
 

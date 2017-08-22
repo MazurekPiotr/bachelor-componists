@@ -72,7 +72,7 @@ function generate(response) {
     map.addListener("rollOverMapObject", function(event) {
         for(i = 0; i < users.length; i++) {
             if(event.mapObject.id == users[i].country) {
-                $('#user-' + users[i].id).css('width', '21%');
+                $('#user-' + users[i].id).css('height', '220px');
             }
         }
     });
@@ -80,7 +80,7 @@ function generate(response) {
     map.addListener("rollOutMapObject", function(event) {
         for(i = 0; i < users.length; i++) {
             if(event.mapObject.id == users[i].country) {
-                $('#user-' + users[i].id).css('width', '20%');
+                $('#user-' + users[i].id).css('height', '200px');
             }
         }
     });
