@@ -1,0 +1,23 @@
+
+.contributors {
+  clear: both;
+  .contributor {
+    width: 25%;
+    display: inline-block;
+    background-color: black;
+    text-align: center;
+    .user-img {
+      box-sizing: border-box;
+      width: 100%;
+      padding: 30px;
+      h3 {
+        color: white;
+        margin: 0;
+      }
+
+      img {
+
+      }
+    }
+  }
+}

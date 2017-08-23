@@ -31,58 +31,48 @@
 </head>
 <body>
     <div id="app">
-        <nav id="header" class="navbar navbar-fixed-top">
+        <nav id="header" class="navbar navbar-default navbar-fixed-top">
             <div id="header-container" class="container navbar-container">
                 <div class="navbar-header">
-
-                    <!-- Collapsed Hamburger -->
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
-                        <span class="sr-only">Toggle Navigation</span>
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-
-                    <!-- Branding Image -->
                     <a id="brand" class="navbar-brand" href="{{ url('/') }}">
                         {{ config('app.name', 'Laravel') }}
                     </a>
                 </div>
-
                 <div class="collapse navbar-collapse" id="navbar">
-                    <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
                         <li><a href="{{ route('componists.projects.index') }}">All Projects</a></li>
                     </ul>
-
-                    <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
-                        <!-- Authentication Links -->
                         @if (Auth::guest())
                             <li><a href="{{ url('/login') }}">Login</a></li>
                             <li><a href="{{ url('/register') }}">Register</a></li>
                         @else
                             <li>
-                                    @if (Auth::user()->role === 'admin')
-                                        <li><a href="{{ route('admin.dashboard.index') }}">Admin Dashboard</a></li>
-                                    @endif
-                                    @if (Auth::user()->isElevated())
-                                        <li><a href="{{ route('moderator.dashboard.index') }}">Moderator Dashboard</a></li>
-                                    @endif
-                                    <li><a href="{{ route('home.index') }}">My Topics</a></li>
-                                    <li><a href="{{ route('user.chat.threads.index') }}"><span>My Messages {!! Auth::user()->hasUnreadMessages() ? '<span class="badge">' . Auth::user()->unreadMessageCount(). '</span>' : '' !!}</span></a></li>
-                                    <li><a href="{{ route('user.profile.index', Auth::user()->name) }}">{{ Auth::user()->name }}'s profile</a></li>
-                                    <li>
-                                        <a href="{{ url('/logout') }}"
-                                            onclick="event.preventDefault();
+                            @if (Auth::user()->role === 'admin')
+                                <li><a href="{{ route('admin.dashboard.index') }}">Admin Dashboard</a></li>
+                            @endif
+                            @if (Auth::user()->isElevated())
+                                <li><a href="{{ route('moderator.dashboard.index') }}">Moderator Dashboard</a></li>
+                            @endif
+                            <li><a href="{{ route('home.index') }}">My Topics</a></li>
+                            <li><a href="{{ route('user.chat.threads.index') }}"><span>My Messages {!! Auth::user()->hasUnreadMessages() ? '<span class="badge">' . Auth::user()->unreadMessageCount(). '</span>' : '' !!}</span></a></li>
+                            <li><a href="{{ route('user.profile.index', Auth::user()->name) }}">{{ Auth::user()->name }}'s profile</a></li>
+                            <li>
+                                <a href="{{ url('/logout') }}"
+                                   onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                            Logout
-                                        </a>
+                                    Logout
+                                </a>
 
-                                        <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                                        </form>
-                                    </li>
+                                <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                </form>
                             </li>
                         @endif
                     </ul>
