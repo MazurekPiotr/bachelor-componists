@@ -23,6 +23,8 @@ class CreateUsersTable extends Migration
             $table->string('imageURL')->nullable();
             $table->string('password')->nullable();
             $table->datetime('last_activity')->default(\Carbon\Carbon::now());
+            $table->boolean('verified')->default(false);
+            $table->string('token')->null();
             $table->rememberToken();
             $table->timestamps();
         });
@@ -35,6 +37,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::drop('users');
     }
 }

@@ -17,6 +17,8 @@ Auth::routes();
 
 Route::get('auth/{provider}', 'SocialController@redirectToProvider');
 Route::get('auth/{provider}/callback', 'SocialController@handleProviderCallback');
+Route::get('verify/{token}', 'Auth\RegisterController@verify');
+Route::get('verification', 'Auth\RegisterController@verification');
 
 // log.activity middleware logs the time of user activity that any inclusive routes are hit
 Route::group(['middleware' => ['log.activity']], function() {

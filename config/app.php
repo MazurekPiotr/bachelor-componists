@@ -233,6 +233,7 @@ return [
         'GetMentionedUsers' => App\Facades\GetMentionedUsers::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
 
+
     ],
 
 ];

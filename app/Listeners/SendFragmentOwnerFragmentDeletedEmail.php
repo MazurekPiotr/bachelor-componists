@@ -29,6 +29,6 @@ class SendFragmentOwnerFragmentDeletedEmail implements ShouldQueue
      */
     public function handle(FragmentDeleted $event)
     {
-        Mail::to($post->user->email)->queue(new PostDeletedEmail($post));
+        Mail::to($fragment->user->email)->queue(new PostDeletedEmail($fragment));
     }
 }

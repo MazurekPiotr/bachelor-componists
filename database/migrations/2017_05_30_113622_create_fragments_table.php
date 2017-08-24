@@ -36,6 +36,6 @@ class CreateFragmentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('fragments');
+        Schema::drop('fragments');
     }
 }

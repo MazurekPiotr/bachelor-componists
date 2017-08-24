@@ -1,4 +1,6 @@
 require('./bootstrap');
+
+require('materialize-css');
 require('./ui');
 
 var VueResource = require('vue-resource');

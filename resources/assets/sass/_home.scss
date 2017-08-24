@@ -1,120 +1,158 @@
-
-.intro-header {
-  text-align: center;
-  color: #f8f8f8;
+.center-div{
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
 }
 
-@media(max-width:767px) {
-  .intro-message {
-    padding-bottom: 15%;
-  }
-
-  .intro-message > h1 {
-    font-size: 3em;
-  }
-
-  ul.intro-social-buttons > li {
-    display: block;
-    margin-bottom: 20px;
-    padding: 0;
-  }
-
-  ul.intro-social-buttons > li:last-child {
-    margin-bottom: 0;
-  }
-
-  .intro-divider {
-    width: 100%;
-  }
+h1, h2, h3 {
+  font-family: 'Amatic SC', cursive;
 }
 
-.intro-message {
+.btn, .btn-large {
+  border-radius: 0px;
+}
+
+.btn, .btn-large , .btn:focus, .btn-large:focus, .btn:active, .btn-large:active {
+  background-color: #DA2C3D;
+  box-shadow: none;
+}
+
+.btn:hover, .btn-large:hover {
+  background-color: #EC5261;
+  box-shadow: none;
+}
+
+body {
+  font-family: 'Raleway', sans-serif;
   position: relative;
-  padding-top: 10%;
-  padding-bottom: 20%;
-  h1 {
-    font-size: 15em;
-    text-shadow:
-            -2px -2px 0 #000,
-            2px -2px 0 #000,
-            -2px 2px 0 #000,
-            2px 2px 0 #000;
-  }
-  h3 {
-    font-size: 60px;
-    text-shadow:
-            -2px -2px 0 #000,
-            2px -2px 0 #000,
-            -2px 2px 0 #000,
-            2px 2px 0 #000;
-  }
 }
 
-.content-section-a {
-  background-color: #f8f8f8;
-  h1 {
-    font-size: 4em;
-  }
+nav {
+  background-color: #fff !important;
+  color: #DA2C3D;
+  transition: all 0.4s;
+  -webkit-transition: all 0.4s;
+  position: fixed;
+  top: 0;
+  z-index: 5;
+}
+.nav-wrapper {
+  transition: all 0.4s;
+  -webkit-transition: all 0.4s;
+}
+.addheight {
+  height: 80px !important;
 }
 
-.content-section-b {
-  border-top: 1px solid #e7e7e7;
-  border-bottom: 1px solid #e7e7e7;
+.button-collapse {
+  color: #DA2C3D;
 }
 
-.section-heading {
-  margin-bottom: 30px;
+nav ul li a { color: #DA2C3D; }
+.brand-logo {
+  font-family: 'Amatic SC', cursive;
+  font-size: 3em !important;
+  color: #DA2C3D !important;
 }
 
-.section-heading-spacer {
-  float: left;
-  width: 200px;
-  border-top: 3px solid #e7e7e7;
+#intro {
+  height: 100vh;
+  width: 100vw;
+  background-color: #EC5261;
+  position: relative;
+}
+div#intro-message h1, h3 {
+  font-size: 10em;
+  color: #fff;
+  text-align: center;
+
+}
+
+div#intro-message h1, h3 {
+  /*text-shadow:
+  -2px -2px 0 #000,
+  2px -2px 0 #000,
+  -2px 2px 0 #000,
+  2px 2px 0 #000;*/
+}
+
+div#intro-message h3 {
+  font-size: 4em !important;
+}
+
+div#intro .more {
+  position: absolute;
+  text-align: center;
+  left: 50%;
+  bottom: 20px;
+  transform: translate(-50%, 0);
+  -webkit-transform: translate(-50%, 0);
+  color: #fff;
+
+}
+
+#about-link {
+  padding-top: 5%;
+  width: 100vw;
+  height: 100vh;
+  background-color: #fff;
+  text-align: center;
+  color: #2d3035;
+  position: relative;
+}
+
+#about-link .center-div {
+  top: 55%;
+}
+
+#about-link h2 {
+  font-size: 7em;
+}
+
+#about-link p {
+  margin-bottom: 100px;
+}
+
+#join {
+  padding: 10em 6em;
+  background: #1D8E7E; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(left top, #15191E, #696E77); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(bottom right, #15191E, #696E77); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(bottom right, #15191E, #696E77); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to bottom right, #15191E, #696E77); /* Standard syntax (must be last) */
+}
+
+#join h2{
+  text-align: center;
+  font-size: 7em;
+  color: #fff;
+}
+
+#recent-projects {
+  width: 100vw;
+  height: 100vh;
+  padding-top: 5em;
+}
+
+#recent-projects .card-action a {
+  color: #DA2C3D;
+}
+
+#recent-projects h2 {
+  font-size: 7em;
+}
+
+#recent-projects .card {
+  margin-top: 50px;
+}
+
+footer {
+  margin-top: 50px;
 }
 
 
 
-.banner h2 {
-  margin: 0;
-  text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
-  font-size: 3em;
-}
 
-.banner ul {
-  margin-bottom: 0;
-}
 
-.banner-social-buttons {
-  float: right;
-  margin-top: 0;
-}
-
-@media(max-width:1199px) {
-  ul.banner-social-buttons {
-    float: left;
-    margin-top: 15px;
-  }
-}
-
-@media(max-width:767px) {
-  .intro-message {
-    h1 {
-      font-size: 7em;
-    }
-  }
-  .banner h2 {
-    margin: 0;
-    text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
-    font-size: 3em;
-  }
-
-  ul.banner-social-buttons > li {
-    display: block;
-    margin-bottom: 20px;
-    padding: 0;
-  }
-
-  ul.banner-social-buttons > li:last-child {
-    margin-bottom: 0;
-  }
-}

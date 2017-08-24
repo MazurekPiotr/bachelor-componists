@@ -12,9 +12,13 @@
 
     <!-- Styles -->
     <link href="/css/app.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Amatic+SC|Josefin+Slab|Raleway">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script>
         window.Laravel = <?php echo json_encode([
             'csrfToken' => csrf_token(),
@@ -31,52 +35,68 @@
 </head>
 <body>
     <div id="app">
-        <nav id="header" class="navbar navbar-default navbar-fixed-top">
-            <div id="header-container" class="container navbar-container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a id="brand" class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
-                    </a>
-                </div>
-                <div class="collapse navbar-collapse" id="navbar">
-                    <ul class="nav navbar-nav">
-                        <li><a href="{{ route('componists.projects.index') }}">All Projects</a></li>
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        @if (Auth::guest())
-                            <li><a href="{{ url('/login') }}">Login</a></li>
-                            <li><a href="{{ url('/register') }}">Register</a></li>
-                        @else
-                            <li>
-                            @if (Auth::user()->role === 'admin')
-                                <li><a href="{{ route('admin.dashboard.index') }}">Admin Dashboard</a></li>
-                            @endif
-                            @if (Auth::user()->isElevated())
-                                <li><a href="{{ route('moderator.dashboard.index') }}">Moderator Dashboard</a></li>
-                            @endif
-                            <li><a href="{{ route('home.index') }}">My Topics</a></li>
-                            <li><a href="{{ route('user.chat.threads.index') }}"><span>My Messages {!! Auth::user()->hasUnreadMessages() ? '<span class="badge">' . Auth::user()->unreadMessageCount(). '</span>' : '' !!}</span></a></li>
-                            <li><a href="{{ route('user.profile.index', Auth::user()->name) }}">{{ Auth::user()->name }}'s profile</a></li>
-                            <li>
-                                <a href="{{ url('/logout') }}"
-                                   onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                    Logout
-                                </a>
+        <nav>
+            <div class="nav-wrapper">
+                <a href="#" data-activates="nav-mobile" class="button-collapse" ><i class="fa fa-bars"></i></a>
+                <a href="{{ url('/') }}" class="brand-logo center">Componists</a>
 
-                                <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                                    {{ csrf_field() }}
-                                </form>
-                            </li>
-                        @endif
-                    </ul>
-                </div>
+
+            <ul class="left hide-on-med-and-down">
+                <li><a href="{{ url('/') }}">Home</a></li>
+                <li><a href="{{ route('componists.projects.index') }}">All Projects</a></li>
+            </ul>
+            @if(Auth::user())
+                <ul class="right hide-on-med-and-down">
+                    <li>
+                    @if (Auth::user()->role === 'admin')
+                        <li><a href="{{ route('admin.dashboard.index') }}">Admin Dashboard</a></li>
+                    @endif
+                    @if (Auth::user()->isElevated())
+                        <li><a href="{{ route('moderator.dashboard.index') }}">Moderator Dashboard</a></li>
+                    @endif
+                    <li><a href="{{ route('home.index') }}">My projects</a></li>
+                    <li><a href="{{ route('user.chat.threads.index') }}"><span>My messages {!! Auth::user()->hasUnreadMessages() ? '<span class="badge">' . Auth::user()->unreadMessageCount(). '</span>' : '' !!}</span></a></li>
+                    <li><a href="{{ route('user.profile.index', Auth::user()->name) }}">{{ Auth::user()->name }}'s profile</a></li>
+                    <li><a href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            Logout
+                        </a>
+                        <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                            {{ csrf_field() }}
+                        </form>
+                    </li>
+                    @else
+                        <li><a href="{{ url('/login') }}">Login</a></li>
+                        <li><a href="{{ url('/register') }}">Register</a></li>
+                </ul>
+            @endif
+
+                <ul id="nav-mobile" class="side-nav">
+                    <li><a href="{{ url('/') }}">Home</a></li>
+                    <li><a href="{{ route('componists.projects.index') }}">All Projects</a></li>
+                 @if(Auth::user())
+                    <li>
+                    @if (Auth::user()->role === 'admin')
+                        <li><a href="{{ route('admin.dashboard.index') }}">Admin Dashboard</a></li>
+                    @endif
+                    @if (Auth::user()->isElevated())
+                        <li><a href="{{ route('moderator.dashboard.index') }}">Moderator Dashboard</a></li>
+                    @endif
+                    <li><a href="{{ route('home.index') }}">My projects</a></li>
+                    <li><a href="{{ route('user.chat.threads.index') }}"><span>My messages {!! Auth::user()->hasUnreadMessages() ? '<span class="badge">' . Auth::user()->unreadMessageCount(). '</span>' : '' !!}</span></a></li>
+                    <li><a href="{{ route('user.profile.index', Auth::user()->name) }}">{{ Auth::user()->name }}'s profile</a></li>
+                    <li><a href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            Logout
+                        </a>
+                        <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                            {{ csrf_field() }}
+                        </form>
+                    </li>
+                 @else
+                    <li><a href="{{ url('/login') }}">Login</a></li>
+                    <li><a href="{{ url('/register') }}">Register</a></li>
+
+                    @endif
+                </ul>
             </div>
         </nav>
         @yield('content')
@@ -109,8 +129,8 @@
     </footer>
 
     <!-- Scripts -->
+
     <script src="/js/app.js"></script>
-    @if( Route::getCurrentRoute()->getPath() == 'projects/{project}')
         <script src="/js/waveform.js"></script>
         <script src="/js/multitrack.js"></script>
         <script src="/js/emitter.js"></script>
@@ -120,88 +140,10 @@
         <script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
         <script src="/js/responsive.min.js" type="text/javascript"></script>
         <script src="/js/chart.js"></script>
-    @endif
-    @if( Route::getCurrentRoute()->getPath() == 'projects')
-        <script src="https://www.amcharts.com/lib/3/maps/js/worldLow.js"></script>
-        <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
-        <script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
-        <script src="/js/responsive.min.js" type="text/javascript"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
-        <script src="/js/chart.js"></script>
-    @endif
-    <script>
-        $(document).ready(function(){
+<script type="text/javascript">
 
-            var myNavBar = {
 
-                flagAdd: true,
 
-                elements: [],
-
-                init: function (elements) {
-                    this.elements = elements;
-                },
-
-                add : function() {
-                    if(this.flagAdd) {
-                        for(var i=0; i < this.elements.length; i++) {
-                            document.getElementById(this.elements[i]).className += " fixed-theme";
-                        }
-                        this.flagAdd = false;
-                    }
-                },
-
-                remove: function() {
-                    for(var i=0; i < this.elements.length; i++) {
-                        document.getElementById(this.elements[i]).className =
-                            document.getElementById(this.elements[i]).className.replace( /(?:^|\s)fixed-theme(?!\S)/g , '' );
-                    }
-                    this.flagAdd = true;
-                }
-
-            };
-
-            /**
-             * Init the object. Pass the object the array of elements
-             * that we want to change when the scroll goes down
-             */
-            myNavBar.init(  [
-                "header",
-                "header-container",
-                "brand"
-            ]);
-
-            /**
-             * Function that manage the direction
-             * of the scroll
-             */
-            function offSetManager(){
-
-                var yOffset = 0;
-                var currYOffSet = window.pageYOffset;
-
-                if(yOffset < currYOffSet) {
-                    myNavBar.add();
-                }
-                else if(currYOffSet == yOffset){
-                    myNavBar.remove();
-                }
-
-            }
-
-            /**
-             * bind to the document scroll detection
-             */
-            window.onscroll = function(e) {
-                offSetManager();
-            }
-
-            /**
-             * We have to do a first detectation of offset because the page
-             * could be load with scroll down set.
-             */
-            offSetManager();
-        });
-    </script>
+</script>
 </body>
 </html>

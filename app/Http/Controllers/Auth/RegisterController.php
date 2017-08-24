@@ -5,33 +5,23 @@ namespace App\Http\Controllers\Auth;
 use DB;
 use Session;
 use App\User;
+use Mail;
 use App\Invite;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Mail\UserVerification;
 
 
 class RegisterController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Register Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the registration of new users as well as their
-    | validation and creation. By default this controller uses a trait to
-    | provide this functionality without requiring any additional code.
-    |
-    */
-
     use RegistersUsers;
-
     /**
      * Where to redirect users after login / registration.
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/verification';
 
     /**
      * Create a new controller instance.
@@ -91,12 +81,30 @@ class RegisterController extends Controller
             Session::put('register_using_code', $register_using_code);
         }
 
-        return User::create([
+        $token = str_random(16);
+        $user =  User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'role' => $role,
             'imageURL' =>  'https://tracks-bachelor.s3.eu-west-2.amazonaws.com/avatars/no-avatar.png',
             'password' => bcrypt($data['password']),
+            'verified' => false,
+            'token' => $token
         ]);
+
+        Mail::to($user)->queue(new UserVerification($user));
+    }
+
+    public function verify($token)
+    {
+        $user = User::where('token', $token)->first();
+        $user->verified = true;
+        if ($user->save()) {
+            return view('user.verified', ['user' => $user]);
+        }
+    }
+
+    public function verification() {
+        return view('user.verification');
     }
 }
