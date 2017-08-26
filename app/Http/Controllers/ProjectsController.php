@@ -26,7 +26,7 @@ use PhpParser\Node\Expr\Cast\Int_;
 class ProjectsController extends Controller
 {
     public function home() {
-        $projects = Project::orderBy('created_at', 'desc')->get();
+        $projects = Project::orderBy('created_at', 'desc')->take(3)->get();
 
         return view('welcome', [
             'projects' => $projects,
@@ -39,6 +39,18 @@ class ProjectsController extends Controller
 
         return view('componists.projects.index', [
             'projects' => $projects,
+            'search' => ''
+        ]);
+    }
+
+    public function search (Request $request)
+    {
+        $projects = Project::where("title", "LIKE","%$request->keyword%")
+            ->orWhere("description", "LIKE", "%$request->keyword%")->get();
+
+        return view('componists.projects.index', [
+            'projects' => $projects,
+            'search' => $request->keyword
         ]);
     }
 
@@ -71,7 +83,7 @@ class ProjectsController extends Controller
         $project = new Project();
         $project->user_id = $request->user()->id;
 
-
+        $project->description = $request->description;
         $project->slug = str_slug(mb_strimwidth($request->title, 0, 255), '-');
         $project->title = $request->title;
         $project->save();
@@ -98,10 +110,8 @@ class ProjectsController extends Controller
 
         $fragment->project_id = $project->id;
         $fragment->user_id = $request->user()->id;
-        $fragment->body = $request->fragmentText;
         $fragment->time = $time;
         $url = env('APP_URL');
-        $fragment->body = preg_replace('/\@\w+/', "[\\0]($url/user/profile/\\0)", $request->fragmentText);
         $fragment->name = $request->fragmentInstrument;
         $fragment->save();
 
@@ -110,6 +120,8 @@ class ProjectsController extends Controller
         $subscription->user_id = $request->user()->id;
         $subscription->subscribed = ($request->subscribe === null ? 0 : 1);
         $subscription->save();
+
+        unlink($location . '/' . $timeName);
 
         return redirect()->route('componists.projects.project.show', [
             'project' => $project,

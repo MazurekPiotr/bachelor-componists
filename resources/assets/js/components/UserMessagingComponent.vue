@@ -1,21 +1,25 @@
 <template>
     <div>
-        <template v-if="messages.length" v-for="message in messages">
-            <div class="msg-container" v-bind:class="(message.recipient_id === data_recipient.id) ? 'pull-right' : 'pull-left'">
-                <div class="msg" v-bind:class="(message.recipient_id === data_recipient.id) ? 'sender' : 'recipient'">
-                     {{ message.content }}
+        <div class="row">
+            <template v-if="messages.length" v-for="message in messages">
+                <div class="msg-container" v-bind:class="(message.recipient_id === data_recipient.id) ? 'pull-right' : 'pull-left'">
+                    <div class="msg" v-bind:class="(message.recipient_id === data_recipient.id) ? 'sender' : 'recipient'">
+                        {{ message.content }}
+                    </div>
                 </div>
-            </div>
-        </template>
-        <template v-else>
-            <p>There are no messages to display.</p>
-        </template>
-
-        <div class="msg-form form-group">
-            <label for="content" class="control-label">Your Message</label>
-            <textarea v-model="messageInput" name="content" id="content" class="form-control" placeholder="Your message" rows="8"></textarea>
+            </template>
+            <template v-else>
+                <p>There are no messages to display.</p>
+            </template>
         </div>
-        <button type="submit" @click.prevent="send()" class="btn btn-default pull-right">Send</button>
+        <h4 class="black-text">Send a response</h4>
+        <div class="row">
+            <div class="input-field form-group col s8 offset-s2">
+                <input v-model="messageInput" name="content" id="content"  placeholder="Your message">
+            </div>
+
+        </div>
+             <button type="submit" @click.prevent="send()" class="btn btn-default">Send</button> 
     </div>
 </template>
 

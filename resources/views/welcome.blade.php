@@ -1,91 +1,104 @@
 @extends('layouts.app')
 
 @section('content')
-<!-- Header -->
-<a name="about"></a>
-<div class="intro-header">
+<div id="intro">
+    <div id="intro-message" class="center-div">
+        <div>
+            <h1>Componists</h1>
+            <h3>For musicians all over the world!</h3>
+        </div>
+    </div>
+    <div class="more" id="scroll-arrow">
+        <span >See more!</span>
+        <span><i class="fa fa-chevron-down" aria-hidden="true"></i></span>
+    </div>
+</div>
+
+<div id="about-link">
+    <div class="container">
+        <h1>Errr what?!</h1>
+        <h3>For all musicians?</h3>
+        <p>
+            Of course! Everybody is welcome to join us!
+        </p>
+        <p>
+            This platform is made for everyone who likes to experiment together with totally random people!
+        </p>
+        <p>
+            Are you a novice or even a professional musician, we bet you will find something here worth your attention!
+        </p>
+
+        <h3>So how does this work, you ask?</h3>
+
+        <div id="about-btn">
+            <button class="btn-large" href="#">Read more!</button>
+        </div>
+    </div>
+    <div class="more" id="scroll-arrow">
+        <span >See more!</span>
+        <span><i class="fa fa-chevron-down" aria-hidden="true"></i></span>
+    </div>
+</div>
+<div id="join" class="row">
+    <div class="container centered">
+        <h1>So let's compose!</h1>
+        <h3>But... Why?</h3>
+        <p>
+            There is only one obvious answer. It's just because we can!
+        </p>
+        <div class="center-align col s12 icons">
+            <div class="left col m3 s6 offset-m3">
+                <a class= "white-text" href="{{ route('componists.projects.create.form') }}">
+                    <i class="fa fa-user fa-4x" aria-hidden="true"></i>
+                    <p>Create your own project</p>
+                </a>
+            </div>
+            <div class="left col m3 s6">
+                <a class= "white-text" href="{{ route('componists.projects.index') }}">
+                    <i class="fa fa-users fa-4x" aria-hidden="true"></i>
+                    <p>Contribute</p>
+                </a>
+            </div>
+            <ul class="notes col s12 m6 offset-m3">
+                <li>&#9833;</li>
+                <li>&#9834;</li>
+                <li>&#9835;</li>
+                <li>&#9836;</li>
+                @notmobile
+                <li>&#9833;</li>
+                <li>&#9834;</li>
+                <li>&#9835;</li>
+                <li>&#9836;</li>
+                @endnotmobile
+            </ul>
+        </div>
+
+    </div>
+</div>
+<div id="recent-projects">
     <div class="container">
         <div class="row">
-            <div class="col-lg-12">
-                <div class="intro-message">
-                    <h1>Componists</h1>
-                    <h3>For musicians all over the world!</h3>
+            <h2 class="center-align">Most recent projects</h2>
+        </div>
+        <div class="row">
+              @foreach($projects as $project)
+                <div class="card col s12 m3 push-m1 l4 push-l1">
+                    <div class="card-image">
+                        @if( Storage::disk('s3')->exists('avatars/'. $project->user_id . '/avatar.jpg')  )
+                            <img src="{{ Storage::disk('s3')->url('avatars/'. $project->user_id . '/') . 'avatar.jpg' }}" alt="{{ App\User::findOrFail($project->user_id)->name }}-avatar">
+                        @else
+                            <img src="{{ Storage::disk('s3')->url('avatars/no-avatar.png') }}" alt="blank-avatar">
+                        @endif
+                    </div>
+                    <div class="card-content">
+                        <p>{{ $project->description }}</p>
+                    </div>
+                    <div class="card-action">
+                        <a href="/projects/{{ $project->slug }}">See project</a>
+                    </div>
                 </div>
-            </div>
+                @endforeach
         </div>
-
     </div>
-    <!-- /.container -->
-
 </div>
-<!-- /.intro-header -->
-
-<!-- Page Content -->
-
-<a  name="services"></a>
-<div class="content-section-a">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12 centered">
-                <h1 class="section-heading">Start your own project!</h1>
-                <p class="lead">At Componists you will find music projects that you can contribute to!</p>
-                <p class="lead">Or start you own project!</p>
-            </div>
-            @desktop
-            <div class="col-sm-12 centered">
-                <img class="img-responsive" src="assets/img/pexels-photo.jpg" alt="">
-            </div>
-            @enddesktop
-        </div>
-
-    </div>
-    <!-- /.container -->
-
-</div>
-<!-- /.content-section-a -->
-
-<div class="content-section-b">
-
-    <div class="container">
-
-        <div class="row">
-            <div class="col-lg-5 col-lg-offset-1 col-sm-push-6  col-sm-6">
-                <h2 class="section-heading">Contribute to a project!</h2>
-                <p class="lead">Find a project you like and add a </p>
-            </div>
-            @desktop
-            <div class="col-lg-5 col-sm-pull-6  col-sm-6">
-                <img class="img-responsive" src="assets/img/header.jpg" alt="">
-            </div>
-            @enddesktop
-        </div>
-
-    </div>
-    <!-- /.container -->
-
-</div>
-<!-- /.content-section-b -->
-
-<div class="content-section-a">
-
-    <div class="container">
-
-        <div class="row">
-            <div class="col-lg-5 col-sm-6">
-                <h2 class="section-heading">Upload your newly recorded track!</h2>
-                <p class="lead">This template features the 'Lato' font, part of the <a target="_blank" href="http://www.google.com/fonts">Google Web Font library</a>, as well as <a target="_blank" href="http://fontawesome.io">icons from Font Awesome</a>.</p>
-            </div>
-            @desktop
-            <div class="col-lg-5 col-lg-offset-2 col-sm-6">
-                <img class="img-responsive" src="assets/img/header.jpg" alt="">
-            </div>
-            @enddesktop
-        </div>
-
-    </div>
-    <!-- /.container -->
-
-</div>
-
-
 @endsection

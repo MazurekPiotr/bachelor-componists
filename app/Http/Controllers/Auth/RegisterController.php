@@ -60,7 +60,8 @@ class RegisterController extends Controller
         $role = 'user';
 
         // check user register code exists
-        if ($data['code'] !== '') {
+        /* if ($data['code']) {
+            if($data['code'] != '')
             // code is present and not empty, let's get the details of Invite from db
             $invite = DB::table('invites')->where('code', '=', $data['code'])->first();
 
@@ -79,7 +80,7 @@ class RegisterController extends Controller
             }
 
             Session::put('register_using_code', $register_using_code);
-        }
+        } */
 
         $token = str_random(16);
         $user =  User::create([

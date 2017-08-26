@@ -1,23 +1,57 @@
+.project-chart {
+  .subscribe-btn {
+    clear: both;
+    background-color: #ffffff !important;
+    color: #EC5261;
+    &:hover {
+      background-color: #EC5261 !important;
+      color: #ffffff;
+    }
+  }
+  padding-top: 56px;
+  width: 100vw;
+  background-color: #EC5261;
+  color: #ffffff;
+  position: relative;
+  #chartdiv {
+    padding: 0;
+    background-color: #ffffff;
+    overflow: hidden;
+    height: 40vh;
+    margin-bottom: 2%;
+    a {
+      display: none !important;
+    }
+  }
 
-.contributors {
-  clear: both;
-  .contributor {
-    width: 25%;
-    display: inline-block;
-    background-color: black;
-    text-align: center;
-    .user-img {
+
+  .contributors {
+    clear: both;
+    height: 30vh;
+    .contributor {
+      transition: all 0.4s;
+      border-radius: 5px;
+      background-color: #2d3035;
+      text-align: center;
       box-sizing: border-box;
-      width: 100%;
-      padding: 30px;
-      h3 {
-        color: white;
-        margin: 0;
-      }
-
-      img {
-
+      padding: 0.5em;
+      height: auto;
+      .user-img {
+        width: 100%;
+        h4 {
+          color: white;
+          margin: 0;
+        }
+        img {
+          width:70%;
+        }
       }
     }
+  }
+}
+
+.about-project {
+  h3 {
+    color: #2d3035;
   }
 }

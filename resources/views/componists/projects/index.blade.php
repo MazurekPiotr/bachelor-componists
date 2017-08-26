@@ -1,44 +1,53 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <div style="text-align: center">
-                <h1 id="projectId" data-project-id="all">Componists</h1>
-                <ul class="list-group container">
-                    @if (count($projects))
-                        @foreach ($projects as $project)
-                                <div class="col-sm-1 col-md-4 col-lg-3 pin">
-                                    <a href="/projects/{{ $project->slug }}" style="text-decoration: none; text-decoration-color: #0d0d0d">
-                                        <li class="list-group-item">
-                                            <span class="badge">{{ $project->fragmentCount() }} tracks</span>
-                                            <h1>{{ $project->title }}</h1>
-                                            @if( Storage::disk('s3')->exists('avatars/'. $project->user_id . '/avatar.jpg')  )
-                                                <img src="{{ Storage::disk('s3')->url('avatars/'. $project->user_id . '/') . 'avatar.jpg' }}" alt="{{ App\User::findOrFail($project->user_id)->name }}-avatar">
-                                            @else
-                                                <img src="{{ Storage::disk('s3')->url('avatars/'. 'no-avatar.png') }}" alt="blank-avatar">
-                                            @endif
-                                            <br>
-                                            <strong>Created</strong> {{ Carbon\Carbon::createFromTimeStamp(strtotime($project->created_at))->diffForHumans() }}
-                                            <br>
-                                            <strong>Last add fragment</strong> {{ Carbon\Carbon::createFromTimeStamp(strtotime($project->updated_at))->diffForHumans() }}
-                                            @can ('delete', $project)
-                                                <br>
-                                                <form action="{{ route('componists.projects.project.delete', $project) }}" method="post">
-                                                    {{ method_field('DELETE') }}
-                                                    {{ csrf_field() }}
-                                                    <button type="submit" class="btn btn-link danger-link"><span class="glyphicon glyphicon-remove"></span> Delete</button>
-                                                </form>
-                                            @endcan
-                                        </li>
-                                    </a>
-                                </div>
-                        @endforeach
-                    @endif
-                </ul>
+    <div class="projects-container">
+        <div class="container">
+            <div class="row centered">
+                @if($search)
+                    <h1 class="center-align">Search results for {{ $search }}</h1>
+                @else
+                    <h1 class="center-align">All Projects</h1>
+                @endif
+                <a class="btn btn-create" href="{{ route('componists.projects.create.form') }}">Start a new project</a>
+            </div>
+            <div class="row">
+                @foreach($projects as $project)
+                    <div class="col s12 m6 l4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>{{ $project->title }}</h3>
+                            </div>
+                            <div class="card-image">
+                                @if( Storage::disk('s3')->exists('avatars/'. $project->user_id . '/avatar.jpg')  )
+                                    <img src="{{ Storage::disk('s3')->url('avatars/'. $project->user_id . '/') . 'avatar.jpg' }}" alt="{{ App\User::findOrFail($project->user_id)->name }}-avatar">
+                                @else
+                                    <img src="{{ Storage::disk('s3')->url('avatars/no-avatar.png') }}" alt="blank-avatar">
+                                @endif
+                            </div>
+                            <div class="card-content">
+                                <h4 class="black-text">About {{ $project->title }}</h4>
+                                <p class="project-info">{{ $project->description }}</p>
+
+                                <div class="chip">{{ $project->fragmentCount() }} tracks</div>
+                                <p>Created {{ Carbon\Carbon::createFromTimeStamp(strtotime($project->created_at))->diffForHumans() }}</p>
+
+                                <p>Last add fragment {{ Carbon\Carbon::createFromTimeStamp(strtotime($project->updated_at))->diffForHumans() }} </p>
+                                @can ('delete', $project)
+                                    <form action="{{ route('componists.projects.project.delete', $project) }}" method="post">
+                                        {{ method_field('DELETE') }}
+                                        {{ csrf_field() }}
+                                        <button type="submit" class="btn btn-link danger-link"><span class="glyphicon glyphicon-remove"></span> Delete</button>
+                                    </form>
+                                @endcan
+                            </div>
+                            <div class="card-action">
+                                <a href="/projects/{{ $project->slug }}">See project</a>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
             </div>
         </div>
     </div>
-</div>
 @endsection

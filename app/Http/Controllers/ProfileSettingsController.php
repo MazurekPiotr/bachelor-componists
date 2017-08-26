@@ -56,7 +56,7 @@ class ProfileSettingsController extends Controller
             $path = storage_path() . '/avatars/' . $fileId ;
             $fileName = $fileId . '.png';
 
-            $img = Image::make($path)->encode('png')->fit(300, 300, function ($constraint) {
+            $img = Image::make($path)->encode('png')->fit(600, 600, function ($constraint) {
                 $constraint->upsize();
             });
 

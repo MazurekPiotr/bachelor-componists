@@ -25,7 +25,7 @@ class CreateProjectFormRequest extends FormRequest
     {
         return [
             'title' => 'required|max:255|unique:projects|unique_slug_title',
-            'fragmentText' => 'max:255',
+            'description' => 'max:255',
             'fragmentSong' => 'required|mimes:mpga',
             'fragmentInstrument' => 'required|max:15'
         ];

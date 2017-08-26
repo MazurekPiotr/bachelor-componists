@@ -42,7 +42,8 @@ function generate(response) {
         },
 
         areasSettings: {
-            "unlistedAreasColor": "#d8a911",
+            "color" : "#DA2C3D",
+            "unlistedAreasColor": "#EC5261",
             "autoZoom" : false,
         },
         dataProvider: {
@@ -72,7 +73,8 @@ function generate(response) {
     map.addListener("rollOverMapObject", function(event) {
         for(i = 0; i < users.length; i++) {
             if(event.mapObject.id == users[i].country) {
-                $('#user-' + users[i].id).css('height', '220px');
+                $('#user-' + users[i].id).css('background-color', '#ffffff');
+                $('#user-' + users[i].id +' .user-img h4').css('color', '#2d3035');
             }
         }
     });
@@ -80,7 +82,8 @@ function generate(response) {
     map.addListener("rollOutMapObject", function(event) {
         for(i = 0; i < users.length; i++) {
             if(event.mapObject.id == users[i].country) {
-                $('#user-' + users[i].id).css('height', '200px');
+                $('#user-' + users[i].id).css('background-color', '#2d3035');
+                $('#user-' + users[i].id +' .user-img h4').css('color', '#ffffff');
             }
         }
     });

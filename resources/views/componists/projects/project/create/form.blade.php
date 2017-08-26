@@ -1,71 +1,77 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Create a Topic</div>
-
-                <div class="panel-body">
-                    <form action="{{ route('componists.projects.create.submit') }}" method="post" enctype="multipart/form-data">
-                        <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }}">
-                            <label for="title" class="control-label">Topic Title</label>
-                            <input type="text" name="title" id="title" class="form-control" value="{{ (old('title') ? old('title') : '' ) }}" placeholder="Halt! Crocs?">
-                            @if ($errors->has('title'))
-                                <div class="help-block danger">
-                                    {{ $errors->first('title') }}
-                                </div>
-                            @endif
-                            <div class="help-block">
-                                <p>All titles need to be unique.</p>
+    <div id="project-create">
+        <div class="row">
+            <div class="login-form col l6 m6 s12 offset-l3 offset-m3">
+                <form method="POST" action="{{ route('componists.projects.create.submit') }}" enctype="multipart/form-data" class="col s12">
+                    <h2 class="black-text">Create a new project</h2>
+                    {{ csrf_field() }}
+                    <div class="row">
+                        <p class="col s12">What is the title of your project?</p>
+                        <div class="input-field col s12">
+                            <input name="title" type="text" id="title" value="{{ (old('title') ? old('title') : '' ) }}" autofocus>
+                            <label for="title">Title</label>
+                        </div>
+                        @if ($errors->has('title'))
+                            <div class="help-block danger">
+                                {{ $errors->first('title') }}
+                            </div>
+                        @endif
+                    </div>
+                    <div class="row">
+                        <p class="col s12">Put here something about the project or tell other musicians what you are searching for!</p>
+                        <div class="input-field col s12">
+                            <input name="description" type="text" id="description" value="{{ (old('description') ? old('description') : '' ) }}">
+                            <label for="description">Description of your project</label>
+                        </div>
+                        @if ($errors->has('description'))
+                            <div class="help-block danger">
+                                {{ $errors->first('description') }}
+                            </div>
+                        @endif
+                    </div>
+                    <div class="row">
+                        <p class="col s12">What is the name of your track?</p>
+                        <div class="input-field col s12">
+                            <input name="fragmentInstrument" type="text" id="fragmentInstrument" value="{{ (old('fragmentInstrument') ? old('fragmentInstrument') : '' ) }}">
+                            <label for="fragmentInstrument">Name of the first track</label>
+                        </div>
+                        @if ($errors->has('fragmentInstrument'))
+                            <div class="help-block danger">
+                                {{ $errors->first('fragmentInstrument') }}
+                            </div>
+                        @endif
+                    </div>
+                    <div class="row">
+                        <p class="col s12">Important! Be sure that your file has the .mp3 extension and contains no special characters or spaces! Example: componist.mp3</p>
+                        <div class="file-field input-field col s12">
+                            <div class="btn">
+                                <span>Track</span>
+                                <input type="file" id="fragmentSong" name="fragmentSong">
+                            </div>
+                            <div class="file-path-wrapper">
+                                <input class="file-path validate" placeholder="componist.mp3" type="text">
                             </div>
                         </div>
-                        <div class="form-group{{ $errors->has('fragmentText') ? ' has-error' : '' }}">
-                            <label for="fragmentText" class="control-label">Your Post</label>
-                            <textarea name="fragmentText" id="fragmentText" class="form-control" rows="8">{{ (old('fragmentText') ? old('fragmentText') : '' ) }}</textarea>
-                            @if ($errors->has('fragmentText'))
-                                <div class="help-block danger">
-                                    {{ $errors->first('fragmentText') }}
-                                </div>
-                            @endif
-                        </div>
-                        <div class="form-group{{ $errors->has('fragmentInstrument') ? ' has-error' : '' }}">
-                            <label for="fragmentInstrument" class="control-label">The name of your instrument</label>
-                            <input type="fragmentInstrument" name="fragmentInstrument" id="fragmentInstrument" class="form-control" value="{{ (old('fragmentInstrument') ? old('fragmentInstrument') : '' ) }}" placeholder="The name of your instrument">
-                            @if ($errors->has('fragmentInstrument'))
-                                <div class="help-block danger">
-                                    {{ $errors->first('fragmentInstrument') }}
-                                </div>
-                            @endif
-                        </div>
-                        <div class="form-group{{ $errors->has('fragmentSong') ? ' has-error' : '' }}">
-                            <label for="fragmentSong" class="control-label">Your fragment (must be of filetype .mp3)</label>
-                            <p>No spaces or special characters in the name of the file!</p>
-                            <input type="file" id="fragmentSong" name="fragmentSong">
-                            @if ($errors->has('fragmentSong'))
-                                <div class="help-block danger">
-                                    {{ $errors->first('fragmentSong') }}
-                                </div>
-                            @endif
-                        </div>
-                        <div class="help-block pull-left">
-                            Feel free to use Markdown.
-                        </div>
-                        <div class="form-group checkbox pull-right">
-                            <label for="subscribe">
-                                <input type="checkbox" name="subscribe" id="subscribe" style="margin-top:4px; padding: 8px" checked> &nbsp; Subscribe to topic?
-                            </label>
-                        </div>
-                        <br />
-                        <br />
-                        {{ csrf_field() }}
-                        <button type="submit" class="btn btn-default pull-right">Create Project</button>
-                    </form>
-                </div>
 
+                        @if ($errors->has('fragmentSong'))
+                            <div class="help-block danger">
+                                {{ $errors->first('fragmentSong') }}
+                            </div>
+                        @endif
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <button type="submit" class="waves-effect waves-light btn">
+                                Create!
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+
 </div>
 @endsection

@@ -1,66 +1,51 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-sm-6 col-sm-offset-3 form-box">
-            <div class="form-bottom">
-                <form class="login-form" role="form" method="POST" action="{{ url('/login') }}">
+    <div id="login">
+        <div class="row">
+            <div class="login-form col l4 m6 s12 offset-l4 offset-m3">
+                <h1 class="white-text">Login</h1>
+                <form method="POST" action="{{ url('/login') }}"class="col s12">
                     {{ csrf_field() }}
-
-                    <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                        <label for="email" >E-Mail Address</label>
-                        <input autofocus="autofocus" id="email" type="email" class="form-control form-username" name="email" value="{{ old('email') }}" required >
-
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="email" type="email" class="validate" autofocus name="email" value="{{ old('email') }}" required>
+                            <label for="email">Email</label>
+                        </div>
                         @if ($errors->has('email'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('email') }}</strong>
                             </span>
                         @endif
                     </div>
-
-                    <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                        <label for="password" >Password</label>
-                        <input id="password" type="password" class="form-control" name="password" required>
-
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="password" type="password" name="password" class="validate" required>
+                            <label for="password">Password</label>
+                        </div>
                         @if ($errors->has('password'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('password') }}</strong>
                             </span>
                         @endif
                     </div>
-
-                    <div class="form-group">
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" name="remember"> Remember Me
-                            </label>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <button type="submit" class="waves-effect waves-light btn">
+                                Login
+                            </button>
+                            <a href="/auth/facebook" class="waves-effect waves-light btn ">
+                                Login with <i class="fa fa-facebook"></i>
+                            </a>
+                            <p class="centered">
+                                <a href="{{ url('/password/reset') }}">
+                                    Forgot Your Password?
+                                </a>
+                            </p>
                         </div>
-                    </div>
-
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-lg btn-primary btn-block">
-                            Login
-                        </button>
-
-                        <a  href="{{ url('/password/reset') }}">
-                            Forgot Your Password?
-                        </a>
                     </div>
                 </form>
             </div>
-            <div class="row">
-                <div class="col-sm-6 col-sm-offset-3 social-login">
-                    <h3>...or login with:</h3>
-                    <div class="social-login-buttons">
-                        <a class="btn btn-link-2" href="/auth/facebook">
-                            <i class="fa fa-facebook"></i> Facebook
-                        </a>
-                        </a>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
-</div>
 @endsection

@@ -48,20 +48,11 @@ class FragmentsController extends Controller
 
         $fragment->project_id = $project->id;
         $fragment->user_id = $request->user()->id;
-        $fragment->body = $request->fragmentText;
         $fragment->time = $time;
         $url = env('APP_URL');
-        $fragment->body = preg_replace('/\@\w+/', "[\\0]($url/user/profile/\\0)", $request->fragmentText);
         $fragment->name = $request->fragmentInstrument;
 
         $fragment->save();
-
-        // do @mention functionality
-        $mentioned_users = GetMentionedUsers::handle($request->fragmentText);
-
-        if (count($mentioned_users)) {
-            event(new UsersMentioned($mentioned_users, $project, $fragment));
-        }
 
         event(new UserPostedOnProject($project, $fragment, $request->user()));
 
@@ -103,18 +94,11 @@ class FragmentsController extends Controller
         $disk = Storage::disk('s3');
         $disk->getDriver()->put('/fragments/'. $project->slug . '/' . $time . '/' . $timeName . '.mp3', fopen($location . '/' . $timeName, 'r+'));
 
-        $fragment->body = $request->fragmentText;
         $fragment->time = $time;
         $url = env('APP_URL');
         $fragment->name = $request->fragmentInstrument;
 
         $fragment->save();
-
-        $mentioned_users = GetMentionedUsers::handle($request->fragmentText);
-
-        if (count($mentioned_users)) {
-            event(new UsersMentioned($mentioned_users, $project, $fragment));
-        }
 
         return redirect()->route('componists.projects.project.show', [
             'project' => $project,

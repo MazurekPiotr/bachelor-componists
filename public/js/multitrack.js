@@ -5,7 +5,7 @@
  var playlist = WaveformPlaylist.init({
      samplesPerPixel: 1500,
      mono: true,
-     waveHeight: 200,
+     waveHeight: 150,
      container: document.getElementById('playlist'),
      state: 'cursor',
      colors: {
@@ -15,9 +15,9 @@
      },
      controls: {
          show: true,
-         width: 120
+         width: 0
      },
-     zoomLevels: [1500, 2000, 3000, 5000, 8000, 12000],
+     zoomLevels: [1500, 3000, 5000, 10000, 15000, 20000],
      automaticscroll: true
  });
 

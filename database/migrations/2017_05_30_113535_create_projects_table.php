@@ -17,6 +17,7 @@ class CreateProjectsTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->string('slug')->unique();
+            $table->string('description');
             $table->string('title');
             $table->softDeletes();
             $table->timestamps();

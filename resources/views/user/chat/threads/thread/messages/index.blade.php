@@ -1,11 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div id="messages">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Messages with <a href="{{ route('user.profile.index', $recipient) }}">{{ '@' . $recipient->name }}</a></div>
+        <div class="login-form col col s12 m8 offset-m2 l6 offset-l3">
+            <h1 class="white-text">Messages with <a href="{{ route('user.profile.index', $recipient) }}">{{ '@' . $recipient->name }}</a></h1>
+
+            <div class="form">
 
                 <div class="panel-body">
                     <messaging recipient="{{ $recipient }}"></messaging>

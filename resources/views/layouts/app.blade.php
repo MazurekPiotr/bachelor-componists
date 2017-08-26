@@ -38,112 +38,147 @@
         <nav>
             <div class="nav-wrapper">
                 <a href="#" data-activates="nav-mobile" class="button-collapse" ><i class="fa fa-bars"></i></a>
-                <a href="{{ url('/') }}" class="brand-logo center">Componists</a>
 
-
-            <ul class="left hide-on-med-and-down">
-                <li><a href="{{ url('/') }}">Home</a></li>
-                <li><a href="{{ route('componists.projects.index') }}">All Projects</a></li>
-            </ul>
             @if(Auth::user())
-                <ul class="right hide-on-med-and-down">
-                    <li>
                     @if (Auth::user()->role === 'admin')
-                        <li><a href="{{ route('admin.dashboard.index') }}">Admin Dashboard</a></li>
-                    @endif
-                    @if (Auth::user()->isElevated())
-                        <li><a href="{{ route('moderator.dashboard.index') }}">Moderator Dashboard</a></li>
-                    @endif
-                    <li><a href="{{ route('home.index') }}">My projects</a></li>
-                    <li><a href="{{ route('user.chat.threads.index') }}"><span>My messages {!! Auth::user()->hasUnreadMessages() ? '<span class="badge">' . Auth::user()->unreadMessageCount(). '</span>' : '' !!}</span></a></li>
-                    <li><a href="{{ route('user.profile.index', Auth::user()->name) }}">{{ Auth::user()->name }}'s profile</a></li>
-                    <li><a href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            Logout
-                        </a>
-                        <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                            {{ csrf_field() }}
-                        </form>
-                    </li>
+                        <a href="{{ url('/') }}" class="brand-logo center">Head Componist</a>
+                    @elseif (Auth::user()->isElevated() && Auth::user()->role != 'admin')
+                        <a href="{{ url('/') }}" class="brand-logo center">Senior Componist</a>
                     @else
-                        <li><a href="{{ url('/login') }}">Login</a></li>
-                        <li><a href="{{ url('/register') }}">Register</a></li>
-                </ul>
-            @endif
-
-                <ul id="nav-mobile" class="side-nav">
-                    <li><a href="{{ url('/') }}">Home</a></li>
-                    <li><a href="{{ route('componists.projects.index') }}">All Projects</a></li>
-                 @if(Auth::user())
-                    <li>
-                    @if (Auth::user()->role === 'admin')
-                        <li><a href="{{ route('admin.dashboard.index') }}">Admin Dashboard</a></li>
+                        <a href="{{ url('/') }}" class="brand-logo center">Componists</a>
                     @endif
-                    @if (Auth::user()->isElevated())
+                @if (Auth::user()->role === 'admin')
+                    <ul class="left hide-on-med-and-down">
+                        <li><a href="{{ route('user.profile.index', Auth::user()->name) }}">{{ Auth::user()->name }}'s profile</a></li>
+                        <li><a href="{{ route('componists.projects.index') }}">All Projects</a></li>
+                        <li>
+                            <form method="post" action="/search" >
+                                {{ csrf_field() }}
+                                <div class="input-field">
+                                    <input id="search" name="keyword" type="text">
+                                    <i class="fa fa-search"></i>
+                                </div>
+                            </form>
+                        </li>
+                    </ul>
+                    <ul class="right hide-on-med-and-down">
+                        <li><a href="{{ route('user.chat.threads.index') }}"><span>My messages {!! Auth::user()->hasUnreadMessages() ? '<span class="badge">' . Auth::user()->unreadMessageCount(). '</span>' : '' !!}</span></a></li>
+                        <li><a href="{{ route('admin.dashboard.index') }}">Admin</a></li>
                         <li><a href="{{ route('moderator.dashboard.index') }}">Moderator Dashboard</a></li>
+                        <li><a href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                Logout
+                            </a>
+                            <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                                {{ csrf_field() }}
+                            </form>
+                        </li>
+                    </ul>
+                @else
+                    <ul class="left hide-on-med-and-down">
+                        <li><a href="{{ route('componists.projects.index') }}">All Projects</a></li>
+                        <li><a href="{{ route('home.index') }}">My projects</a></li>
+                        <li>
+                            <form method="post" action="/search" >
+                                {{ csrf_field() }}
+                                <div class="input-field">
+                                    <input id="search" name="keyword" type="text">
+                                    <i class="fa fa-search"></i>
+                                </div>
+                            </form>
+                        </li>
+                    </ul>
+
+                    <ul class="right hide-on-med-and-down"></ul>
+                    @if (Auth::user()->isElevated() && Auth::user()->role != 'admin')
+                            <li><a href="{{ route('moderator.dashboard.index') }}">Moderator Dashboard</a></li>
                     @endif
-                    <li><a href="{{ route('home.index') }}">My projects</a></li>
-                    <li><a href="{{ route('user.chat.threads.index') }}"><span>My messages {!! Auth::user()->hasUnreadMessages() ? '<span class="badge">' . Auth::user()->unreadMessageCount(). '</span>' : '' !!}</span></a></li>
-                    <li><a href="{{ route('user.profile.index', Auth::user()->name) }}">{{ Auth::user()->name }}'s profile</a></li>
-                    <li><a href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            Logout
-                        </a>
-                        <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                    <ul class="right hide-on-med-and-down">
+                        <li><a href="{{ route('user.chat.threads.index') }}"><span>My messages {!! Auth::user()->hasUnreadMessages() ? '<span class="badge">' . Auth::user()->unreadMessageCount(). '</span>' : '' !!}</span></a></li>
+                        <li><a href="{{ route('user.profile.index', Auth::user()->name) }}">{{ Auth::user()->name }}'s profile</a></li>
+                        <li><a href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                Logout
+                            </a>
+                            <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                                {{ csrf_field() }}
+                            </form>
+                        </li>
+                </ul>
+                @endif
+            @else
+                <a href="{{ url('/') }}" class="brand-logo center">Componists</a>
+                <ul class="left hide-on-med-and-down">
+                    <li><a href="{{ route('componists.projects.index') }}">All projects</a></li>
+                    <li>
+                        <form method="post" action="/search" >
                             {{ csrf_field() }}
+                            <div class="input-field">
+                                <input id="search" name="keyword" type="text">
+                                <i class="fa fa-search"></i>
+                            </div>
                         </form>
                     </li>
-                 @else
+                </ul>
+                <ul class="right hide-on-med-and-down">
                     <li><a href="{{ url('/login') }}">Login</a></li>
                     <li><a href="{{ url('/register') }}">Register</a></li>
-
-                    @endif
                 </ul>
+            @endif
             </div>
         </nav>
         @yield('content')
     </div>
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <ul class="list-inline">
-                        <li>
-                            <a href="#">Home</a>
-                        </li>
-                        <li class="footer-menu-divider">&sdot;</li>
-                        <li>
-                            <a href="#about">About</a>
-                        </li>
-                        <li class="footer-menu-divider">&sdot;</li>
-                        <li>
-                            <a href="#services">Services</a>
-                        </li>
-                        <li class="footer-menu-divider">&sdot;</li>
-                        <li>
-                            <a href="#contact">Contact</a>
-                        </li>
-                    </ul>
-                    <p class="copyright text-muted small">Copyright &copy; Componists 2017. All Rights Reserved</p>
+    <div class="col s12">
+        <footer>
+            <p class="center-align">© Componists 2017 | <a href="#">About</a> | <a href="#">Facebook</a></p>
+        </footer >
+    </div>
+    <ul id="nav-mobile" class="side-nav">
+        <a href="{{ url('/') }}" class="brand-logo">Componists</a>
+        <li>
+            <form method="post" action="/search" >
+                {{ csrf_field() }}
+                <div class="input-field">
+                    <input id="search" name="keyword" type="text">
+                    <i class="fa fa-search"></i>
                 </div>
-            </div>
-        </div>
-    </footer>
+            </form>
+        </li>
+        <li><a href="{{ route('componists.projects.index') }}">All Projects</a></li>
+        @if(Auth::user())
+            <li>
+            @if (Auth::user()->role === 'admin')
+                <li><a href="{{ route('admin.dashboard.index') }}">Admin Dashboard</a></li>
+            @endif
+            @if (Auth::user()->isElevated())
+                <li><a href="{{ route('moderator.dashboard.index') }}">Moderator Dashboard</a></li>
+            @endif
+            <li><a href="{{ route('home.index') }}">My projects</a></li>
+            <li><a href="{{ route('user.chat.threads.index') }}"><span>My messages {!! Auth::user()->hasUnreadMessages() ? '<span class="badge">' . Auth::user()->unreadMessageCount(). '</span>' : '' !!}</span></a></li>
+            <li><a href="{{ route('user.profile.index', Auth::user()->name) }}">{{ Auth::user()->name }}'s profile</a></li>
+            <li><a href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    Logout
+                </a>
+                <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                    {{ csrf_field() }}
+                </form>
+            </li>
+        @else
+            <li><a href="{{ url('/login') }}">Login</a></li>
+            <li><a href="{{ url('/register') }}">Register</a></li>
 
-    <!-- Scripts -->
-
-    <script src="/js/app.js"></script>
-        <script src="/js/waveform.js"></script>
-        <script src="/js/multitrack.js"></script>
-        <script src="/js/emitter.js"></script>
-        <script src="https://www.amcharts.com/lib/3/maps/js/worldLow.js"></script>
-        <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
-        <script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
-        <script src="/js/responsive.min.js" type="text/javascript"></script>
-        <script src="/js/chart.js"></script>
-<script type="text/javascript">
+        @endif
+    </ul>
 
 
-
-</script>
 </body>
+<script src="/js/app.js"></script>
+<script src="/js/waveform.js"></script>
+<script src="/js/multitrack.js"></script>
+<script src="/js/emitter.js"></script>
+<script src="https://www.amcharts.com/lib/3/maps/js/worldLow.js"></script>
+<script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+<script src="/js/responsive.min.js" type="text/javascript"></script>
+<script src="/js/chart.js"></script>
 </html>

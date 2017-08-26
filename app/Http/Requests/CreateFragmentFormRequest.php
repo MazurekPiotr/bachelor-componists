@@ -24,7 +24,6 @@ class CreateFragmentFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'fragmentText' => 'max:255',
             'fragmentSong' => 'required|mimes:mpga',
             'fragmentInstrument' => 'required|max:15'
         ];
