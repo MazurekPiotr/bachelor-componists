@@ -21,4 +21,9 @@ class ProfileController extends Controller
             'user' => $user,
         ]);
     }
+
+    public function privacyPolicy()
+    {
+      return view('privacy-policy');
+    }
 }

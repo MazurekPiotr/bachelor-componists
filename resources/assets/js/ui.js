@@ -3,16 +3,11 @@ $( document ).ready(function(){
         var scroll = $(window).scrollTop();
         if(scroll > 0) {
             $('nav').css('height', '90px');
-            $('.nav-wrapper').css('line-height', '90px');
-            $('.button-collapse').css('line-height', '90px');
-            $('nav .input-field').css('height', '90px');
-            $('nav .input-field i').css('line-height', '90px');
+            $('.nav-wrapper, .nav-wrapper i, .button-collapse').css('line-height', '90px');
+
         } else {
             $('nav').css('height', '64px');
-            $('.nav-wrapper').css('line-height', '64px');
-            $('.button-collapse').css('line-height', '64px');
-            $('nav .input-field').css('height', '64px');
-            $('nav .input-field i').css('line-height', '64px');
+            $('.nav-wrapper, .nav-wrapper i, .button-collapse').css('line-height', '64px');
         }
     });
     $('.button-collapse').sideNav({

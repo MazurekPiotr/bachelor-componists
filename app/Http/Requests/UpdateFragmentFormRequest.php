@@ -24,7 +24,6 @@ class UpdateFragmentFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'fragmentText' => 'max:255',
             'fragmentSong' => 'required',
             'fragmentInstrument' => 'required|max:15'
         ];

@@ -1,70 +1,46 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="project-chart centered row">
-        <h1 id="projectId" data-project-id="{{ $project->id }}">{{ $project->title }}</h1>
-        <h4>Musicians from over the world!</h4>
-        <div id="chartdiv" class="col s12"></div>
-        <h4>Contributors</h4>
-        <div class="contributors carousel">
-            @if (count($users))
-                @foreach ($users as $user)
-                    <div id="user-{{ $user->id }}" class="contributor col s4 m3 l2 carousel-item">
-                        <div class="user-img">
-                            <h4>{{ $user->name }}</h4>
-                            @if( Storage::disk('s3')->exists('avatars/'. $user->id . '/avatar.jpg')  )
-                                <img src="{{ Storage::disk('s3')->url('avatars/'. $user->id . '/') . 'avatar.jpg' }}" alt="{{ App\User::findOrFail($user->id)->name }}-avatar">
-                            @else
-                                <img src="{{ Storage::disk('s3')->url('avatars/no-avatar.png') }}" alt="blank-avatar">
-                            @endif
-                        </div>
-                    </div>
-                @endforeach
-            @endif
-        </div>
-
-    </div>
     <div class="row about-project">
         <div class="col s8 offset-s2 centered">
-            @if(Auth::check())
-                <report-project-button project-slug="{{ $project->slug }}" class="report-text report-topic pull-right"></report-project-button>
-            @endif
-            <h3>About {{ $project->title }}</h3>
-
-            <p>Created by <a href="/user/profile/{{ '@' . App\User::findOrFail($project->user_id)->name }}">{{ '@' . App\User::findOrFail($project->user_id)->name }}</a></p>
-
+            <h1 id="projectId" data-project-id="{{ $project->id }}">{{ $project->title }}</h1>
+            <p>Created by <a href="/user/profile/{{'@' . App\User::findOrFail($project->user_id)->name }}">{{$project->user->name}}</p></a>
         {{ Carbon\Carbon::createFromTimeStamp(strtotime($project->created_at))->diffForHumans() }}
-
+        <p>{{ $project->description }}</p>
         @if (Auth::check())
             <subscribe-button class="subscribe-btn" project-slug="{{ $project->slug }}"></subscribe-button>
         @endif
-        <p>{{ $project->description }}</p>
+        @if(Auth::check())
+            <report-project-button project-slug="{{ $project->slug }}" class="report-text report-topic"></report-project-button>
+        @endif
         </div>
     </div>
-    <div class="row">
+    <div class="row" id="edit-panel">
         @if(Auth::check())
             @if(Auth::user()->isElevated() || Auth::user()->id == $project->user_id)
                 @if (count($fragments))
-                <div class="edit-panel col s8 offset-s2">
+                <div class="col s8 offset-s2">
                     <h3>Edit panel</h3>
-                    @foreach ($fragments as $fragment)
-                    <div id="fragment-{{ $fragment->id }}">
-                        <h4>{{ $fragment->name }}</h4>
-                        <report-fragment-button project-slug="{{ $project->slug }}" fragment-id="{{ $fragment->id }}" class=""></report-fragment-button>
-                        <div id="volume-message-{{ $fragment->id }}"></div>
-                        <set-volume-fragment volume="{{ $fragment->volume }}" fragment-id="{{ $fragment->id }}"></set-volume-fragment>
-                        @can ('edit', $fragment)
-                            <a href="{{ route('componists.projects.project.fragments.fragment.edit', [$project, $fragment]) }}"><span class="fa fa-edit"></span> Edit</a>
-                        @endcan
-                        @can ('delete', $fragment)
-                            <form class="" action="{{ route('componists.projects.project.fragments.post.delete', [$project, $fragment]) }}" method="post">
-                                {{ method_field('DELETE') }}
-                                {{ csrf_field() }}
-                                <button type="submit" class="btn btn-link danger-link"><span class="fa fa-remove"></span> Delete</button>
-                            </form>
-                        @endcan
+                    <div class="row">
+                      @foreach ($fragments as $fragment)
+                      <div id="fragment-{{ $fragment->id }}" class="col s4">
+                          <h4>{{ $fragment->name }}</h4>
+                          <report-fragment-button project-slug="{{ $project->slug }}" fragment-id="{{ $fragment->id }}" class=""></report-fragment-button>
+                          <div id="volume-message-{{ $fragment->id }}"></div>
+                          <set-volume-fragment volume="{{ $fragment->volume }}" fragment-id="{{ $fragment->id }}"></set-volume-fragment>
+                          @can ('edit', $fragment)
+                              <a href="{{ route('componists.projects.project.fragments.fragment.edit', [$project, $fragment]) }}"><span class="fa fa-edit"></span> Edit this fragment</a>
+                          @endcan
+                          @can ('delete', $fragment)
+                              <form class="" action="{{ route('componists.projects.project.fragments.post.delete', [$project, $fragment]) }}" method="post">
+                                  {{ method_field('DELETE') }}
+                                  {{ csrf_field() }}
+                                  <button type="submit" class="btn btn-link"><span class="fa fa-remove"></span> Delete this fragment</button>
+                              </form>
+                          @endcan
+                      </div>
+                      @endforeach
                     </div>
-                    @endforeach
                 </div>
                 @endif
             @else
@@ -78,7 +54,7 @@
                                     <form class="" action="{{ route('componists.projects.project.fragments.post.delete', [$project, $fragment]) }}" method="post">
                                         {{ method_field('DELETE') }}
                                         {{ csrf_field() }}
-                                        <button type="submit" class="btn btn-link danger-link"><span class="fa fa-remove"></span> Delete</button>
+                                        <button type="submit" class="btn btn-link"><span class="fa fa-remove"></span> Delete</button>
                                     </form>
                                     <set-volume-fragment volume="{{ $fragment->volume }}" fragment-id="{{ $fragment->id }}"></set-volume-fragment>
                                 </div>
@@ -126,27 +102,33 @@
         </div>
         <div id="playlist" class="col s12 m10 offset-m1 l10 offset-l1"></div>
     </div>
-    <div class="row">
+    <div id="addtrackwrapper" class="row">
         <h3>Want to contribute to this project?</h3>
         <button data-target="addTrack" class="btn modal-trigger">Add track</button>
         <div id="addTrack" class="modal fade">
             @if (Auth::check())
-            <div class="centered">
+            <div class="centered col s12">
                 <h1>Add a track!</h1>
                 <form action="{{ route('componists.projects.fragments.create.submit', $project) }}" method="post" enctype="multipart/form-data">
-                    <div >
-                        <label for="fragmentInstrument" class="control-label">The name of your instrument</label>
-                        <input type="fragmentInstrument" name="fragmentInstrument" id="fragmentInstrument" class="form-control" value="{{ (old('fragmentInstrument') ? old('fragmentInstrument') : '' ) }}" placeholder="The name of your instrument">
+                    <div class="col s12 input-field">
+                        <label for="fragmentInstrument" >The name of your instrument</label>
+                        <input type="text" name="fragmentInstrument" id="fragmentInstrument" value="{{ (old('fragmentInstrument') ? old('fragmentInstrument') : '' ) }}" placeholder="The name of your instrument">
                         @if ($errors->has('fragmentInstrument'))
                             <div class="help-block danger">
                                 {{ $errors->first('fragmentInstrument') }}
                             </div>
                         @endif
                     </div>
-                    <div >
-                        <label for="fragmentSong" >Your fragment</label>
-                        <p>No spaces or special characters in the name of the file!</p>
-                        <input type="file" id="fragmentSong" name="fragmentSong">
+                    <p>No spaces or special characters in the name of the file!</p>
+
+                    <div class="file-field input-field">
+                        <div class="btn">
+                            <span>Track</span>
+                            <input type="file" name="fragmentSong">
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate" type="text">
+                        </div>
                         @if ($errors->has('fragmentSong'))
                             <div class="help-block danger">
                                 {{ $errors->first('fragmentSong') }}
@@ -154,7 +136,7 @@
                         @endif
                     </div>
                     {{ csrf_field() }}
-                    <button type="submit" class="">Add your track</button>
+                    <button type="submit" class="btn">Add your track</button>
                 </form>
             </div>
             @else
@@ -164,22 +146,53 @@
             @endif
         </div>
     </div>
-                        @foreach ($posts as $post)
-                        <div class="post" id="post-{{ $post->id }}">
-                            @if( Storage::disk('s3')->exists('avatars/'. $user->id . '/avatar.jpg')  )
-                                <img src="{{ Storage::disk('s3')->url('avatars/'. $user->id . '/') . 'avatar.jpg' }}" alt="{{ App\User::findOrFail($user->id)->name }}-avatar">
-                            @else
-                                <img src="{{ Storage::disk('s3')->url('avatars/no-avatar.png') }}" alt="blank-avatar">
-                            @endif
-                            <p>
-                                {!! GrahamCampbell\Markdown\Facades\Markdown::convertToHtml(
-                                    $post->body
-                                ) !!}
-                            </p>
+    <div class="project-chart centered">
+        <div id="chartdiv" class="col s12"></div>
+        <div id="contributors-wrapper">
+            <h4>Contributors</h4>
+            <div class="contributors carousel">
+                @if (count($users))
+                    @foreach ($users as $user)
+                        <div id="user-{{ $user->id }}" class="contributor col s4 m3 l2 carousel-item">
+                            <div class="user-img">
+                                <h4>{{ $user->name }}</h4>
+                                @if( Storage::disk('s3')->exists('avatars/'. $user->id . '/avatar.jpg')  )
+                                    <img src="{{ Storage::disk('s3')->url('avatars/'. $user->id . '/') . 'avatar.jpg' }}" alt="{{ App\User::findOrFail($user->id)->name }}-avatar">
+                                @else
+                                    <img src="{{ Storage::disk('s3')->url('avatars/no-avatar.png') }}" alt="blank-avatar">
+                                @endif
+                            </div>
                         </div>
-                        @endforeach
+                    @endforeach
+                @endif
+            </div>
+        </div>
+
+    </div>
+    <h4 class="center">Or write a comment!</h4>
+                @foreach ($posts as $post)
+                <div class="post row" id="post-{{ $post->id }}">
+                    <div class="col s1 offset-s3">
+                        @if( Storage::disk('s3')->exists('avatars/'. $user->id . '/avatar.jpg')  )
+                            <img style="width:100%" src="{{ Storage::disk('s3')->url('avatars/'. $user->id . '/') . 'avatar.jpg' }}" alt="{{ App\User::findOrFail($user->id)->name }}-avatar">
+                        @else
+                            <img style="width:100%" src="{{ Storage::disk('s3')->url('avatars/no-avatar.png') }}" alt="blank-avatar">
+                        @endif
+                    </div>
+                    <div class="col s5">
+                        <p>
+                            {!! GrahamCampbell\Markdown\Facades\Markdown::convertToHtml(
+                                $post->body
+                            ) !!}
+                        </p>
+                        <hr>
+                    </div>
+
+                </div>
+                @endforeach
                 @if (Auth::check())
-                    <div class="col-sm-12 col-md-6 col-md-offset-3">
+                    <div class="row">
+                    <div class=" reply col s12 m6 offset-m3">
                         <form action="{{ route('componists.projects.posts.create.submit', $project) }}" method="post" enctype="multipart/form-data">
                             <div class="form-group{{ $errors->has('body') ? ' has-error' : '' }}">
                                 <label for="body" class="control-label">Your Reply</label>
@@ -191,12 +204,11 @@
                                 @endif
                             </div>
                             {{ csrf_field() }}
-                            <button type="submit" class="btn btn-default pull-right">Add your track</button>
+                            <button type="submit" class="btn btn-default">Write a comment</button>
                         </form>
+                    </div>
                     </div>
                 @else
                     <p style="text-align: center">Please <a href="{{ url('/register') }}">register</a> or <a href="{{ url('/login') }}">login</a> to post a comment</p>
                 @endif
-                </div>
-            </div>
 @endsection

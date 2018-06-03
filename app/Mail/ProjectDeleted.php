@@ -12,16 +12,16 @@ class ProjectDeleted extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $topic;
+    public $project;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Topic $topic)
+    public function __construct(Project $project)
     {
-        $this->topic = $topic;
+        $this->project = $project;
     }
 
     /**
@@ -32,7 +32,7 @@ class ProjectDeleted extends Mailable
     public function build()
     {
         return $this->view('mail.topicDeleted', [
-            'project' => $this->topic,
+            'project' => $this->project,
         ]);
     }
 }

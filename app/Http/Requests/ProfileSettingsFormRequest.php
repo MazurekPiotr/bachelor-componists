@@ -25,7 +25,7 @@ class ProfileSettingsFormRequest extends FormRequest
     {
 
         // what ever file you choose to upload, this avatar rule seems to be disobeyed, result is NotReadableException thrown
-        $avatar_rules = $this->hasAvatar() ? 'image' : '';
+        $avatar_rules = $this->hasAvatar() ? 'image|size:10240|dimensions:min_width=1000,min_height=2000' : '';
         $password_rules = $this->hasPassword() ? 'required|min:6|' : '';
 
         return [

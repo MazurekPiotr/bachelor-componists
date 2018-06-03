@@ -31,29 +31,21 @@ class FragmentsController extends Controller
         $music_file = $request->file('fragmentSong');
 
         $timeName = $music_file->getClientOriginalName();
+
         $extension = $music_file->getClientOriginalExtension();
-        if(strpos($timeName, '#') || strpos($timeName, ' ') || strpos($timeName, '#') || strpos($timeName, '#')){
-            return view('componists.projects.project.fragments.fragment.edit', [
-                'project' => $project,
-                'fragment' => $fragment
-            ]);
-        }
         $time = time();
-        $fileName = $timeName . '.' .  $extension;
         $location = storage_path() . '/fragments/' . $project->slug . '/' . $time;
         $music_file->move($location,$timeName);
 
         $disk = Storage::disk('s3');
-        $disk->getDriver()->put('/fragments/'. $project->slug . '/' . $time . '/' . $request->fragmentInstrument . '.mp3', fopen($location . '/' . $timeName, 'r+'));
+        $disk->getDriver()->put('/fragments/'. $project->slug . '/' . $time . '/' . $request->fragmentInstrument . '.mp3' , fopen($location . '/' . $timeName, 'r+'));
 
         $fragment->project_id = $project->id;
         $fragment->user_id = $request->user()->id;
         $fragment->time = $time;
         $url = env('APP_URL');
         $fragment->name = $request->fragmentInstrument;
-
         $fragment->save();
-
         event(new UserPostedOnProject($project, $fragment, $request->user()));
 
         return redirect()->route('componists.projects.project.show', [
@@ -79,25 +71,20 @@ class FragmentsController extends Controller
         $music_file = $request->file('fragmentSong');
 
         $timeName = $music_file->getClientOriginalName();
+
         $extension = $music_file->getClientOriginalExtension();
-        if(strpos($timeName, '#') || strpos($timeName, ' ') || strpos($timeName, '#') || strpos($timeName, '#')){
-            return view('componists.projects.project.fragments.fragment.edit', [
-                'project' => $project,
-                'fragment' => $fragment
-            ]);
-        }
         $time = time();
-        $fileName = $timeName . '.' .  $extension;
         $location = storage_path() . '/fragments/' . $project->slug . '/' . $time;
         $music_file->move($location,$timeName);
 
         $disk = Storage::disk('s3');
-        $disk->getDriver()->put('/fragments/'. $project->slug . '/' . $time . '/' . $timeName . '.mp3', fopen($location . '/' . $timeName, 'r+'));
+        $disk->getDriver()->put('/fragments/'. $project->slug . '/' . $time . '/' . $request->fragmentInstrument . '.mp3' , fopen($location . '/' . $timeName, 'r+'));
 
+        $fragment->project_id = $project->id;
+        $fragment->user_id = $request->user()->id;
         $fragment->time = $time;
         $url = env('APP_URL');
         $fragment->name = $request->fragmentInstrument;
-
         $fragment->save();
 
         return redirect()->route('componists.projects.project.show', [

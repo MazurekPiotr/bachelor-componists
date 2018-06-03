@@ -40,7 +40,7 @@
     <body>
         <div class="container">
             <div class="content">
-                <div class="title">Not found.</div>
+                <div class="title">Can't find any music here!</div>
             </div>
         </div>
     </body>

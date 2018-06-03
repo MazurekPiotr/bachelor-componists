@@ -2,7 +2,7 @@
 
 namespace App\Mail;
 
-use App\Project;
+use App\Fragment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -12,16 +12,16 @@ class FragmentDeleted extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $project;
+    public $fragment;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Project $project)
+    public function __construct(Fragment $fragment)
     {
-        $this->project = $project;
+        $this->fragment = $fragment;
     }
 
     /**
@@ -31,7 +31,7 @@ class FragmentDeleted extends Mailable
      */
     public function build()
     {
-        return $this->view('mail.postDeleted', [
+        return $this->view('mail.fragmentDeleted', [
             'fragment' => $this->fragment,
         ]);
     }

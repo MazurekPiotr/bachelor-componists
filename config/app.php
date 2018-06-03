@@ -228,11 +228,12 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
-        'Image' => Intervention\Image\Facades\Image::class,
+        'Image' => Intervention\Image\ImageManager::class,
         'Markdown' => GrahamCampbell\Markdown\Facades\Markdown::class,
         'GetMentionedUsers' => App\Facades\GetMentionedUsers::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
 
+        'Broadcast' => Illuminate\Support\Facades\Broadcast::class
 
     ],
 

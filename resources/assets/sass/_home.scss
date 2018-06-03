@@ -1,12 +1,15 @@
+$primary-color : #DA2C3D;
+$secondary-color: #2d3035;
+
 .center-div{
   position: absolute;
-  top: 45%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%);
 }
 
-h1, h2, h3 {
+h1, h2, h3, h4, h5 {
   font-family: 'Amatic SC', cursive;
 }
 
@@ -15,18 +18,19 @@ h1, h2, h3 {
 }
 
 .btn, .btn-large , .btn:focus, .btn-large:focus, .btn:active, .btn-large:active {
-  background-color: #EC5261 !important;
+  background-color: $primary-color !important;
   box-shadow: none;
 }
 
 .btn:hover, .btn-large:hover {
-  background-color: lighten(#EC5261, 20%);
+  background-color: lighten($primary-color, 8%) !important;
   box-shadow: none;
 }
 
 body {
   font-family: 'Raleway', sans-serif;
   position: relative;
+  overflow-x: hidden;
 }
 
 nav {
@@ -34,21 +38,26 @@ nav {
     padding-left: 1rem;
   }
   .input-field {
-    color: #DA2C3D !important;
-    input {
+    height: 64px !important;
+    color: $primary-color !important;
+    input, input:focus {
       padding-left: 2rem !important;
-      border-bottom-color: #DA2C3D !important;
+      border-bottom-color: $primary-color !important;
+    }
+    input:focus {
+      border-bottom: 1px solid #DA2C3D !important;
+      box-shadow: none !important;
     }
     i {
       transition: all 0.4s;
-      position: absolute;
-      top: 0;
+      position: absolute !important;
+      top: 0 !important;
     }
   }
 
   .button-collapse {
     transition: all 0.4s;
-    font-size: 2em;
+    left: -50px;
   }
   background-color: #fff !important;
   color: #DA2C3D;
@@ -61,6 +70,7 @@ nav {
 .nav-wrapper {
   transition: all 0.4s;
   -webkit-transition: all 0.4s;
+  padding: 0 50px;
 }
 .addheight {
   height: 80px !important;
@@ -74,8 +84,7 @@ nav ul li a { color: #DA2C3D; }
 
 nav ul li a:hover {
   text-decoration: none;
-  background-color: #EC5261;
-  color: #ffffff;
+  background-color: #EFEFEF;
 }
 .brand-logo {
   font-family: 'Amatic SC', cursive;
@@ -86,11 +95,37 @@ nav ul li a:hover {
 .brand-logo:hover {
   text-decoration: none;
 }
+#topbarsearch {
+
+
+  #autocomplete-input { 
+    border-bottom: none !important;
+    width: auto !important;
+    margin-left: 20px;
+    
+  }
+
+  #autocomplete-input:focus {
+    border-bottom: 1px solid #DA2C3D !important;
+    box-shadow: none !important;
+  }
+
+  i {
+    float: left;
+    line-height: 3em;
+    color: $primary-color;
+  }
+
+}
 
 #intro {
   height: 100vh;
   width: 100vw;
   background-color: #EC5261;
+  background: -webkit-linear-gradient(left top, #DA2C3D, #F87E8A); 
+  background: -o-linear-gradient(bottom right, #DA2C3D, #F87E8A); 
+  background: -moz-linear-gradient(bottom right, #DA2C3D, #F87E8A); 
+  background: linear-gradient(to bottom right, #DA2C3D, #F87E8A);
   position: relative;
 }
 #intro-message h1, h3 {
@@ -108,7 +143,7 @@ div#intro-message h1, h3 {
 }
 
 div#intro-message h3 {
-  font-size: 4em !important;
+  font-size: 4em;
 }
 
 div#intro .more {
@@ -125,7 +160,7 @@ div#intro .more {
 
 #about-link {
   width: 100vw;
-  height: 95vh;
+  min-height: 100vh;
   background-color: #fff;
   text-align: center;
   color: #2d3035;
@@ -142,36 +177,35 @@ div#intro .more {
     color: #fff;
 
   }
+  .center-div {
+    width: 100%;
+    padding: 0 20px;
+  }
   h3 {
     color: #2d3035;
+    font-size: 3em;
   }
+
+  h4 {margin-bottom: 50px;}
 }
 
 
 #about-link h2 {
+  margin-top: 0 !important;
   font-size: 7em;
-}
-
-#about-link p {
 }
 
 #join {
   text-align: center;
-  padding-top: 10%;
-  height: 100vh;
+  padding: 10em 6em;
   color: #fff;
-  background: #1D8E7E; /* For browsers that do not support gradients */
+  background: #2d3035; /* For browsers that do not support gradients */
   background: -webkit-linear-gradient(left top, #15191E, #696E77); /* For Safari 5.1 to 6.0 */
   background: -o-linear-gradient(bottom right, #15191E, #696E77); /* For Opera 11.1 to 12.0 */
   background: -moz-linear-gradient(bottom right, #15191E, #696E77); /* For Firefox 3.6 to 15 */
   background: linear-gradient(to bottom right, #15191E, #696E77); /* Standard syntax (must be last) */
   .btn-large {
     background-color: #ffffff !important;
-    color: #EC5261;
-    &:hover {
-      background-color: #EC5261 !important;
-      color: #ffffff;
-    }
   }
   .notes {
     li {
@@ -217,8 +251,14 @@ div#intro .more {
 
 #recent-projects {
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   padding-top: 5em;
+  margin-bottom: 200px;
+}
+
+#recent-projects .card-content {
+  height: 250px;
+  overflow-y: auto;
 }
 
 #recent-projects .card-action a {
@@ -227,17 +267,7 @@ div#intro .more {
 
 #recent-projects h2 {
   font-size: 7em;
-}
-
-#recent-projects .card {
-  margin: 0 1em 0 1em;
-  img {
-    width: 100%;
-  }
-}
-
-footer {
-  margin-top: 50px;
+  margin-bottom: 50px;
 }
 
 

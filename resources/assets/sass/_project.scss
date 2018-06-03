@@ -1,3 +1,6 @@
+$primary-color: #DA2C3D;
+$secondary-color: #2d3035;
+
 .project-chart {
   .subscribe-btn {
     clear: both;
@@ -8,23 +11,25 @@
       color: #ffffff;
     }
   }
-  padding-top: 56px;
   width: 100vw;
-  background-color: #EC5261;
-  color: #ffffff;
+  background-color: #fff;
+  color: $secondary-color;
   position: relative;
   #chartdiv {
     padding: 0;
     background-color: #ffffff;
     overflow: hidden;
     height: 40vh;
-    margin-bottom: 2%;
+    margin: 50px 0;
     a {
       display: none !important;
     }
   }
 
-
+  #contributors-wrapper {
+    background-color: lighten($secondary-color, 70%);
+    padding: 10px;
+  }
   .contributors {
     clear: both;
     height: 30vh;
@@ -51,7 +56,47 @@
 }
 
 .about-project {
-  h3 {
-    color: #2d3035;
+  padding-top: 56px;
+}
+.about-project h3, #edit-panel h3, #addtrackwrapper h3 {
+    color: #2d3035 !important;
+    font-size: 4rem !important;
   }
+
+#addtrackwrapper {
+  text-align: center;
+  #addTrack {
+    padding: 1em;
+  }
+  padding: 1em;
+  button {
+    margin-top: 20px;
+  };
+}
+
+.reply {
+  margin-top:0px;
+  margin-bottom: 50px;
+  padding: 20px;
+
+  textarea {height: 150px;}
+}
+
+.player {
+  .btn {margin-top: 10px; }
+
+  .btn-pause {background-color: grey !important;}
+  .btn-pause:hover {background-color: lighten(grey, 15%) !important;}
+  .btn-play {background-color: teal !important;}
+  .btn-play:hover {background-color: lighten(teal, 15%) !important;}
+  .btn-zoom-in, .btn-zoom-out {background-color: #2196F3 !important;}
+  .btn-zoom-in:hover, .btn-zoom-out:hover {background-color: lighten(#2196F3, 15%) !important;}
+  .btn-download:hover {background-color: lighten(#ef6c00, 15%) !important;}
+
+}
+
+
+
+@media only screen and (max-width: 600px) {
+  #addtrackwrapper button { margin-left: 20px }
 }

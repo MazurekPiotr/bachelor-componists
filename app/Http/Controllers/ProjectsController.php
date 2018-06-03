@@ -81,6 +81,12 @@ class ProjectsController extends Controller
     public function create (CreateProjectFormRequest $request)
     {
         $project = new Project();
+        $fragment = new Fragment();
+
+        $music_file = $request->file('fragmentSong');
+
+        $timeName = $music_file->getClientOriginalName();
+
         $project->user_id = $request->user()->id;
 
         $project->description = $request->description;
@@ -88,20 +94,8 @@ class ProjectsController extends Controller
         $project->title = $request->title;
         $project->save();
 
-        $fragment = new Fragment();
-
-        $music_file = $request->file('fragmentSong');
-
-        $timeName = $music_file->getClientOriginalName();
-        if(strpos($timeName, '#') || strpos($timeName, ' ')){
-            return view('componists.projects.project.create.form', [
-                'project' => $project,
-                'fragment' => $fragment
-            ]);
-        }
         $extension = $music_file->getClientOriginalExtension();
         $time = time();
-        $fileName = $timeName . '.' .  $extension;
         $location = storage_path() . '/fragments/' . $project->slug . '/' . $time;
         $music_file->move($location,$timeName);
 

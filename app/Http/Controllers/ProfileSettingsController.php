@@ -8,7 +8,7 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProfileSettingsFormRequest;
 use File;
-use Image;
+use Intervention\Image\ImageManager as Image;
 use Storage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
@@ -50,19 +50,20 @@ class ProfileSettingsController extends Controller
         // don't need to authorize this action, as only making changes to logged in user.
         if ($request->hasFile('avatar')) {
             // wants to update avatar
+            $time = time();
             $fileId = $request->hasFile('avatar');
-            $request->file('avatar')->move(storage_path() . '/avatars', $fileId);
+            $request->file('avatar')->move(storage_path() . '/avatars/' . $time, $fileId . '.jpg');
 
-            $path = storage_path() . '/avatars/' . $fileId ;
-            $fileName = $fileId . '.png';
 
-            $img = Image::make($path)->encode('png')->fit(600, 600, function ($constraint) {
+            $path = storage_path() . '/avatars/' . $time ;
+            $fileName = $fileId . '.jpg';
+
+            $img = new Image;
+            $img->make($path. '/'.$fileName)->fit(1000, 1000, function ($constraint) {
                 $constraint->upsize();
-            });
+            })->encode('png');
 
-            $uploadImg = $img->stream()->detach();
-
-            Storage::disk('s3')->put('/avatars/'. $user->id .'/avatar.jpg', $uploadImg, 'public');
+            Storage::disk('s3')->put('/avatars/'. $user->id .'/avatar.jpg', file_get_contents($path.'/'.$fileName), 'public');
 
             $user->avatar = $fileName;
             $user->imageURL = 'https://tracks-bachelor.s3.eu-west-2.amazonaws.com/avatars/'. $user->id .'/avatar.jpg';

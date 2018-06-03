@@ -49,76 +49,16 @@
 
                     <div class="row">
                         <div class="input-field col s12">
-                            <button type="submit" class="waves-effect waves-light btn">
-                                Register
-                            </button>
-                            or
-                                <button class="waves-effect waves-light btn" href="/auth/facebook">
-                                    Login with <i class="fa fa-facebook"></i>
-                                </button>
+                            <div>
+                                <button type="submit" class="waves-effect waves-light btn">Register</button>
+                            </div>
+                            <div>
+                                <a href="/auth/facebook" class="waves-effect waves-light btn" id="fb-btn">Login with <i class="fa fa-facebook-official" aria-hidden="true"></i></a>
+                            </div>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-        <div class="col-sm-6 col-sm-offset-3 form-box">
-            <div class="form-bottom">
-                <form class="login-form" role="form" method="POST" action="{{ url('/register') }}">
-                    {{ csrf_field() }}
-
-                    <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                        <label for="name" >Username</label>
-
-                            <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
-
-                            @if ($errors->has('name'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('name') }}</strong>
-                                </span>
-                            @endif
-                    </div>
-
-                    <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                        <label for="email">E-Mail Address</label>
-
-                            <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
-
-                            @if ($errors->has('email'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('email') }}</strong>
-                                </span>
-                            @endif
-                    </div>
-
-                    <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                        <label for="password">Password</label>
-
-                            <input id="password" type="password" class="form-control" name="password" required>
-
-                            @if ($errors->has('password'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('password') }}</strong>
-                                </span>
-                            @endif
-                    </div>
-
-                    <div class="form-group">
-                        <label for="password-confirm" >Confirm Password</label>
-
-                            <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
-                    </div>
-
-                    <input type="hidden" name="code" value="{{ (Request::get('code') ? Request::get('code') : '') }}">
-
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-lg btn-primary btn-block">
-                            Login
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 @endsection

@@ -13,6 +13,8 @@
 
 Route::get('/', 'ProjectsController@home')->name('home');
 
+Route::get('privacy-policy', 'ProfileController@privacyPolicy');
+
 Auth::routes();
 
 Route::get('auth/{provider}', 'SocialController@redirectToProvider');
@@ -22,7 +24,6 @@ Route::get('verification', 'Auth\RegisterController@verification');
 Route::post('search', 'ProjectsController@search');
 
 // log.activity middleware logs the time of user activity that any inclusive routes are hit
-Route::group(['middleware' => ['log.activity']], function() {
 
     // use profile
     Route::get('/user/profile/@{user}', 'ProfileController@index')->name('user.profile.index');
@@ -103,5 +104,3 @@ Route::group(['middleware' => ['log.activity']], function() {
         Route::get('/fragments/{fragment}/getVolume', 'FragmentsController@getVolume');
 
     });
-
-});
