@@ -1,7 +1,6 @@
  var id = document.getElementById('projectId').dataset.projectId;
  var links;
 
-
  var playlist = WaveformPlaylist.init({
      samplesPerPixel: 1500,
      mono: true,
@@ -18,25 +17,21 @@
          width: 0
      },
      zoomLevels: [1500, 3000, 5000, 10000, 15000, 20000],
-     automaticscroll: true
+     isAutomaticscroll: true
  });
-
-
 
  showLoading();
  $.get('/api/getSlugsFromProject/' + id, function (response) {
-     playlist.load(response);
+     playlist.load(response).then(function() {
+       hideLoading();
+     });
      playlist.initExporter();
-     hideLoading();
  });
 
  function showLoading() {
-     $("#loading").show('slow');
+     $(".loader").show();
  };
 
  function hideLoading() {
-     $("#loading").finish().hide('slow');
+     $(".loader").hide();
  };
-
-
-

@@ -28,12 +28,11 @@ class LoginController extends Controller
      * @var string
      */
     protected $redirectTo = '';
-
-    public function authenticated(Request $request, $user)
+    
+    protected function authenticated(Request $request, $user)
     {
-        return redirect('/user/profile/@' .$user->name);
+        return redirect(session('link'));
     }
-
     /**
      * Create a new controller instance.
      *
@@ -42,5 +41,11 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest', ['except' => 'logout']);
+    }
+
+    public function showLoginForm()
+    {
+      session(['link' => url()->previous()]);
+      return view('auth.login');
     }
 }

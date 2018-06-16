@@ -98,11 +98,11 @@ nav ul li a:hover {
 #topbarsearch {
 
 
-  #autocomplete-input { 
+  #autocomplete-input {
     border-bottom: none !important;
     width: auto !important;
     margin-left: 20px;
-    
+
   }
 
   #autocomplete-input:focus {
@@ -122,13 +122,13 @@ nav ul li a:hover {
   height: 100vh;
   width: 100vw;
   background-color: #EC5261;
-  background: -webkit-linear-gradient(left top, #DA2C3D, #F87E8A); 
-  background: -o-linear-gradient(bottom right, #DA2C3D, #F87E8A); 
-  background: -moz-linear-gradient(bottom right, #DA2C3D, #F87E8A); 
+  background: -webkit-linear-gradient(left top, #DA2C3D, #F87E8A);
+  background: -o-linear-gradient(bottom right, #DA2C3D, #F87E8A);
+  background: -moz-linear-gradient(bottom right, #DA2C3D, #F87E8A);
   background: linear-gradient(to bottom right, #DA2C3D, #F87E8A);
   position: relative;
 }
-#intro-message h1, h3 {
+#intro-message h1 {
   font-size: 10em;
   color: #fff;
   text-align: center;
@@ -269,8 +269,3 @@ div#intro .more {
   font-size: 7em;
   margin-bottom: 50px;
 }
-
-
-
-
-

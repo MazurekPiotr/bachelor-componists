@@ -141,7 +141,7 @@ class ProjectsController extends Controller
 
         $s3 = \Storage::disk('s3');
         $client = $s3->getDriver()->getAdapter()->getClient();
-        $expiry = "+30 seconds";
+        $expiry = "+5 seconds";
         $response = [];
         foreach ($fragments as $key => $fragment) {
             $command = $client->getCommand('GetObject', [
@@ -182,29 +182,21 @@ class ProjectsController extends Controller
         return $users;
     }
 
-    public function addPost(CreatePostRequest $request, Project $project) {
+    public function addPost(CreatePostRequest $request) {
 
         $post = new Post();
         $post->body = $request->body;
-        $post->project_id = $project->id;
-        $post->user_id = $request->user()->id;
+        $post->project_id = $request->projectId;
+        $post->user_id = $request->userId;
         $post->save();
 
-        $fragments = Fragment::where('project_id', $project->id)->get();
-        $posts = Post::where('project_id', $project->id)->get();
-
-        $users = [];
-        foreach ($fragments as $key => $fragment) {
-            $user = User::where('id', $fragment->user_id)->first();
-            $users[$key] = $user;
+        if(Auth::user()->imageURL != null) {
+          $post->imgUrl = Auth::user()->imageURL;
         }
-
-        return view('componists.projects.project.index', [
-            'project' => $project,
-            'fragments' => $fragments,
-            'posts' => $posts,
-            'users' => array_unique($users)
-        ]);
+        else {
+          $post->imgUrl = 'https://tracks-bachelor.s3.eu-west-2.amazonaws.com/avatars/no-avatar.png';
+        }
+        return $post;
     }
 
 }

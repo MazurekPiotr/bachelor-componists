@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    @yield('facebook_meta')
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -41,21 +41,22 @@
                 <a href="#" data-activates="nav-mobile" class="button-collapse" ><i class="fa fa-bars"></i></a>
 
             @if(Auth::user())
-                    @if (Auth::user()->role === 'admin')
-                        <a href="{{ url('/') }}" class="brand-logo center">Head Componist</a>
-                    @elseif (Auth::user()->isElevated() && Auth::user()->role != 'admin')
-                        <a href="{{ url('/') }}" class="brand-logo center">Senior Componist</a>
-                    @else
-                        <a href="{{ url('/') }}" class="brand-logo center">Componists</a>
-                    @endif
+                @if (Auth::user()->role === 'admin')
+                    <a href="{{ url('/') }}" class="brand-logo center">Head Componist</a>
+                @elseif (Auth::user()->isElevated() && Auth::user()->role != 'admin')
+                    <a href="{{ url('/') }}" class="brand-logo center">Senior Componist</a>
+                @else
+                    <a href="{{ url('/') }}" class="brand-logo center">Componists</a>
+                @endif
                 @if (Auth::user()->role === 'admin')
                     <ul class="left hide-on-med-and-down">
                         <li><a href="{{ route('user.profile.index', Auth::user()->name) }}">{{ Auth::user()->name }}'s profile</a></li>
                         <li><a href="{{ route('componists.projects.index') }}">All Projects</a></li>
                         <li>
-                            <form method="get" action="" >
+                            <form method="post" action="/search" >
+                              {{ csrf_field() }}
                                 <div class="input-field">
-                                    <input id="search" type="text">
+                                    <input id="search" name="keyword" placeholder="search" type="text">
                                     <i class="fa fa-search"></i>
                                 </div>
                             </form>
@@ -78,12 +79,13 @@
                         <li><a href="{{ route('componists.projects.index') }}">All Projects</a></li>
                         <li><a href="{{ route('home.index') }}">My projects</a></li>
                         <li>
-                            <form method="get" action="" >
-                                <div class="input-field">
-                                    <input id="search" type="text">
-                                    <i class="fa fa-search"></i>
-                                </div>
-                            </form>
+                          <form method="post" action="/search" >
+                            {{ csrf_field() }}
+                              <div class="input-field">
+                                  <input id="search" name="keyword" placeholder="search" type="text">
+                                  <i class="fa fa-search"></i>
+                              </div>
+                          </form>
                         </li>
                     </ul>
 
@@ -108,9 +110,10 @@
                 <ul class="left hide-on-med-and-down">
                     <li><a href="{{ route('componists.projects.index') }}">All projects</a></li>
                     <li>
-                        <form method="get" action="" >
+                        <form method="post" action="/search" >
+                          {{ csrf_field() }}
                             <div class="input-field">
-                                <input id="search" type="text">
+                                <input id="search" name="keyword" placeholder="search" type="text">
                                 <i class="fa fa-search"></i>
                             </div>
                         </form>
@@ -140,8 +143,7 @@
                     <div class="row" id="topbarsearch">
                         <div class="input-field col s6 s12">
                             <i class="fa fa-search" aria-hidden="true"></i>
-                            <input type="text" placeholder="search" id="autocomplete-input" class="autocomplete left">
-                            <ul class="autocomplete-content dropdown-content"></ul></div>
+                            <input type="text" placeholder="search"></div>
                     </div>
                 </div>
             </div>
@@ -175,14 +177,12 @@
 
 
 </body>
+
 <script src="/public/js/app.js"></script>
-<script src="/public/js/waveform.js"></script>
-<script src="/public/js/multitrack.js"></script>
-<script src="/public/js/emitter.js"></script>
-<script src="https://www.amcharts.com/lib/3/maps/js/worldLow.js"></script>
-<script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
-<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
 <script src="/public/js/responsive.min.js" type="text/javascript"></script>
 <script src="/public/js/chart.js"></script>
+
+@yield('js_libs')
+
 </html>

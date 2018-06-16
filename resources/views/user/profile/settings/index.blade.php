@@ -24,14 +24,14 @@
                             <form action="{{ route('user.profile.settings.update', Auth::user()->name) }}" method="post" enctype="multipart/form-data">
                                 <div class="image">
                                     @if( Storage::disk('s3')->exists('avatars/'. Auth::user()->id . '/avatar.jpg')  )
-                                    <img src="{{ Storage::disk('s3')->url('avatars/'. Auth::user()->id . '/') . 'avatar.jpg' }}" alt="{{ $user->name }}-avatar">
+                                    <img src="{{ Storage::disk('s3')->url('avatars/'. Auth::user()->id . '/') . 'avatar.jpg' }}" alt="{{ $user->name }}-avatar" id="target" >
                                     @else
-                                    <img src="{{ Storage::disk('s3')->url('avatars/'. 'no-avatar.png') }}" class="img-thumbnail" alt="blank-avatar">
+                                    <img src="{{ Storage::disk('s3')->url('avatars/'. 'no-avatar.png') }}" class="img-thumbnail" alt="blank-avatar" id="target">
                                     @endif
                                     <div class="file-field input-field">
                                         <div class="btn">
-                                            <span>Change</span>
-                                            <input type="file" name="avatar">
+                                            <span>Change picture</span>
+                                            <input type="file" placeholder="Choose image" name="avatar" onchange="readURL(this);">
                                         </div>
                                         <div class="file-path-wrapper">
                                             <input class="file-path validate" type="text">
@@ -42,6 +42,12 @@
                                         </div>
                                         @endif
                                     </div>
+                                    <div id="cropperContainer1" class="cropperContainer"></div>
+		<div class="previews">
+			<div id="previewSmall1" class="previewSmall"></div>
+			<div id="previewBig1" class="previewBig"></div>
+		</div>
+		<div id="info1" class="info"></div>
                                 </div>
                                 <div class="profile-info col s12">
                                     <div class="row">
@@ -96,4 +102,9 @@
         </div>
     </div>
 </div>
+@endsection
+
+
+@section('js_libs')
+<script src="/public/js/dropzone.js"></script>
 @endsection

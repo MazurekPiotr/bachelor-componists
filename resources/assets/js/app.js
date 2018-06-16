@@ -2,7 +2,6 @@ require('./bootstrap');
 
 require('materialize-css');
 require('./ui');
-
 var VueResource = require('vue-resource');
 require('ammap3');
 
@@ -20,4 +19,3 @@ Vue.use(VueResource);
 const app = new Vue({
     el: '#app'
 });
-

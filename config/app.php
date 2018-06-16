@@ -51,7 +51,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'www.componists.com'),
 
     /*
     |--------------------------------------------------------------------------
@@ -170,6 +170,7 @@ return [
         GrahamCampbell\Markdown\MarkdownServiceProvider::class,
         Riverskies\Laravel\MobileDetect\MobileDetectServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
+        GeneaLabs\LaravelCaffeine\Providers\Service::class,
         /*
          * Application Service Providers...
          */

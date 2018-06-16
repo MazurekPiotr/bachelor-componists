@@ -46,7 +46,11 @@
                                 </span>
                         @endif
                     </div>
-
+                    <div class="row">
+                        <div class="col s12">
+                            By clicking "Register" you accept our <a href="/privacy-policy">Privacy policy</a> and our <a href="/terms-of-use">Terms of use</a>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="input-field col s12">
                             <div>

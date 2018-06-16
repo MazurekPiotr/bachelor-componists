@@ -1,8 +1,9 @@
 @extends('layouts.app')
 @section('content')
-    <div class=”container”>
-        <div class=”row”>
-            <div class=”col-md-8 col-md-offset-2">
+<div id="login">
+    <div class="row">
+            <div class="login-form col l4 m6 s12 offset-l4 offset-m3">
+            <div class="panel panel-default white-text">
             <div class=”panel panel-default”>
                 <div class=”panel-heading”>Registration Confirmed</div>
                 <div class=”panel-body”>

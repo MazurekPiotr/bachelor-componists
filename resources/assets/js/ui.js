@@ -44,4 +44,41 @@ $( document ).ready(function(){
     $(document).ready(function(){
         $('.carousel').carousel();
     });
+
+    $('#addPost').submit(function(event) {
+
+      var formData = {
+           'projectId'              : $('input[name=projectId]').val(),
+           'body'             : $('input[name=body]').val(),
+           'userId'           : $('input[name=userId]').val()
+       };
+      $.ajax({
+            type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
+            url         : '/componists/projects/test/addPost', // the url where we want to POST
+            data        : $(this).serialize(), // our data object
+            dataType    : 'json', // what type of data do we expect back from the server
+                        encode          : true
+        })
+            // using the done promise callback
+        .done(function(data) {
+        $('<div class="post row"><div class="col s1 offset-s3"><img style="width:100%" src="' + data.imageURL + '" alt="{{ App\User::findOrFail($user->id)->name }}-avatar"></div><div class="col s5"><p>'+data.body+'</p><hr></div></div>').appendTo('.posts').fadeIn('slow');
+            // here we will handle errors and validation messages
+            console.log(data);
+        });
+        // stop the form from submitting the normal way and refreshing the page
+        event.preventDefault();
+
+    });
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#target')
+                    .attr('src', e.target.result);
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
 });

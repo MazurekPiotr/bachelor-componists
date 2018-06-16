@@ -5,7 +5,7 @@
     <div id="intro-message" class="center-div">
         <div>
             <h1>Componists</h1>
-            <h3>For musicians all over the world!</h3>
+            <h3 class="centered white-text">For musicians all over the world!</h3>
         </div>
     </div>
     <div class="more" id="scroll-arrow">
@@ -64,7 +64,7 @@
           <div class="col l4 m6 s12">
           <div class="card">
             <div class="card-image">
-              
+
             </div>
             <div class="card-content">
                 <p>{{ $project->description }}</p>

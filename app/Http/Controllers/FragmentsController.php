@@ -47,6 +47,7 @@ class FragmentsController extends Controller
         $fragment->name = $request->fragmentInstrument;
         $fragment->save();
         event(new UserPostedOnProject($project, $fragment, $request->user()));
+        $request->session()->flash('status', 'You added a new track! Awesome!');
 
         return redirect()->route('componists.projects.project.show', [
             'project' => $project,
@@ -64,28 +65,32 @@ class FragmentsController extends Controller
     }
 
 
-    public function update (UpdateFragmentFormRequest $request, Project $project, Fragment $fragment)
+    public function update (CreateFragmentFormRequest $request, Project $project, Fragment $fragment)
     {
         $this->authorize('update', $fragment);
 
-        $music_file = $request->file('fragmentSong');
+          $music_file = $request->file('fragmentSong');
 
-        $timeName = $music_file->getClientOriginalName();
+          $timeName = $music_file->getClientOriginalName();
 
-        $extension = $music_file->getClientOriginalExtension();
-        $time = time();
-        $location = storage_path() . '/fragments/' . $project->slug . '/' . $time;
-        $music_file->move($location,$timeName);
+          $extension = $music_file->getClientOriginalExtension();
+          $time = time();
+          $location = storage_path() . '/fragments/' . $project->slug . '/' . $time;
+          $music_file->move($location,$timeName);
 
-        $disk = Storage::disk('s3');
-        $disk->getDriver()->put('/fragments/'. $project->slug . '/' . $time . '/' . $request->fragmentInstrument . '.mp3' , fopen($location . '/' . $timeName, 'r+'));
+          $disk = Storage::disk('s3');
+          $disk->getDriver()->put('/fragments/'. $project->slug . '/' . $time . '/' . $fragment->name . '.mp3' , fopen($location . '/' . $timeName, 'r+'));
 
-        $fragment->project_id = $project->id;
-        $fragment->user_id = $request->user()->id;
-        $fragment->time = $time;
-        $url = env('APP_URL');
-        $fragment->name = $request->fragmentInstrument;
-        $fragment->save();
+          $fragment->project_id = $project->id;
+          $fragment->user_id = $request->user()->id;
+          $fragment->time = $time;
+          $url = env('APP_URL');
+          $fragment->save();
+
+          $request->session()->flash('status', 'Your track has been updated!');
+
+          $fragment->name = $request->fragmentInstrument;
+          $fragment->save();
 
         return redirect()->route('componists.projects.project.show', [
             'project' => $project,
