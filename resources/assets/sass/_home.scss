@@ -165,7 +165,6 @@ div#intro .more {
   text-align: center;
   color: #2d3035;
   position: relative;
-  padding-top: 10%;
   .more {
     position: absolute;
     cursor: pointer;
@@ -185,8 +184,9 @@ div#intro .more {
     color: #2d3035;
     font-size: 3em;
   }
-
-  h4 {margin-bottom: 50px;}
+  li {
+    
+  }
 }
 
 
@@ -197,7 +197,8 @@ div#intro .more {
 
 #join {
   text-align: center;
-  padding: 10em 6em;
+  position: relative;
+  min-height: 100vh;
   color: #fff;
   background: #2d3035; /* For browsers that do not support gradients */
   background: -webkit-linear-gradient(left top, #15191E, #696E77); /* For Safari 5.1 to 6.0 */
@@ -206,6 +207,9 @@ div#intro .more {
   background: linear-gradient(to bottom right, #15191E, #696E77); /* Standard syntax (must be last) */
   .btn-large {
     background-color: #ffffff !important;
+  }
+  .center-div {
+    width: 65%;
   }
   .notes {
     li {
@@ -218,7 +222,13 @@ div#intro .more {
     -webkit-animation: music 1s ease-in-out both infinite;
     animation: music 1s ease-in-out infinite;
   }
-
+  .more {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    cursor: pointer;
+  }
   @-webkit-keyframes music {
     0%,100% {
       -webkit-transform: translate3d(0,-10px,0);
@@ -257,8 +267,16 @@ div#intro .more {
 }
 
 #recent-projects .card-content {
-  height: 250px;
-  overflow-y: auto;
+  h3 {
+    max-width: 120px;
+    margin-top: 0;
+  }
+  img {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    max-width: 60px;
+  }
 }
 
 #recent-projects .card-action a {

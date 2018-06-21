@@ -8,7 +8,7 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProfileSettingsFormRequest;
 use File;
-use Intervention\Image\ImageManager as Image;
+use Intervention\Image\ImageManagerStatic as Image;
 use Storage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
@@ -58,11 +58,17 @@ class ProfileSettingsController extends Controller
             $path = storage_path() . '/avatars/' . $time ;
             $fileName = $fileId . '.jpg';
 
-            $img = new Image;
-            $img->make($path. '/'.$fileName)->fit(1000, 1000, function ($constraint) {
-                $constraint->upsize();
-            })->encode('png');
+            $img = Image::make($path. '/'.$fileName);
+            if($img->height() < 600|| $img->width() < 600 || $img->width()/$img->height() < 1) {
 
+              $request->session()->flash('dimensions', 'The file must be at least 600px wide and 600px tall! It also must be wider than its height!');
+              return redirect()->route('user.profile.settings.index', [
+                  'user' => $user,
+              ]);
+            }
+            $img->resize(null, 600, function ($constraint) {
+              $constraint->aspectRatio();
+            })->crop(600, 600, 0, 0)->encode('png')->save($path.'/'.$fileName);
             Storage::disk('s3')->put('/avatars/'. $user->id .'/avatar.jpg', file_get_contents($path.'/'.$fileName), 'public');
 
             $user->avatar = $fileName;

@@ -15,10 +15,15 @@
                         <div class="card">
                             <div class="card-content">
                                 <h3>{{ $project->title }}</h3>
-                                <p class="">{{ $project->description }}</p>
+                                @if( Storage::disk('s3')->exists('avatars/'. $project->user_id . '/avatar.jpg')  )
+                                  <img class="circle" src="{{'https://s3.eu-west-2.amazonaws.com/tracks-bachelor/' . 'avatars/'. $project->user_id . '/avatar.jpg'}}" alt="avatar">
+                                @else
+                                  <img class="circle" src="{{ Storage::disk('s3')->url('avatars/no-avatar.png') }}" alt="blank-avatar">
+                                @endif
+                                <p style="max-width: 200px;">{{ str_limit($project->description, 50, '...') }}</p>
                                 <div class="project-info">
                                     <p>Created {{ Carbon\Carbon::createFromTimeStamp(strtotime($project->created_at))->diffForHumans() }}</p>
-
+                                    <p>by <a href="/user/profile/{{'@' . App\User::findOrFail($project->user_id)->name }}">{{$project->user->name}}</a></p>
                                     <p>Last added track {{ Carbon\Carbon::createFromTimeStamp(strtotime($project->updated_at))->diffForHumans() }} </p>
                                     <div class="chip">{{ $project->fragmentCount() }} track(s)</div>
                                     @can ('delete', $project)

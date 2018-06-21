@@ -400,7 +400,6 @@
   background-color: #ffffff;
   overflow: hidden;
   height: 40vh;
-  margin: 50px 0;
 }
 
 .project-chart #chartdiv a {
@@ -408,8 +407,8 @@
 }
 
 .project-chart #contributors-wrapper {
-  background-color: #e1e3e6;
-  padding: 10px;
+  background: #2d3035;
+  padding-top: 10px;
 }
 
 .project-chart .contributors {
@@ -529,6 +528,10 @@
 #profile .card {
   margin: 120px 0px !important;
   padding: 20px;
+}
+
+#profile .card-content {
+  overflow-y: auto;
 }
 
 #profile .card-header {
@@ -780,7 +783,6 @@ div#intro .more {
   text-align: center;
   color: #2d3035;
   position: relative;
-  padding-top: 10%;
 }
 
 #about-link .more {
@@ -804,10 +806,6 @@ div#intro .more {
   font-size: 3em;
 }
 
-#about-link h4 {
-  margin-bottom: 50px;
-}
-
 #about-link h2 {
   margin-top: 0 !important;
   font-size: 7em;
@@ -815,7 +813,8 @@ div#intro .more {
 
 #join {
   text-align: center;
-  padding: 10em 6em;
+  position: relative;
+  min-height: 100vh;
   color: #fff;
   background: #2d3035;
   /* For browsers that do not support gradients */
@@ -830,6 +829,10 @@ div#intro .more {
   background-color: #ffffff !important;
 }
 
+#join .center-div {
+  width: 65%;
+}
+
 #join .notes li {
   display: inline;
   font-size: 4em;
@@ -839,6 +842,15 @@ div#intro .more {
 #join .anim {
   -webkit-animation: music 1s ease-in-out both infinite;
   animation: music 1s ease-in-out infinite;
+}
+
+#join .more {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  -webkit-transform: translate(-50%, 0);
+  transform: translate(-50%, 0);
+  cursor: pointer;
 }
 
 @-webkit-keyframes music {
@@ -877,9 +889,16 @@ div#intro .more {
   margin-bottom: 200px;
 }
 
-#recent-projects .card-content {
-  height: 250px;
-  overflow-y: auto;
+#recent-projects .card-content h3 {
+  max-width: 120px;
+  margin-top: 0;
+}
+
+#recent-projects .card-content img {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  max-width: 60px;
 }
 
 #recent-projects .card-action a {
@@ -893,10 +912,6 @@ div#intro .more {
 
 .card {
   padding: 0px;
-}
-
-.card-content {
-  overflow-y: auto;
 }
 
 p.project-description {
@@ -971,8 +986,17 @@ img.img-thumbnail {
   margin-right: 18px;
 }
 
-.post {
+.posts .post {
   padding: 8px;
+}
+
+.posts .post > div:first-child {
+  text-align: right;
+}
+
+.posts .post img {
+  width: 100%;
+  max-width: 100px;
 }
 
 .badge {
@@ -1064,7 +1088,7 @@ p.copyright {
 
 footer {
   padding: 1rem;
-  background-color: #efefef;
+  background-color: #fff;
   text-align: center;
 }
 
@@ -1187,6 +1211,13 @@ input[type="checkbox"]:focus {
   overflow-y: auto;
 }
 
+.projects-container .card-content img {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  max-width: 60px;
+}
+
 .projects-container h1 {
   color: #2D3035 !important;
   margin-top: 100px;
@@ -1196,6 +1227,29 @@ input[type="checkbox"]:focus {
   color: #2D3035 !important;
   font-size: 3em;
   margin: 0 !important;
+}
+
+.projects-container img {
+  max-width: 100px;
+}
+
+.projects-container #columns > div:nth-child(3n+1) {
+  background-color: #EC5261;
+  background: linear-gradient(to bottom right, #DA2C3D, #F87E8A);
+}
+
+.projects-container #columns > div:nth-child(3n+2) {
+  background: #2d3035;
+  /* For browsers that do not support gradients */
+  /* For Safari 5.1 to 6.0 */
+  /* For Opera 11.1 to 12.0 */
+  /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to bottom right, #15191E, #696E77);
+  /* Standard syntax (must be last) */
+}
+
+.projects-container #columns > div:nth-child(3n+3) {
+  background-color: #E1E3E6;
 }
 
 /********** CREATE PROJECT  **********/
@@ -1360,13 +1414,13 @@ input[type="checkbox"]:focus {
 
 @media only screen and (min-width: 1100px) {
   #columns {
-    -webkit-column-count: 4;
+    -webkit-column-count: 3;
     -webkit-column-gap: 10px;
     -webkit-column-fill: auto;
-    -moz-column-count: 4;
+    -moz-column-count: 3;
     -moz-column-gap: 10px;
     -moz-column-fill: auto;
-    column-count: 4;
+    column-count: 3;
     -webkit-column-gap: 15px;
     column-gap: 15px;
     column-fill: auto;
@@ -1411,7 +1465,6 @@ input[type="checkbox"]:focus {
 
 div#columns > div {
   background: #fefefe;
-  border: 2px solid #fcfcfc;
   box-shadow: 0 1px 2px rgba(34, 25, 25, 0.4);
   margin: 0 2px 15px;
   padding: 15px;

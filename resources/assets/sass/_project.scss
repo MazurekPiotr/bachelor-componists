@@ -37,15 +37,15 @@ $secondary-color: #2d3035;
     background-color: #ffffff;
     overflow: hidden;
     height: 40vh;
-    margin: 50px 0;
     a {
       display: none !important;
     }
   }
 
   #contributors-wrapper {
-    background-color: lighten($secondary-color, 70%);
-    padding: 10px;
+
+    background: #2d3035;
+    padding-top: 10px;
   }
   .contributors {
     clear: both;

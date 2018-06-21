@@ -29,7 +29,19 @@ $( document ).ready(function(){
     });
 
     $("#scroll-arrow").click(function() {
-        target = $("#about-link").offset().top - 60;
+        target = $("#about-link").position().top;
+        $('html, body').stop().animate({
+            scrollTop: target
+        }, 1000);
+    });
+    $("#scroll-arrow-2").click(function() {
+        target = $("#join").position().top;
+        $('html, body').stop().animate({
+            scrollTop: target
+        }, 1000);
+    });
+    $("#scroll-arrow-3").click(function() {
+        target = $("#recent-projects").position().top;
         $('html, body').stop().animate({
             scrollTop: target
         }, 1000);
@@ -61,7 +73,7 @@ $( document ).ready(function(){
         })
             // using the done promise callback
         .done(function(data) {
-        $('<div class="post row"><div class="col s1 offset-s3"><img style="width:100%" src="' + data.imageURL + '" alt="{{ App\User::findOrFail($user->id)->name }}-avatar"></div><div class="col s5"><p>'+data.body+'</p><hr></div></div>').appendTo('.posts').fadeIn('slow');
+        $('<div class="post row"><div class="col s1 offset-s3"><img style="width:100%" src="' + data.imageURL + '" alt="user-avatar"></div><div class="col s5"><p>'+data.body+'</p><hr></div></div>').appendTo('.posts').fadeIn('slow');
             // here we will handle errors and validation messages
             console.log(data);
         });
@@ -70,15 +82,19 @@ $( document ).ready(function(){
 
     });
 
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
 
-            reader.onload = function (e) {
-                $('#target')
-                    .attr('src', e.target.result);
-            };
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
+    var $image = $('#setprofilepic');
+
+    $image.cropper({
+      aspectRatio: 16 / 16,
+      crop: function(event) {
+        console.log(event.detail.x);
+        console.log(event.detail.y);
+        console.log(event.detail.width);
+        console.log(event.detail.height);
+        console.log(event.detail.rotate);
+        console.log(event.detail.scaleX);
+        console.log(event.detail.scaleY);
+      }
+    });
 });

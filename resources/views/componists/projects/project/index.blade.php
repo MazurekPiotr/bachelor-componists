@@ -34,7 +34,7 @@
             @if(Auth::user()->isElevated() || Auth::user()->id == $project->user_id)
                 @if (count($fragments))
                 <div class="col s10 offset-s1">
-                    <h3>Edit panel</h3>
+                    <h3 class="centered">Edit panel</h3>
                     <h4 class="centered">You are the master of your own project!</h4>
                     <p class="centered">Change volume, edit or delete tracks!</p>
                     <div class="row">
@@ -62,7 +62,6 @@
                                   </form>
                               </div>
                           </div>
-
                           @endcan
                       </div>
                       @endforeach
@@ -95,6 +94,7 @@
         <div class="col s10 offset-s1 centered">
             <div class="playlist-toolbar">
                 <h2>Player</h2>
+                <h4>Download the mix to play along!</h4>
                 <div class="btn-group">
                     <span class="btn-pause btn grey">
                         <i class="fa fa-pause"></i>
@@ -168,9 +168,10 @@
         </div>
     </div>
     <div class="project-chart centered">
-        <div id="chartdiv" class="col s12"></div>
         <div id="contributors-wrapper">
-            <h4>Contributors</h4>
+        <h3 class="white-text">Contributors</h3>
+        <h4 class="white-text">Hover over the countries to see where the contributors are from!</h4>
+            <div id="chartdiv" class="col s12"></div>
             <div class="contributors carousel">
                 @if (count($users))
                     @foreach ($users as $user)
@@ -196,12 +197,13 @@
       <div class="post row" id="post-{{ $post->id }}">
           <div class="col s12 m6 offset-m3 l2 offset-l2">
             @if( Storage::disk('s3')->exists('avatars/'. $post->user_id . '/avatar.jpg')  )
-            <img class="circle" src="{{'https://s3.eu-west-2.amazonaws.com/tracks-bachelor/' . 'avatars/'. $post->user_id . '/avatar.jpg'}}" alt="avatar">
+              <img class="circle" src="{{'https://s3.eu-west-2.amazonaws.com/tracks-bachelor/' . 'avatars/'. $post->user_id . '/avatar.jpg'}}" alt="avatar">
             @else
-                  <img style="width:100%" src="{{ Storage::disk('s3')->url('avatars/no-avatar.png') }}" alt="blank-avatar">
-              @endif
+              <img class="circle" src="{{ Storage::disk('s3')->url('avatars/no-avatar.png') }}" alt="blank-avatar">
+            @endif
+              <p>by <a href="/user/profile/{{'@' . App\User::findOrFail($project->user_id)->name }}">{{ App\User::findOrFail($post->user_id)->name }}</a></p>
           </div>
-          <div class="col s12 m6 offset-m3 l6">
+          <div class="col s12 m6 offset-m3 l5">
               <p>
                   {!! GrahamCampbell\Markdown\Facades\Markdown::convertToHtml(
                       $post->body

@@ -25,12 +25,13 @@ class ProfileSettingsFormRequest extends FormRequest
     {
 
         // what ever file you choose to upload, this avatar rule seems to be disobeyed, result is NotReadableException thrown
-        $avatar_rules = $this->hasAvatar() ? 'image|size:10240|dimensions:min_width=1000,min_height=2000' : '';
+        $avatar_rules = $this->hasAvatar() ? 'dimensions:min_width=1000,min_height=1000' : '';
         $password_rules = $this->hasPassword() ? 'required|min:6|' : '';
 
         return [
             'avatar' => $avatar_rules,
             // check oldPassword matches current users password, with custom hash validation rule
+            'country' => 'required',
             'oldPassword' => $password_rules . '|hash:' . $this->user()->password,
             'newPassword' => $password_rules,
         ];

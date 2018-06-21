@@ -89,4 +89,3 @@ function generate(response) {
     });
     map.validateNow();
 }
-

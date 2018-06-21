@@ -12,10 +12,6 @@ $secondary-color: #2d3035;
 
 .card { padding: 0px; }
 
-.card-content {
-  overflow-y: auto;
-}
-
 p.project-description {
   margin-bottom: 30px !important;
 }
@@ -43,7 +39,9 @@ p.project-description {
 .under-nav {margin-top: 120px;}
 
 
+.footer-copyright {
 
+}
 
 
 html {
@@ -91,10 +89,22 @@ img.img-thumbnail {
   border: 2px solid $grey;
   margin-right: 18px;
 }
+.posts {
+  .post {
+    padding: 8px;
+    & > div:first-child {
+      text-align: right;
+    }
+    & > div:nth-child(2) {
 
-.post {
-  padding: 8px;
+    }
+    img {
+      width: 100%;
+      max-width: 100px;
+    }
+  }
 }
+
 
 .badge {
   background-color: lighten($secondary-color, 50%);
@@ -177,7 +187,7 @@ p.copyright {
 
 footer {
   padding: 1rem;
-  background-color: #efefef;
+  background-color: #fff;
   text-align: center;
 }
 
@@ -277,6 +287,12 @@ input[type="checkbox"]:focus {
 
   .card-content {
     overflow-y: auto;
+    img {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      max-width: 60px;
+    }
   }
   h1 {
     color: #2D3035 !important;
@@ -290,6 +306,29 @@ input[type="checkbox"]:focus {
   background-color: #fff;
   min-height: 100vh;
   height: 100%;
+  img {
+    max-width: 100px;
+  }
+
+  #columns {
+    & > div:nth-child(3n+1) {
+      background-color: #EC5261;
+      background: -webkit-linear-gradient(left top, #DA2C3D, #F87E8A);
+      background: -o-linear-gradient(bottom right, #DA2C3D, #F87E8A);
+      background: -moz-linear-gradient(bottom right, #DA2C3D, #F87E8A);
+      background: linear-gradient(to bottom right, #DA2C3D, #F87E8A);
+    }
+    & > div:nth-child(3n+2) {
+      background: #2d3035; /* For browsers that do not support gradients */
+      background: -webkit-linear-gradient(left top, #15191E, #696E77); /* For Safari 5.1 to 6.0 */
+      background: -o-linear-gradient(bottom right, #15191E, #696E77); /* For Opera 11.1 to 12.0 */
+      background: -moz-linear-gradient(bottom right, #15191E, #696E77); /* For Firefox 3.6 to 15 */
+      background: linear-gradient(to bottom right, #15191E, #696E77); /* Standard syntax (must be last) */
+    }
+    & > div:nth-child(3n+3) {
+      background-color: #E1E3E6;
+    }
+  }
 }
 
 
@@ -437,13 +476,13 @@ $input-height: 2rem;
     column-width: 100%;
   @media only screen and (min-width: 1100px) {
 
-    -webkit-column-count: 4;
+    -webkit-column-count: 3;
     -webkit-column-gap: 10px;
     -webkit-column-fill: auto;
-    -moz-column-count: 4;
+    -moz-column-count: 3;
     -moz-column-gap: 10px;
     -moz-column-fill: auto;
-    column-count: 4;
+    column-count: 3;
     column-gap: 15px;
     column-fill: auto;
   }
@@ -479,7 +518,6 @@ $input-height: 2rem;
 
 div#columns > div {
 	background: #fefefe;
-	border: 2px solid #fcfcfc;
 	box-shadow: 0 1px 2px rgba(34, 25, 25, 0.4);
 	margin: 0 2px 15px;
 	padding: 15px;
