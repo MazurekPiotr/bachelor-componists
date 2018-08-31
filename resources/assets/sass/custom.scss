@@ -5,10 +5,12 @@ $grey : #ccc;
 $blue : #3498db;
 $green : #2ecc71;
 
+#app {
+  margin-top: 50px;
+}
 
 $primary-color: #DA2C3D;
 $secondary-color: #2d3035;
-
 
 .card { padding: 0px; }
 
@@ -22,6 +24,9 @@ p.project-description {
   font-style: italic;
 }
 
+.chart-zoom-in, .chart-zoom-out {
+  background-color: grey !important;
+}
 .chip {
   margin-top: 20px;
   /* color: #fff;
@@ -100,7 +105,10 @@ img.img-thumbnail {
     }
     img {
       width: 100%;
-      max-width: 100px;
+      max-width: 50px;
+    }
+    span {
+      font-size: 10px;
     }
   }
 }
@@ -186,9 +194,9 @@ p.copyright {
 
 
 footer {
-  padding: 1rem;
-  background-color: #fff;
-  text-align: center;
+  a, i {
+    color: white;
+  }
 }
 
 #edit {
@@ -287,11 +295,16 @@ input[type="checkbox"]:focus {
 
   .card-content {
     overflow-y: auto;
-    img {
+    .left-top-img {
+      max-width: 60px;
+    }
+    .contributor-img {
+      max-width: 60px
+    }
+    .chip {
       position: absolute;
       top: 24px;
       right: 24px;
-      max-width: 60px;
     }
   }
   h1 {
@@ -529,4 +542,15 @@ div#columns > div {
 
 div#columns:hover figure:not(:hover) {
 	opacity: 0.4;
+}
+
+#messages .card {
+  text-align: center;
+  img {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 60px;
+    display: block;
+  }
+
 }

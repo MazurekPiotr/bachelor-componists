@@ -24,14 +24,17 @@ function generate(response) {
         valuesToPush["customData"] = response[index].title;
         valuesToPush["selectable"] = true;
         valuesToPush["user_id"] = response[index].id;
+        valuesToPush["zoomLevel"] = 2;
+        valuesToPush["scale"] = 0.5;
         countries.push(valuesToPush);
     }
+    console.log(countries);
 
     var map = AmCharts.makeChart( "chartdiv", {
         "type": "map",
         "theme": "light",
         "projection": "miller",
-        dragMap: false,
+        dragMap: true,
 
         zoomControl: {
             zoomControlEnabled: false,
@@ -52,8 +55,7 @@ function generate(response) {
         },
     } );
 
-    map.addListener("rendered", function (event) {
-
+    $('.chart-zoom-in').click(function () {
         var zoomToAreasIds = [];
         for(var i = 0; i < countries.length; i++) {
             zoomToAreasIds.push(countries[i].id);
@@ -68,6 +70,9 @@ function generate(response) {
         }
 
         map.zoomToGroup(zoomToAreas);
+    });
+    $('.chart-zoom-out').click(function () {
+        map.zoomOut();
     });
 
     map.addListener("rollOverMapObject", function(event) {

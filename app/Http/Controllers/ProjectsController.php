@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Events\ProjectDeleted;
@@ -92,6 +91,7 @@ class ProjectsController extends Controller
         $project->description = $request->description;
         $project->slug = str_slug(mb_strimwidth($request->title, 0, 255), '-');
         $project->title = $request->title;
+        $project->settings = false;
         $project->save();
 
         $extension = $music_file->getClientOriginalExtension();
@@ -105,6 +105,8 @@ class ProjectsController extends Controller
         $fragment->project_id = $project->id;
         $fragment->user_id = $request->user()->id;
         $fragment->time = $time;
+        $fragment->volume = 1;
+        $fragment->settings = null;
         $url = env('APP_URL');
         $fragment->name = $request->fragmentInstrument;
         $fragment->save();
@@ -134,7 +136,22 @@ class ProjectsController extends Controller
         return redirect()->route('componists.projects.index');
     }
 
-    public function getFragmentSlugsFromProject($projectId) {
+    public function setSettings(Request $request, $projectId) {
+      $project = Project::where('id', $projectId)->first();
+
+      $fragments = Fragment::where('project_id', $projectId)->get();
+
+      $settings = json_decode($request->request->get('settings'));
+
+      foreach ($fragments as $key => $fragment) {
+          $fragment->settings = json_encode($settings[$key]);
+          $fragment->save();
+      }
+
+      $project->settings = true;
+    }
+
+    public function getSavedFragmentSlugsFromProject($projectId, $userId) {
         $project = Project::where('id', $projectId)->first();
 
         $fragments = Fragment::where('project_id', $projectId)->get();
@@ -151,8 +168,50 @@ class ProjectsController extends Controller
 
             $request = $client->createPresignedRequest($command, $expiry);
             $src = (string) $request->getUri();
-            $valuesToPush = [ 'gain' => $fragment->volume, 'src' => $src, 'name' => $fragment->name];
-            array_push($response, $valuesToPush);
+            if($fragment->settings == null) {
+              if($project->user_id == $userId){
+              $valuesToPush = [ 'gain' => $fragment->volume, 'src' => $src, 'name' => $fragment->name];
+              array_push($response, $valuesToPush);
+              }
+            }
+            else {
+              $settings = json_decode($fragment->settings);
+              $settings->src = $src;
+              array_push($response, $settings);
+            }
+        }
+        dd($response);
+        return $response;
+    }
+
+    public function getFragmentSlugsFromProject($projectId, $userId) {
+        $project = Project::where('id', $projectId)->first();
+
+        $fragments = Fragment::where('project_id', $projectId)->get();
+
+        $s3 = \Storage::disk('s3');
+        $client = $s3->getDriver()->getAdapter()->getClient();
+        $expiry = "+10 seconds";
+        $response = [];
+        foreach ($fragments as $key => $fragment) {
+            $command = $client->getCommand('GetObject', [
+                'Bucket' => \Config::get('filesystems.disks.s3.bucket'),
+                'Key'    => 'fragments/' . $project->slug . '/' . $fragment->time . '/' . $fragment->name . '.mp3'
+            ]);
+
+            $request = $client->createPresignedRequest($command, $expiry);
+            $src = (string) $request->getUri();
+            if($fragment->settings == null) {
+              if($project->user_id == $userId) {
+                $valuesToPush = [ 'gain' => $fragment->volume, 'src' => $src, 'name' => $fragment->name];
+                array_push($response, $valuesToPush);
+              }
+            }
+            else {
+              $settings = json_decode($fragment->settings);
+              $settings->src = $src;
+              array_push($response, $settings);
+            }
         }
 
         return $response;

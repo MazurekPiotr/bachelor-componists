@@ -41,6 +41,7 @@
         methods: {
             getMessages() {
                 return this.$http.get('/user/chat/threads/@' + this.data_recipient.name + '/messages/fetch').then((response) => {
+                    console.log(response);
                     this.messages = response.body;
                 });
             },

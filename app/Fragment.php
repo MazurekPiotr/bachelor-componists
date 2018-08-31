@@ -15,7 +15,7 @@ class Fragment extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'project_id', 'body',
+        'user_id', 'project_id', 'body', 'settings'
     ];
 
     /**

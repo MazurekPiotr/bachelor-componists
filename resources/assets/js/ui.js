@@ -1,4 +1,5 @@
 $( document ).ready(function(){
+
     $(document).scroll(function () {
         var scroll = $(window).scrollTop();
         if(scroll > 0) {
@@ -57,6 +58,8 @@ $( document ).ready(function(){
         $('.carousel').carousel();
     });
 
+    $(".dropdown-trigger").dropdown();
+
     $('#addPost').submit(function(event) {
 
       var formData = {
@@ -73,28 +76,11 @@ $( document ).ready(function(){
         })
             // using the done promise callback
         .done(function(data) {
-        $('<div class="post row"><div class="col s1 offset-s3"><img style="width:100%" src="' + data.imageURL + '" alt="user-avatar"></div><div class="col s5"><p>'+data.body+'</p><hr></div></div>').appendTo('.posts').fadeIn('slow');
+        $('<div class="post row"><div class="col s1 offset-s3"><img style="width:100%" src="https://tracks-bachelor.s3.eu-west-2.amazonaws.com/avatars/no-avatar.png" alt="user-avatar"></div><div class="col s5"><p>'+data.body+'</p><hr></div></div>').appendTo('.posts').fadeIn('slow');
             // here we will handle errors and validation messages
-            console.log(data);
         });
         // stop the form from submitting the normal way and refreshing the page
         event.preventDefault();
 
-    });
-
-
-    var $image = $('#setprofilepic');
-
-    $image.cropper({
-      aspectRatio: 16 / 16,
-      crop: function(event) {
-        console.log(event.detail.x);
-        console.log(event.detail.y);
-        console.log(event.detail.width);
-        console.log(event.detail.height);
-        console.log(event.detail.rotate);
-        console.log(event.detail.scaleX);
-        console.log(event.detail.scaleY);
-      }
     });
 });

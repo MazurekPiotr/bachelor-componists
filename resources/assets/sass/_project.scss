@@ -46,6 +46,10 @@ $secondary-color: #2d3035;
 
     background: #2d3035;
     padding-top: 10px;
+    .btn-small {
+      padding: 5px;
+      color: white;
+    }
   }
   .contributors {
     clear: both;
@@ -56,6 +60,8 @@ $secondary-color: #2d3035;
       background-color: #2d3035;
       text-align: center;
       box-sizing: border-box;
+      border-radius: 2px;
+      border: 1px solid white;
       padding: 0.5em;
       height: auto;
       .user-img {
@@ -72,9 +78,6 @@ $secondary-color: #2d3035;
   }
 }
 
-.about-project {
-  padding-top: 56px;
-}
 .about-project h3, #edit-panel h3, #addtrackwrapper h3 {
     color: #2d3035 !important;
     font-size: 4rem !important;
@@ -85,10 +88,6 @@ $secondary-color: #2d3035;
   #addTrack {
     padding: 1em;
   }
-  padding: 1em;
-  button {
-    margin-top: 20px;
-  };
 }
 
 .reply {
@@ -106,10 +105,10 @@ $secondary-color: #2d3035;
   .btn-pause:hover {background-color: lighten(grey, 15%) !important;}
   .btn-play {background-color: teal !important;}
   .btn-play:hover {background-color: lighten(teal, 15%) !important;}
-  .btn-zoom-in, .btn-zoom-out {background-color: #2196F3 !important;}
-  .btn-zoom-in:hover, .btn-zoom-out:hover {background-color: lighten(#2196F3, 15%) !important;}
+  .btn-zoom-in, .btn-zoom-out {background-color: grey !important;}
+  .btn-zoom-in:hover, .btn-zoom-out:hover {background-color: grey !important;}
   .btn-download:hover {background-color: lighten(#ef6c00, 15%) !important;}
-
+  .active { background-color: lighten(#DA2C3D, 15%) !important; }
 }
 
 

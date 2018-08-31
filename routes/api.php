@@ -14,6 +14,6 @@ use Illuminate\Http\Request;
 */
 
 
-Route::get('/getSlugsFromProject/{projectId}', 'ProjectsController@getFragmentSlugsFromProject');
+Route::get('/getSlugsFromProject/{projectId}/{userId}', 'ProjectsController@getFragmentSlugsFromProject');
 Route::get('/getUserData/{projectId}', 'ProjectsController@getMapData');
 Route::get('/getUserData', 'ProjectsController@getUserData');

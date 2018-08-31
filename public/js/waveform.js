@@ -5991,6 +5991,7 @@ var WaveformPlaylist =
                 key: 'getTrackDetails',
                 value: function getTrackDetails() {
                     var info = {
+                      gain: this.gain,
                         src: this.src,
                         start: this.startTime,
                         end: this.endTime,

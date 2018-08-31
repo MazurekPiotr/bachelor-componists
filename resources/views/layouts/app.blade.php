@@ -145,27 +145,35 @@
             </div>
         </nav>
         @yield('content')
-        <footer>
-            <div class="footer-copyright">
-                <div class="container">
-                    © Componists 2018 | <a href="/user/chat/threads/@Admin/messages">Contact</a>
-                </div>
+        <footer class="page-footer">
+          <div class="footer-copyright">
+            <div class="container">
+              © Componists 2018 | <a href="/user/chat/threads/@Admin/messages">Contact</a> | <a href="/privacy-policy">Privacy policy</a> | <a href="/terms-of-use">Terms & conditions</a>
+
+              <div class="right">
+                <a><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                <a><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                <a><i class="fa fa-instagram" aria-hidden="true"></i></a>
+              </div>
             </div>
+          </div>
         </footer >
     </div>
 
     <ul id="nav-mobile" class="side-nav">
-        <li>
-            <div class="row">
-                <div class="col s12">
-                    <div class="row" id="topbarsearch">
-                        <div class="input-field col s6 s12">
-                            <i class="fa fa-search" aria-hidden="true"></i>
-                            <input type="text" placeholder="search"></div>
-                    </div>
+      <li>
+        <div class="row">
+          <div class="col s12">
+            <form method="post" action="/search" >
+              {{ csrf_field() }}
+                <div class="input-field">
+                    <input id="search" name="keyword" placeholder="search" type="text" style="width:90%;">
+                    <i class="fa fa-search" style="float: left;line-height: 52px;margin-right: 8px;"></i>
                 </div>
-            </div>
-        </li>
+            </form>
+          </div>
+        </div>
+      </li>
         <li><a href="{{ url('/') }}">Home</a></li>
         <li><a href="{{ route('componists.projects.index') }}">All Projects</a></li>
         @if(Auth::user())

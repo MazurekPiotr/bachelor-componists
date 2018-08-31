@@ -44,10 +44,13 @@ class FragmentsController extends Controller
         $fragment->user_id = $request->user()->id;
         $fragment->time = $time;
         $url = env('APP_URL');
+        $fragment->settings= null;
         $fragment->name = $request->fragmentInstrument;
         $fragment->save();
+        $project->settings = false;
+        $project->save();
         event(new UserPostedOnProject($project, $fragment, $request->user()));
-        $request->session()->flash('status', 'You added a new track! Awesome!');
+        $request->session()->flash('status', 'You added a new track! Awesome! Wait for the head componist of this project to accept your track!');
 
         return redirect()->route('componists.projects.project.show', [
             'project' => $project,
@@ -119,10 +122,11 @@ class FragmentsController extends Controller
         return response()->json($volume, 200);
     }
 
-    public function setVolume ($id, $volume)
+    public function setVolume (Request $request, $id, $volume)
     {
+      var_dump($request);
         $fragment = Fragment::where('id', $id)->first();
-        $fragment->volume = $volume;
+        $fragment->volume = $request;
         $fragment->save();
 
         return response()->json(null, 200);

@@ -8,11 +8,24 @@
                 <div class="panel panel-default">
                     <div class="panel-heading"><h1>Message Threads</h1></div>
 
-                    <div class="panel-body">
+                    <div class="panel-body row">
 
                         @if (count($users))
                         @foreach ($users as $user)
-                        <div><a href="{{ route('user.chat.threads.thread.messages.index', $user) }}">View {{ '@' . $user->name }} messages {!! Auth::user()->hasUnreadMessagesFromSender($user) ? '<span class="badge">' . Auth::user()->unreadMessageCountForSender($user). '</span>' : '' !!}</a></div>
+                        <div class="col s6 m4 l3">
+                            <div class="card">
+                                <div class="card-content">
+                                  {!! Auth::user()->hasUnreadMessagesFromSender($user) ? '<span class="badge" style="position:absolute; top:10px; right:10px;">' . Auth::user()->unreadMessageCountForSender($user). '</span>' : '' !!}
+                                    @if( Storage::disk('s3')->exists('avatars/'. $user . '/avatar.jpg')  )
+                                      <img class="circle" src="{{'https://s3.eu-west-2.amazonaws.com/tracks-bachelor/' . 'avatars/'. $user . '/avatar.jpg'}}" alt="avatar">
+                                    @else
+                                      <img class="circle" src="{{ Storage::disk('s3')->url('avatars/no-avatar.png') }}" alt="blank-avatar">
+                                    @endif
+                                    <br>
+                                    <a href="{{ route('user.chat.threads.thread.messages.index', $user) }}">Chat with {{ $user->name }} </a>
+                                </div>
+                            </div>
+                        </div>
                         @endforeach
                         @else
                         <p>Your have no conversations.</p>

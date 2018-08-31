@@ -2,7 +2,6 @@ require('./bootstrap');
 
 require('materialize-css');
 require('./ui');
-require('./cropper');
 var VueResource = require('vue-resource');
 require('ammap3');
 

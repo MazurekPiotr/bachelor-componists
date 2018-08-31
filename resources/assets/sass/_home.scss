@@ -185,7 +185,7 @@ div#intro .more {
     font-size: 3em;
   }
   li {
-    
+
   }
 }
 
@@ -264,6 +264,9 @@ div#intro .more {
   height: 100%;
   padding-top: 5em;
   margin-bottom: 200px;
+  img {
+    max-width: 60px;
+  }
 }
 
 #recent-projects .card-content {
@@ -272,9 +275,6 @@ div#intro .more {
     margin-top: 0;
   }
   img {
-    position: absolute;
-    top: 24px;
-    right: 24px;
     max-width: 60px;
   }
 }

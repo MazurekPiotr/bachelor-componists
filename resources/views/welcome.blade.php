@@ -67,27 +67,39 @@
         </div>
         <div class="row">
           @foreach($projects as $project)
-          <div class="col l4 m12 s12">
+          <div class="col l4 m6 s12">
             <div class="card">
               <div class="card-content project-info">
                 <h3>{{ $project->title}}</h3>
-                @if( Storage::disk('s3')->exists('avatars/'. $project->user_id . '/avatar.jpg')  )
-                  <img class="circle" src="{{'https://s3.eu-west-2.amazonaws.com/tracks-bachelor/' . 'avatars/'. $project->user_id . '/avatar.jpg'}}" alt="avatar">
-                @else
-                  <img class="circle" src="{{ Storage::disk('s3')->url('avatars/no-avatar.png') }}" alt="blank-avatar">
-                @endif
+
                 <p>{{ $project->description }}</p>
                 <p>Created {{ Carbon\Carbon::createFromTimeStamp(strtotime($project->created_at))->diffForHumans() }}</p>
                 <p>by <a href="/user/profile/{{'@' . App\User::findOrFail($project->user_id)->name }}">{{$project->user->name}}</a></p>
                 <p>Last added track {{ Carbon\Carbon::createFromTimeStamp(strtotime($project->updated_at))->diffForHumans() }} </p>
-                <div class="chip">{{ $project->fragmentCount() }} track(s)</div>
+                <h5>By:</h5>
+                  @if( Storage::disk('s3')->exists('avatars/'. $project->user_id . '/avatar.jpg')  )
+                    <img class="circle left-top-img" src="{{'https://s3.eu-west-2.amazonaws.com/tracks-bachelor/' . 'avatars/'. $project->user_id . '/avatar.jpg'}}" alt="{{ $project->user->name }}">
+                  @else
+                    <img class="circle left-top-img" src="{{ Storage::disk('s3')->url('avatars/no-avatar.png') }}" alt="{{ $project->user->name }}">
+                  @endif
+                  @foreach($project->fragments->unique('user_id') as $fragment)
+                    @if($fragment->user_id != $project->user_id)
+                      @if( Storage::disk('s3')->exists('avatars/'. $fragment->user_id . '/avatar.jpg')  )
+                        <img class="circle contributor-img" src="{{'https://s3.eu-west-2.amazonaws.com/tracks-bachelor/' . 'avatars/'. $fragment->user_id . '/avatar.jpg'}}" alt="{{ $fragment->user->name }}">
+                      @else
+                        <img class="circle contributor-img" src="{{ Storage::disk('s3')->url('avatars/no-avatar.png') }}" alt="{{ $fragment->user->name }}">
+                      @endif
+                    @endif
+                  @endforeach
               </div>
               <div class="card-action">
                   <a href="/projects/{{ $project->slug }}">See project</a>
+                  <div class="chip">{{ $project->fragmentCount() }} track(s)</div>
               </div>
             </div>
           </div>
         @endforeach
+      </div>
     </div>
 </div>
 </div>

@@ -2,6 +2,8 @@
  * This script is provided to give an example how the playlist can be controlled using the event emitter.
  * This enables projects to create/control the useability of the project.
 */
+var projectId = document.getElementById('projectId').dataset.projectId;
+
 var ee = playlist.getEventEmitter();
 var $container = $("body");
 var $timeFormat = $container.find('.time-format');
@@ -110,11 +112,6 @@ updateTime(audioPos);
 //     $('.btn-select-state-group').removeClass('hidden');
 //   }
 
-//   if ($('.btn-fadein').hasClass('active') || $('.btn-fadeout').hasClass('active')) {
-//     $('.btn-fade-state-group').removeClass('hidden');
-//   }
-// });
-
 $container.on("click", ".btn-annotations-download", function() {
   ee.emit("annotationsrequest");
 });
@@ -161,6 +158,7 @@ $container.on("click", ".btn-record", function() {
 $container.on("click", ".btn-cursor", function() {
   ee.emit("statechange", "cursor");
   toggleActive(this);
+  $('.fade-options').slideUp();
 });
 
 $container.on("click", ".btn-select", function() {
@@ -171,16 +169,19 @@ $container.on("click", ".btn-select", function() {
 $container.on("click", ".btn-shift", function() {
   ee.emit("statechange", "shift");
   toggleActive(this);
+  $('.fade-options').slideUp();
 });
 
 $container.on("click", ".btn-fadein", function() {
   ee.emit("statechange", "fadein");
   toggleActive(this);
+  $('.fade-options').slideDown();
 });
 
 $container.on("click", ".btn-fadeout", function() {
   ee.emit("statechange", "fadeout");
   toggleActive(this);
+    $('.fade-options').slideDown();
 });
 
 //fade types
@@ -218,7 +219,19 @@ $container.on("click", ".btn-trim-audio", function() {
 });
 
 $container.on("click", ".btn-info", function() {
-  console.log(playlist.getInfo());
+  $.ajaxSetup({
+      headers:
+      { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
+  });
+  $.ajax({
+    url: "/componists/projects/" + projectId + "/setSettings",
+    type: "POST",
+    data: { settings : JSON.stringify(playlist.getInfo()) },
+    success: function() {
+      $('.changes-saved').slideDown().delay(1000).slideUp();
+    }
+  });
+  console.log(JSON.stringify(playlist.getInfo()));
 });
 
 $container.on("click", ".btn-download", function () {
